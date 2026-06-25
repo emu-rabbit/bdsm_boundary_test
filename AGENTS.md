@@ -18,6 +18,10 @@
 
 1. `.agents/skills/professional/development_standards.md`
 
+建立或修改技術架構、Firebase、Firestore、GA、資料邊界、匿名識別、效能、資源預熱、前端框架或 UI component 策略時，還要讀取：
+
+1. `.agents/skills/professional/technical_architecture.md`
+
 建立或修改 UI、layout、CSS、視覺識別、responsive 行為、文案、資產或使用者互動時，還要讀取：
 
 1. `.agents/skills/professional/ui_ux_standards.md`
@@ -45,13 +49,24 @@
 - 插畫兔子是主要互動角色，但應以可愛、隱晦、陪伴式呈現，不可露骨。
 - 高風險或可能觸及法律風險的項目需特別警示，但不得提供操作教學或規避法律建議。
 
+目前已確認的技術方向：
+
+- 本專案是純網頁專案，使用 Vite、Vue、TypeScript 與 Tailwind 建構。
+- 後端使用 Firebase；主要僅使用 Firestore 儲存使用者確定要分享的測驗結果。
+- 不需要登入系統，整體設計應在匿名情境下運行。
+- UI 要自己刻，不使用現成 Vue UI/UX library，避免模板感。
+- 網頁應保持輕量，並為圖片與大型資源設計預熱機制，讓使用者流程維持順暢。
+- Firestore 上傳需有防護機制；同一使用者或匿名識別來源基準為 60 分鐘內最多 5 次、1 天內最多 10 次。
+- 匿名設計仍需保留足夠識別資料，用於後端顯示、偵測與處理疑似惡意使用者。
+- 需要 Google Analytics 支援，作為後續研究、產品改進與推廣參考。
+
 在 mission 文件之外，Agent 仍應保護以下預設：
 
 - 將 `AGENTS.md`、`.agents/*`、既有 repository 檔案與使用者最新明確指示視為 source of truth。
 - 變更應低噪音、範圍精準、容易回退，且讓後續 Agent 容易理解。
 - 優先選擇符合目前 repo 狀態的簡單、可維護做法，不從 sibling project 匯入未確認假設。
 - 不把 `emu-rabbit.github.io` 的靜態網站定位、個人檔案語氣、視覺方向或部署假設複製到本 repository。
-- 不把 Freezer Space 的產品目標、關係脈絡、Flutter/Firebase 假設、私密空間規則、auth model 或 domain features 複製到本 repository，除非使用者明確要求。
+- 不把 Freezer Space 的產品目標、關係脈絡、Flutter/Firebase Auth 假設、私密空間規則、membership model 或 domain features 複製到本 repository，除非使用者明確要求。
 - 若任務揭露可長期沿用的專案目標、限制、非目標或 workflow，需同步到最適合的 `.agents` 文件。
 
 ## Scope Of Imported Skills
@@ -63,7 +78,7 @@
 - `professional/`：不預設特定 stack 或 product domain 的一般開發與 UI/UX 標準。
 - `workflows/add-commit-all.md`：依內容分類變更，再分組 stage 與 commit。
 
-專案 architecture、technology choices 與更細的 feature specs 尚未確認；除非使用者明確提供，Agent 不得自行發明技術棧、部署方式、資料庫、後端服務、登入模型或正式品牌識別。
+除已確認的 `.agents/skills/professional/technical_architecture.md` 技術方向外，更細的 feature specs、資料 schema、部署方式、正式品牌識別與 production Firebase 設定尚未確認；除非使用者明確提供，Agent 不得自行發明。
 
 ## Domain Skill
 

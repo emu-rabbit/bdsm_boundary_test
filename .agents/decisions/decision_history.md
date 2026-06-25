@@ -18,6 +18,32 @@
 
 ## 決策紀錄
 
+### D-2026-06-25-001 - 確認第一版技術棧、資料邊界與匿名防護方向
+
+- **日期**：2026-06-25
+- **狀態**：已確認
+- **觸發來源**：使用者要求新增技術相關 skill 背景，明確列出本專案為純網頁專案、使用 Vite-Vue + TypeScript + Tailwind、後端使用 Firebase/Firestore、匿名無登入、需資源預熱、Firestore 上傳防刷、匿名識別資料、GA 支援，以及 UI 自刻不使用現成 Vue UI/UX 庫。
+- **決策內容**：
+  - 本專案技術棧正式確認為 Vite、Vue、TypeScript 與 Tailwind。
+  - 後端使用 Firebase，主要僅使用 Firestore 儲存使用者確定要分享的測驗結果。
+  - 產品不需要登入系統，需在匿名情境下設計與運行。
+  - 雖然匿名，仍需保留最小必要匿名識別資料，用於後端顯示、偵測與處理疑似惡意使用者。
+  - Firestore 上傳需有防護機制，同一使用者或匿名識別來源基準為 60 分鐘內最多 5 次、1 天內最多 10 次。
+  - 網頁需保持輕量，並針對圖片與大型資源建立預熱機制，以提升使用者流程順暢度。
+  - 需要 GA 支援，作為後續研究、產品改進與推廣參考。
+  - UI 應由本專案自行實作，不使用現成 Vue UI/UX library。
+- **理由**：這是本 repo 第一批正式確認的技術與資料邊界，會影響後續 architecture、Firebase schema、security rules、analytics、效能策略與 UI implementation。將其寫入主文件與決策歷史，可避免後續 Agent 繼續把技術棧視為未確認，或從 sibling repo 帶入登入、membership、不同框架與錯誤後端假設。
+- **影響範圍**：
+  - `AGENTS.md`
+  - `.agents/skills/professional/technical_architecture.md`
+  - `.agents/skills/professional/development_standards.md`
+  - `.agents/skills/professional/ui_ux_standards.md`
+  - 未來 Firebase/Firestore、GA、效能、資源載入與 UI component 實作
+- **後續 Agent 行動**：
+  - 技術、資料、Firebase、GA、效能或 UI component 相關任務必須讀取 `.agents/skills/professional/technical_architecture.md`。
+  - 不得自行引入登入系統、Firebase Auth、membership gate、大型 Vue UI library 或與匿名分享方向衝突的資料模型。
+  - 若使用者之後改變技術棧、後端範圍、登入方向、上傳限制或 analytics 邊界，需新增修訂決策並同步相關文件。
+
 ### D-2026-06-24-001 - 先移植共通 Agent 行為並保留專案使命空位
 
 - **日期**：2026-06-24

@@ -15,10 +15,12 @@
 ### 技術選型
 
 - **既有優先**：優先沿用 repo 既有語言、框架、檔案結構、命名與工具鏈。
+- **已確認技術棧**：本專案已確認使用 Vite、Vue、TypeScript、Tailwind、Firebase 與 Firestore；技術或資料相關工作必須同步讀取 `.agents/skills/professional/technical_architecture.md`。
 - **輕量優先**：不得為了簡單需求導入沉重 framework、runtime、大型 UI kit 或外部服務。
 - **依賴需有理由**：新增套件前，先確認它解決的問題是否值得增加維護、效能與供應鏈成本。
 - **可回退設計**：在專案使命尚未完整定義時，優先選擇局部、低風險、可替換的實作。
 - **不移植錯誤脈絡**：不得把 sibling repo 的技術棧、部署方式或產品假設當成本專案預設。
+- **不新增登入假設**：不得導入登入、會員、Firebase Auth 或帳號模型，除非使用者明確改變匿名設計方向。
 
 ### 程式碼撰寫
 
@@ -39,7 +41,7 @@
 ## 執行步驟
 
 1. 實作前先讀取 `AGENTS.md`、相關 `.agents` 文件與任務相關程式碼。
-2. 判斷是否真的需要新工具、套件、框架或架構；沒有明確理由時維持簡單。
+2. 判斷是否真的需要新工具、套件、框架或架構；沒有明確理由時維持簡單，並確認不違反 `.agents/skills/professional/technical_architecture.md`。
 3. 建立或修改程式碼時，同時考慮可讀性、效能、可維護性、錯誤處理與驗證方式。
 4. 完成後執行可用且符合風險的 build、lint、test、typecheck 或其他機械檢查。
 5. 任務結束前依 `documentation_sync.md` 檢查文件是否需要同步。
