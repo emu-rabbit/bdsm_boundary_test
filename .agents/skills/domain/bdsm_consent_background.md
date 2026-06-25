@@ -82,7 +82,7 @@ BDSM 通常被理解為涵蓋 Bondage/Discipline、Dominance/Submission、Sadism
 
 使用者可見內容應溫柔、清楚、可陪伴，不應冷硬、獵奇或刺激慾望。可使用「目前」、「可以先記下」、「不確定也可以」、「這只是溝通起點」等語氣，降低作答壓力。
 
-插畫兔子可以承擔陪伴、提醒、引導、確認與轉場角色，但不得呈現露骨、NSFW 或煽情畫面。涉及敏感項目時，兔子應以中性道具、表情、便條、資料夾、鎖頭、警示牌等隱喻表達。
+插畫兔子可以承擔陪伴、提醒、引導、確認與轉場角色，但不得呈現露骨、NSFW 或煽情畫面。涉及敏感項目時，兔子應以中性道具、表情、便條、資料夾、鎖頭、警示牌等隱喻表達。生成或延伸主角兔子圖片時，必須同時遵守 `.agents/skills/visual/main_rabbit_image_generation.md`，並參考 `.agents/assets/characters/main_rabbit_role.png`。
 
 ## 背景來源
 

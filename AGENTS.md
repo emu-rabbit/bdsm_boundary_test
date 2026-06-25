@@ -26,6 +26,10 @@
 
 1. `.agents/skills/professional/ui_ux_standards.md`
 
+生成、修改、評估或撰寫主角兔子相關圖片 prompt / brief 時，還要讀取：
+
+1. `.agents/skills/visual/main_rabbit_image_generation.md`
+
 當使用者要求 `add and commit all`、`commit all`、`全部提交`，或以其他方式要求提交目前所有變更時，讀取：
 
 1. `.agents/workflows/add-commit-all.md`
@@ -46,7 +50,7 @@
 - 題庫以「互動項目」為導向，而不是以「個人屬性」為導向。
 - 產品核心理念是知情同意；秘密檔案與分享連結只能支援溝通，不代表永久、即時或不可撤回的同意。
 - 產品語氣應溫和、溫柔、有溫度，並以教育與工具為導向，避免露骨、高刺激慾望或 NSFW 呈現。
-- 插畫兔子是主要互動角色，但應以可愛、隱晦、陪伴式呈現，不可露骨。
+- 插畫兔子是主要互動角色，核心人物設定檔為 `.agents/assets/characters/main_rabbit_role.png`；相關生圖與延伸素材必須遵守 `.agents/skills/visual/main_rabbit_image_generation.md`，以可愛、隱晦、陪伴式呈現，不可露骨。
 - 高風險或可能觸及法律風險的項目需特別警示，但不得提供操作教學或規避法律建議。
 
 目前已確認的技術方向：
@@ -87,6 +91,18 @@
 1. `.agents/skills/domain/bdsm_consent_background.md`
 
 該 skill 文件是本專案的正式領域規範與產品風險邊界，不是臨時備忘，也不是實踐教學。後續 Agent 應直接依該 skill 內容執行，不需要再從決策歷史推導其正式性。若需要新增具體法律、醫療或高風險項目判斷，Agent 應另外查證可靠來源並保守撰寫。
+
+## Visual Character Skill
+
+主角兔子的核心人物設定檔已歸檔於：
+
+1. `.agents/assets/characters/main_rabbit_role.png`
+
+生成、修改、評估或撰寫主角兔子相關圖片 prompt / brief 時，必須讀取：
+
+1. `.agents/skills/visual/main_rabbit_image_generation.md`
+
+該 skill 文件是主角兔子生圖、延伸姿勢、表情、UI mascot asset 與宣傳素材的正式視覺規範。後續 Agent 不得只依「可愛兔子」等泛稱自由發揮；必須以核心人物設定檔作為同一角色的最高優先級 reference。
 
 ## Language
 

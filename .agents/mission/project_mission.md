@@ -79,6 +79,8 @@
 
 產品有一隻插畫兔子作為主角，與使用者互動，讓整體體驗可愛、親近、陪伴感較強。兔子插畫不得過度露骨，不應呈現 NSFW 畫面；可用隱晦、象徵、日常小物或情緒表情來表達情境。
 
+主角兔子的核心人物設定檔為 `.agents/assets/characters/main_rabbit_role.png`。後續生成、修改或延伸主角兔子圖片時，必須遵守 `.agents/skills/visual/main_rabbit_image_generation.md`，並以該設定圖作為同一角色的最高優先級視覺 reference。
+
 文案應避免羞辱、獵奇化、道德評判或暗示「應該嘗試」。比較好的方向是提醒、陪伴、核對與留白，例如「先記下目前的感覺也可以」、「不確定本身就是很重要的答案」、「這份檔案是溝通起點，不是同意書」。
 
 ## 高風險項目提示
@@ -96,4 +98,5 @@
 - 任何產品、UI、文案、題庫、資料模型或分享流程工作，都必須先檢查是否符合本文件。
 - 若新增長期產品限制、非目標、資料邊界或知情同意規則，優先更新本文件。
 - 若新增 BDSM 領域背景、題庫分類或高風險判斷規則，應同步更新 `.agents/skills/domain/bdsm_consent_background.md`。
+- 若新增主角兔子圖片、表情、姿勢、UI mascot asset 或宣傳素材，應先讀取 `.agents/skills/visual/main_rabbit_image_generation.md` 並對齊 `.agents/assets/characters/main_rabbit_role.png`。
 - 若未來建立正式 architecture、privacy、i18n 或 content guideline 文件，應讓那些文件對齊本文件，不可覆蓋本使命。
