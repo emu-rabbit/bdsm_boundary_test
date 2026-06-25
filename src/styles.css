@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  background: #070706;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #f2dfa8;
+  outline-offset: 4px;
+}
+
+.night-grain {
+  background-image:
+    linear-gradient(rgba(248, 241, 225, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(248, 241, 225, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 48%, black, transparent 78%);
+}
+
+.progress-dot {
+  display: block;
+  width: 2.75rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: rgba(248, 241, 225, 0.2);
+  transition:
+    background-color 220ms ease,
+    transform 220ms ease;
+}
+
+.progress-dot:hover {
+  background: rgba(242, 223, 168, 0.62);
+}
+
+.progress-dot-active {
+  background: #f2dfa8;
+  transform: scaleX(1.08);
+}
+
+.rabbit-stage {
+  position: relative;
+  display: grid;
+  width: min(88vw, 31rem);
+  aspect-ratio: 0.78;
+  place-items: center;
+}
+
+.rabbit-stage::before {
+  position: absolute;
+  inset: 11%;
+  content: "";
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(248, 241, 225, 0.17), transparent 63%),
+    radial-gradient(circle at 50% 70%, rgba(155, 174, 147, 0.18), transparent 58%);
+  filter: blur(10px);
+}
+
+.rabbit-stage::after {
+  position: absolute;
+  right: 18%;
+  bottom: 2%;
+  width: 48%;
+  height: 13%;
+  content: "";
+  border-radius: 999px;
+  background: rgba(7, 7, 6, 0.42);
+  filter: blur(16px);
+}
+
+.rabbit-image {
+  position: relative;
+  z-index: 1;
+  width: min(76%, 23rem);
+  height: auto;
+  filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.52));
+}
+
+.primary-button,
+.ghost-button {
+  min-width: 7.75rem;
+  min-height: 3rem;
+  border-radius: 999px;
+  padding: 0.8rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+.primary-button {
+  border: 1px solid rgba(242, 223, 168, 0.72);
+  background: #f2dfa8;
+  color: #10100e;
+}
+
+.ghost-button {
+  border: 1px solid rgba(248, 241, 225, 0.22);
+  background: rgba(248, 241, 225, 0.06);
+  color: rgba(248, 241, 225, 0.78);
+}
+
+.primary-button:hover:not(:disabled),
+.ghost-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.primary-button:disabled,
+.ghost-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.scene-enter-active,
+.scene-leave-active {
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease,
+    filter 260ms ease;
+}
+
+.scene-enter-from {
+  opacity: 0;
+  transform: translateX(1.5rem);
+  filter: blur(8px);
+}
+
+.scene-leave-to {
+  opacity: 0;
+  transform: translateX(-1.5rem);
+  filter: blur(8px);
+}
+
+@media (max-width: 1023px) {
+  .rabbit-stage {
+    width: min(76vw, 19rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .progress-dot {
+    width: 2rem;
+  }
+
+  .rabbit-stage {
+    width: min(74vw, 16rem);
+  }
+
+  .primary-button,
+  .ghost-button {
+    min-width: 6.5rem;
+    padding-inline: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
