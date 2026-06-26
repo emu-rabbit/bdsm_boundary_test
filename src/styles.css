@@ -21,6 +21,14 @@
   --blush: #f7dfdc;
   --paper: #fff8eb;
   --paper-warm: #f4e6cb;
+  --dialogue-paper: rgba(246, 238, 228, 0.74);
+  --dialogue-paper-soft: rgba(239, 226, 213, 0.54);
+  --dialogue-border: rgba(255, 250, 242, 0.36);
+  --dialogue-accent: #b9857b;
+  --button-berry: #76505c;
+  --button-berry-hover: #654650;
+  --button-soft: #ecd9d4;
+  --button-soft-hover: #e2cbc6;
   --gold: #d8b46e;
   --sage: #8b9d88;
   --mist: #d9ded0;
@@ -57,7 +65,7 @@ button {
 
 button:focus-visible,
 input:focus-visible {
-  outline: 3px solid rgba(216, 180, 110, 0.76);
+  outline: 3px solid rgba(185, 133, 123, 0.68);
   outline-offset: 4px;
 }
 
@@ -335,6 +343,34 @@ input:focus-visible {
   width: min(76%, 25.5rem);
   height: auto;
   filter: none;
+  transform-origin: 50% 86%;
+  animation: rabbit-say 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes rabbit-say {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  18% {
+    transform: translate3d(-2px, -3px, 0) rotate(-1.5deg);
+  }
+
+  36% {
+    transform: translate3d(2px, -2px, 0) rotate(1.3deg);
+  }
+
+  54% {
+    transform: translate3d(-1px, -1px, 0) rotate(-0.8deg);
+  }
+
+  72% {
+    transform: translate3d(1px, 0, 0) rotate(0.5deg);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
 }
 
 .illustration-scene[data-pose="thinking"] .rabbit-pose {
@@ -353,10 +389,15 @@ input:focus-visible {
   width: min(100%, 38rem);
   max-height: min(72dvh, 42rem);
   overflow: auto;
-  border: 1px solid rgba(107, 76, 70, 0.16);
+  border: 1px solid var(--dialogue-border);
   border-radius: 1.15rem;
-  background: rgba(255, 248, 235, 0.9);
-  box-shadow: none;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.86) 0%, var(--dialogue-paper) 46%, var(--dialogue-paper-soft) 100%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    inset 0 -1px 0 rgba(91, 68, 60, 0.08);
+  backdrop-filter: blur(13px) saturate(1.06);
   padding: clamp(1.35rem, 3vw, 2.25rem);
 }
 
@@ -372,7 +413,7 @@ input:focus-visible {
   height: 0.18rem;
   content: "";
   border-radius: 999px;
-  background: rgba(143, 61, 82, 0.34);
+  background: var(--dialogue-accent);
 }
 
 .dialogue-copy {
@@ -426,9 +467,9 @@ input:focus-visible {
 .choice-button {
   position: relative;
   padding: 0.78rem 0.9rem;
-  border-color: rgba(143, 61, 82, 0.16);
-  background: rgba(247, 223, 220, 0.64);
-  color: #81364a;
+  border-color: rgba(118, 80, 92, 0.16);
+  background: var(--button-soft);
+  color: #694551;
   box-shadow: none;
 }
 
@@ -437,8 +478,8 @@ input:focus-visible {
 }
 
 .choice-button:hover {
-  border-color: rgba(143, 61, 82, 0.26);
-  background: rgba(240, 205, 205, 0.78);
+  border-color: rgba(118, 80, 92, 0.26);
+  background: var(--button-soft-hover);
   box-shadow: none;
 }
 
@@ -448,14 +489,14 @@ input:focus-visible {
   min-width: 8rem;
   padding: 0.9rem 1.45rem;
   border-color: rgba(255, 248, 235, 0.16);
-  background: var(--wine);
-  color: #fff8eb;
+  background: var(--button-berry);
+  color: #fff9ef;
   box-shadow: none;
 }
 
 .primary-action:hover,
 .quiet-action:hover {
-  background: #7d3548;
+  background: var(--button-berry-hover);
   box-shadow: none;
 }
 
@@ -473,9 +514,9 @@ input:focus-visible {
 .name-field input {
   width: min(100%, 24rem);
   min-height: 3.7rem;
-  border: 1px solid rgba(143, 61, 82, 0.18);
+  border: 1px solid rgba(118, 80, 92, 0.2);
   border-radius: 1.05rem;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 252, 247, 0.76);
   color: var(--ink);
   font-size: 1.35rem;
   font-weight: 800;
@@ -587,13 +628,19 @@ input:focus-visible {
 }
 
 @media (max-width: 900px) {
+  .app-shell {
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   body {
     overflow: hidden;
   }
 
   .story-header {
     width: min(100% - 1.25rem, 44rem);
-    padding-top: 0.72rem;
+    padding-top: max(1.08rem, env(safe-area-inset-top, 0px));
   }
 
   .brand-mark {
@@ -606,12 +653,13 @@ input:focus-visible {
   .story-layout {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(13rem, 34dvh) auto;
-    align-content: start;
-    gap: 0.5rem;
+    grid-template-rows: clamp(10.75rem, 29dvh, 13.5rem) auto;
+    align-content: center;
+    gap: 0.75rem;
     width: min(100% - 1.25rem, 44rem);
-    height: calc(100dvh - 3.8rem);
-    padding: 0.34rem 0 0.62rem;
+    min-height: calc(100dvh - 3.8rem);
+    height: auto;
+    padding: clamp(1rem, 3.2dvh, 2.15rem) 0 max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   .illustration-scene {
@@ -653,17 +701,23 @@ input:focus-visible {
   .illustration-scene[data-pose="thinking"] .rabbit-pose,
   .illustration-scene[data-pose="naming"] .rabbit-pose,
   .illustration-scene[data-pose="folder"] .rabbit-pose {
-    width: min(50vw, 13.8rem);
+    width: auto;
+    max-width: min(43vw, 11.6rem);
+    max-height: calc(100% - 0.25rem);
   }
 
   .dialogue-panel {
     align-self: start;
     max-height: none;
     width: 100%;
-    border-color: rgba(255, 248, 235, 0.34);
+    border-color: rgba(109, 77, 72, 0.22);
     border-radius: 1rem;
-    background: rgba(255, 248, 235, 0.9);
-    box-shadow: none;
+    background:
+      linear-gradient(180deg, rgba(255, 252, 247, 0.88) 0%, var(--dialogue-paper) 48%, var(--dialogue-paper-soft) 100%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.52),
+      inset 0 -1px 0 rgba(91, 68, 60, 0.08);
     padding: 1rem;
   }
 
@@ -747,14 +801,14 @@ input:focus-visible {
 
 @media (max-width: 380px) {
   .story-layout {
-    grid-template-rows: minmax(12rem, 32dvh) auto;
+    grid-template-rows: clamp(10rem, 27dvh, 12.2rem) auto;
   }
 
   .rabbit-pose,
   .illustration-scene[data-pose="thinking"] .rabbit-pose,
   .illustration-scene[data-pose="naming"] .rabbit-pose,
   .illustration-scene[data-pose="folder"] .rabbit-pose {
-    width: min(50vw, 12.5rem);
+    max-width: min(41vw, 10.4rem);
   }
 
   .dialogue-panel {

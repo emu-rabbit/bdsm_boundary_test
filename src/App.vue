@@ -239,6 +239,7 @@ onUnmounted(() => {
             <span class="tiny-lock" />
           </div>
           <img
+            :key="activeStep.id"
             :src="activeRabbitUrl"
             alt=""
             class="rabbit-pose"
