@@ -19,6 +19,12 @@ npm run build
 
 本機 Codex 環境若執行 Vite build 時遇到 sandbox access 問題，依 `AGENTS.md` 的 Windows/Vite 說明改用 Codex `require_escalated` 權限執行實際 build。
 
+## 部署
+
+本專案已設定 GitHub Actions 在推送到 `main` 分支時自動建置並部署到 GitHub Pages。部署 workflow 位於 `.github/workflows/deploy-pages.yml`。
+
+GitHub Pages build 會透過 `npm run build -- --base=/bdsm_boundary_test/` 讓 Vite 使用專案站台的靜態資源路徑；本機開發與一般 build 仍使用 `/`。
+
 ## 第三方資產
 
 - 本專案自託管 `jf open-huninn / jf open 粉圓` 2.1 作為主要中文字體，來源為 justfont 的 open-source font project：https://github.com/justfont/open-huninn-font
