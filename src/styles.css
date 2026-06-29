@@ -26,7 +26,7 @@
   --paper-warm: #321e29;
   --dialogue-paper: rgba(42, 24, 34, 0.88);
   --dialogue-paper-soft: rgba(22, 13, 19, 0.84);
-  --dialogue-border: rgba(236, 198, 187, 0.22);
+  --dialogue-border: rgba(236, 198, 187, 0.14);
   --dialogue-accent: #c58a7c;
   --button-berry: #7b3f51;
   --button-berry-hover: #9a5364;
@@ -402,14 +402,10 @@ input:focus-visible {
   max-height: min(72dvh, 42rem);
   overflow: auto;
   border: 1px solid var(--dialogue-border);
-  border-radius: 1.15rem;
-  background:
-    linear-gradient(180deg, rgba(68, 38, 50, 0.88) 0%, var(--dialogue-paper) 46%, var(--dialogue-paper-soft) 100%),
-    linear-gradient(135deg, rgba(236, 198, 187, 0.12), rgba(236, 198, 187, 0.03));
-  box-shadow:
-    inset 0 1px 0 rgba(236, 198, 187, 0.16),
-    inset 0 -1px 0 rgba(8, 5, 8, 0.34);
-  backdrop-filter: blur(13px) saturate(1.06);
+  border-radius: 0.9rem;
+  background: rgba(42, 24, 34, 0.84);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
   padding: clamp(1.35rem, 3vw, 2.25rem);
 }
 
@@ -418,14 +414,25 @@ input:focus-visible {
 }
 
 .dialogue-panel::before {
-  position: absolute;
-  top: 0;
-  left: 1.35rem;
-  width: 4.5rem;
-  height: 0.18rem;
-  content: "";
-  border-radius: 999px;
-  background: var(--dialogue-accent);
+  display: none;
+}
+
+.speaker-name {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: 1.6rem;
+  margin-bottom: 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(247, 222, 210, 0.72);
+  font-size: 0.84rem;
+  line-height: 1.2;
+  box-shadow: none;
 }
 
 .dialogue-copy {
@@ -479,8 +486,8 @@ input:focus-visible {
 .choice-button {
   position: relative;
   padding: 0.78rem 0.9rem;
-  border-color: rgba(236, 198, 187, 0.18);
-  background: var(--button-soft);
+  border-color: rgba(236, 198, 187, 0.12);
+  background: rgba(63, 32, 45, 0.72);
   color: #f7e5dc;
   box-shadow: none;
 }
@@ -490,8 +497,8 @@ input:focus-visible {
 }
 
 .choice-button:hover {
-  border-color: rgba(236, 198, 187, 0.28);
-  background: var(--button-soft-hover);
+  border-color: rgba(236, 198, 187, 0.2);
+  background: rgba(82, 42, 57, 0.78);
   box-shadow: none;
 }
 
@@ -501,7 +508,7 @@ input:focus-visible {
   min-width: 8rem;
   padding: 0.9rem 1.45rem;
   border-color: rgba(236, 198, 187, 0.18);
-  background: var(--button-berry);
+  background: rgba(123, 63, 81, 0.82);
   color: #fff0e8;
   box-shadow: none;
 }
@@ -644,11 +651,17 @@ input:focus-visible {
   .app-shell {
     height: 100dvh;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 
   body {
     overflow: hidden;
+  }
+
+  .story-route {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100dvh;
   }
 
   .story-header {
@@ -666,13 +679,13 @@ input:focus-visible {
   .story-layout {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: clamp(10.75rem, 29dvh, 13.5rem) auto;
-    align-content: center;
-    gap: 0.75rem;
+    grid-template-rows: clamp(11.25rem, 30dvh, 14.25rem) minmax(0, 1fr);
+    align-content: stretch;
+    gap: clamp(0.8rem, 2.6dvh, 1.2rem);
     width: min(100% - 1.25rem, 44rem);
-    min-height: calc(100dvh - 3.8rem);
-    height: auto;
-    padding: clamp(1rem, 3.2dvh, 2.15rem) 0 max(1rem, env(safe-area-inset-bottom, 0px));
+    min-height: 0;
+    height: 100%;
+    padding: clamp(0.9rem, 2.6dvh, 1.65rem) 0 max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   .illustration-scene {
@@ -720,18 +733,18 @@ input:focus-visible {
   }
 
   .dialogue-panel {
-    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    min-height: 0;
     max-height: none;
     width: 100%;
-    border-color: rgba(236, 198, 187, 0.18);
-    border-radius: 1rem;
-    background:
-      linear-gradient(180deg, rgba(68, 38, 50, 0.9) 0%, var(--dialogue-paper) 48%, var(--dialogue-paper-soft) 100%),
-      linear-gradient(135deg, rgba(236, 198, 187, 0.12), rgba(236, 198, 187, 0.03));
-    box-shadow:
-      inset 0 1px 0 rgba(236, 198, 187, 0.14),
-      inset 0 -1px 0 rgba(8, 5, 8, 0.34);
-    padding: 1rem;
+    overflow: hidden;
+    border-color: rgba(236, 198, 187, 0.12);
+    border-radius: 0.82rem;
+    background: rgba(42, 24, 34, 0.82);
+    box-shadow: none;
+    padding: clamp(1rem, 3.5dvh, 1.25rem);
   }
 
   .dialogue-panel::after {
@@ -739,16 +752,25 @@ input:focus-visible {
   }
 
   .dialogue-panel::before {
-    top: 0;
-    left: 1rem;
-    width: 3.7rem;
-    height: 0.16rem;
-    translate: 0;
-    border: 0;
+    display: none;
+  }
+
+  .speaker-name {
+    flex: none;
+    min-height: 1.35rem;
+    margin-bottom: clamp(0.8rem, 2.2dvh, 1rem);
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.8rem;
   }
 
   .dialogue-copy {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
     gap: 0.86rem;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .rabbit-speech {
@@ -763,7 +785,8 @@ input:focus-visible {
   .choice-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.46rem;
-    margin-top: 0.08rem;
+    margin-top: auto;
+    padding-top: clamp(1.25rem, 6dvh, 3.25rem);
   }
 
   .choice-button,
@@ -784,10 +807,20 @@ input:focus-visible {
     justify-self: stretch;
   }
 
+  .dialogue-copy > .primary-action {
+    margin-top: auto;
+  }
+
   .file-body {
     gap: 0.58rem;
+    min-height: 0;
+    overflow: auto;
     font-size: 0.96rem;
     line-height: 1.72;
+  }
+
+  .name-field {
+    flex: none;
   }
 
   .name-field input {
@@ -814,7 +847,7 @@ input:focus-visible {
 
 @media (max-width: 380px) {
   .story-layout {
-    grid-template-rows: clamp(10rem, 27dvh, 12.2rem) auto;
+    grid-template-rows: clamp(10.25rem, 28dvh, 12.35rem) minmax(0, 1fr);
   }
 
   .rabbit-pose,
@@ -826,6 +859,10 @@ input:focus-visible {
 
   .dialogue-panel {
     padding: 0.9rem;
+  }
+
+  .speaker-name {
+    margin-bottom: 0.72rem;
   }
 
   .rabbit-speech {

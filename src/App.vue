@@ -252,6 +252,7 @@ onUnmounted(() => {
 
         <Transition name="dialogue" mode="out-in">
           <article :key="activeStep.id" class="dialogue-panel">
+            <div class="speaker-name">不知哪來的兔子</div>
             <div v-if="activeStep.kind === 'choice'" class="dialogue-copy">
               <p v-for="line in activeStep.lines" :key="line" class="rabbit-speech">
                 {{ line }}
