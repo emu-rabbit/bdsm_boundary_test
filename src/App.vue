@@ -63,7 +63,7 @@ const storySteps: StoryStep[] = [
     id: 'self-yes',
     kind: 'message',
     message: '太好了，那我想你接下來一定得心應手！',
-    action: '自豪',
+    action: '（自豪）',
     next: 'other-question',
     pose: 'greeting',
     tone: 'welcome',
