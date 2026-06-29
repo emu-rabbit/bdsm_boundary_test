@@ -24,10 +24,10 @@
   --blush: #9a6670;
   --paper: #24141d;
   --paper-warm: #321e29;
-  --dialogue-paper: rgba(42, 24, 34, 0.88);
-  --dialogue-paper-soft: rgba(22, 13, 19, 0.84);
-  --dialogue-border: rgba(236, 198, 187, 0.14);
-  --dialogue-accent: #c58a7c;
+  --dialogue-paper: rgba(55, 25, 43, 0.9);
+  --dialogue-paper-soft: rgba(31, 14, 25, 0.88);
+  --dialogue-border: rgba(241, 178, 184, 0.2);
+  --dialogue-accent: #d78391;
   --button-berry: #7b3f51;
   --button-berry-hover: #9a5364;
   --button-soft: rgba(63, 32, 45, 0.9);
@@ -406,7 +406,9 @@ input:focus-visible {
   overflow: auto;
   border: 1px solid var(--dialogue-border);
   border-radius: 0.9rem;
-  background: rgba(42, 24, 34, 0.84);
+  background:
+    linear-gradient(180deg, var(--dialogue-paper), var(--dialogue-paper-soft)),
+    rgba(55, 25, 43, 0.9);
   box-shadow: none;
   backdrop-filter: blur(8px);
   padding: clamp(1.35rem, 3vw, 2.25rem);
@@ -832,9 +834,11 @@ input:focus-visible {
     max-height: none;
     width: 100%;
     overflow: hidden;
-    border-color: rgba(236, 198, 187, 0.12);
+    border-color: rgba(241, 178, 184, 0.18);
     border-radius: 0.82rem;
-    background: rgba(42, 24, 34, 0.82);
+    background:
+      linear-gradient(180deg, rgba(58, 25, 45, 0.9), rgba(33, 15, 27, 0.88)),
+      rgba(58, 25, 45, 0.9);
     box-shadow: none;
     padding: clamp(1rem, 3.5dvh, 1.25rem);
   }
