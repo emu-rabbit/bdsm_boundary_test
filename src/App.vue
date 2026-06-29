@@ -6,6 +6,7 @@ import rabbitNamingUrl from './assets/story/rabbit-naming.png';
 import rabbitThinkingUrl from './assets/story/rabbit-thinking.png';
 
 type AppMode = 'story' | 'home';
+type AppRoute = AppMode;
 type StepId =
   | 'self-question'
   | 'self-yes'
@@ -170,29 +171,39 @@ function continueFromMessage(): void {
   }
 }
 
-function withAppBasePath(path: '' | 'home'): string {
-  return `${appBasePath}${path}`;
-}
-
-function getRoutePath(): '/' | '/home' {
-  const pathname = window.location.pathname;
-
-  if (pathname === withAppBasePath('home')) {
-    return '/home';
+function getRouteFromLocation(): AppRoute {
+  if (window.location.hash === '#/home' || window.location.pathname === `${appBasePath}home`) {
+    return 'home';
   }
 
-  return '/';
+  return 'story';
+}
+
+function getRouteUrl(route: AppRoute): string {
+  return route === 'home' ? `${appBasePath}#/home` : appBasePath;
+}
+
+function writeRoute(route: AppRoute, action: 'push' | 'replace'): void {
+  const nextUrl = getRouteUrl(route);
+  const state = { mode: route };
+
+  if (action === 'replace') {
+    window.history.replaceState(state, '', nextUrl);
+    return;
+  }
+
+  window.history.pushState(state, '', nextUrl);
 }
 
 function enterHome(): void {
   mode.value = 'home';
-  window.history.pushState({ mode: 'home' }, '', withAppBasePath('home'));
+  writeRoute('home', 'push');
 }
 
 function resetStory(): void {
   mode.value = 'story';
   stepId.value = 'self-question';
-  window.history.pushState({ mode: 'story' }, '', withAppBasePath(''));
+  writeRoute('story', 'push');
 }
 
 function warmStoryAssets(): void {
@@ -203,8 +214,8 @@ function warmStoryAssets(): void {
   });
 }
 
-function syncModeFromHistory(): void {
-  if (getRoutePath() === '/home') {
+function syncModeFromLocation(): void {
+  if (getRouteFromLocation() === 'home') {
     mode.value = 'home';
     return;
   }
@@ -216,15 +227,17 @@ function syncModeFromHistory(): void {
 onMounted(() => {
   warmStoryAssets();
 
-  if (getRoutePath() !== '/home') {
-    window.history.replaceState({ mode: 'story' }, '', withAppBasePath(''));
-  }
+  const route = getRouteFromLocation();
+  writeRoute(route, 'replace');
+  syncModeFromLocation();
 
-  window.addEventListener('popstate', syncModeFromHistory);
+  window.addEventListener('hashchange', syncModeFromLocation);
+  window.addEventListener('popstate', syncModeFromLocation);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('popstate', syncModeFromHistory);
+  window.removeEventListener('hashchange', syncModeFromLocation);
+  window.removeEventListener('popstate', syncModeFromLocation);
 });
 </script>
 

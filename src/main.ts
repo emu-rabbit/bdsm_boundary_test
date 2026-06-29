@@ -3,3 +3,7 @@ import App from './App.vue';
 import './styles.css';
 
 createApp(App).mount('#app');
+
+window.addEventListener('vite:preloadError', () => {
+  window.location.reload();
+});
