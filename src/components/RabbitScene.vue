@@ -3,6 +3,7 @@ import type { RabbitPose } from '../features/story/rabbitAssets';
 
 defineProps<{
   imageUrl: string;
+  animationKey: string;
   pose: RabbitPose;
 }>();
 </script>
@@ -21,7 +22,7 @@ defineProps<{
       <span class="tiny-lock" />
     </div>
     <img
-      :key="imageUrl"
+      :key="animationKey"
       :src="imageUrl"
       alt=""
       class="rabbit-pose"
