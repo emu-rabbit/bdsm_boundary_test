@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { appRouteById, fallbackRouteId, homeEntrances, type AppRouteId } from './app/routes';
 import { useHashRouter } from './app/useHashRouter';
 import { loadStoredProfileName, saveStoredProfileName } from './app/useProfileNameStorage';
@@ -17,6 +17,16 @@ const { currentRouteId, pushRoute } = useHashRouter(
   storedProfileName ? 'home' : 'story',
 );
 const activeRoute = computed(() => appRouteById.get(currentRouteId.value) ?? appRouteById.get(fallbackRouteId));
+
+watch(
+  appTitle,
+  (title) => {
+    if (typeof document !== 'undefined') {
+      document.title = title;
+    }
+  },
+  { immediate: true },
+);
 
 function navigate(routeId: AppRouteId): void {
   pushRoute(routeId);
