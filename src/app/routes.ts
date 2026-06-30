@@ -1,4 +1,11 @@
-export type AppRouteId = 'story' | 'home' | 'test' | 'files' | 'share' | 'timeline';
+export type AppRouteId =
+  | 'story'
+  | 'home'
+  | 'create'
+  | 'files'
+  | 'timeMachine'
+  | 'about'
+  | 'settings';
 
 export interface AppRouteDefinition {
   id: AppRouteId;
@@ -27,31 +34,38 @@ export const appRoutes: AppRouteDefinition[] = [
     state: 'ready',
   },
   {
-    id: 'test',
-    hashPath: '/test',
-    label: '開始測驗',
-    summary: '整理互動項目的經驗、興趣與備註。',
+    id: 'create',
+    hashPath: '/create',
+    label: '創建新檔案',
+    summary: '從測驗開始，整理目前的經驗、興趣與備註。',
     state: 'planned',
   },
   {
     id: 'files',
     hashPath: '/files',
-    label: '秘密檔案',
-    summary: '檢閱已完成或本地保存的秘密檔案。',
+    label: '查看舊檔案',
+    summary: '檢閱本地保存的檔案，或用 ID、連結載入雲端檔案。',
     state: 'planned',
   },
   {
-    id: 'share',
-    hashPath: '/share',
-    label: '分享檢閱',
-    summary: '確認分享內容，並提醒檔案不是同意書。',
+    id: 'timeMachine',
+    hashPath: '/time-machine',
+    label: '搭乘時光機',
+    summary: '比對不同檔案之間的變化，看看界線與感覺如何移動。',
     state: 'planned',
   },
   {
-    id: 'timeline',
-    hashPath: '/timeline',
-    label: '變化時間軸',
-    summary: '比較不同時間填寫的界限與興趣變化。',
+    id: 'about',
+    hashPath: '/about',
+    label: '關於這隻兔子',
+    summary: '了解這個專案如何陪你整理界線與溝通起點。',
+    state: 'planned',
+  },
+  {
+    id: 'settings',
+    hashPath: '/settings',
+    label: '設定',
+    summary: '調整語言、偏好與和本機資料相關的選項。',
     state: 'planned',
   },
 ];
