@@ -664,7 +664,9 @@ input:focus-visible {
   z-index: 2;
   width: min(76%, 25.5rem);
   height: auto;
-  filter: none;
+  filter:
+    drop-shadow(0 1.3rem 1.45rem rgba(11, 5, 9, 0.34))
+    drop-shadow(0 0.16rem 0.32rem rgba(246, 214, 198, 0.16));
   transform-origin: 50% 86%;
   animation: rabbit-say 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
@@ -921,7 +923,9 @@ input:focus-visible {
   width: min(100%, 22rem);
   height: auto;
   justify-self: center;
-  filter: none;
+  filter:
+    drop-shadow(0 1.4rem 1.55rem rgba(11, 5, 9, 0.36))
+    drop-shadow(0 0.18rem 0.34rem rgba(246, 214, 198, 0.16));
 }
 
 .home-copy {
@@ -1026,6 +1030,9 @@ input:focus-visible {
   width: min(100%, 18rem);
   height: auto;
   justify-self: center;
+  filter:
+    drop-shadow(0 1.2rem 1.4rem rgba(11, 5, 9, 0.34))
+    drop-shadow(0 0.16rem 0.32rem rgba(246, 214, 198, 0.16));
 }
 
 .planned-copy {
