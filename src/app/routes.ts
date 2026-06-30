@@ -59,7 +59,7 @@ export const appRoutes: AppRouteDefinition[] = [
     hashPath: '/about',
     label: '關於這隻兔子',
     summary: '了解這個專案如何陪你整理界線與溝通起點。',
-    state: 'planned',
+    state: 'ready',
   },
   {
     id: 'settings',
@@ -82,22 +82,34 @@ function normalizeHashPath(rawHash: string): string {
   return withSlash.replace(/\/+$/, '') || '/';
 }
 
-export function routeFromLocation(location: Location): AppRouteId {
+export function routeFromLocation(
+  location: Location,
+  defaultRoute: AppRouteId = defaultRouteId,
+): AppRouteId {
+  const hasExplicitHash = location.hash.length > 0;
   const hashPath = normalizeHashPath(location.hash);
   const matchedHashRoute = appRoutes.find((route) => route.hashPath === hashPath);
 
   if (matchedHashRoute) {
+    if (matchedHashRoute.id === defaultRouteId && !hasExplicitHash) {
+      return defaultRoute;
+    }
+
     return matchedHashRoute.id;
   }
 
-  return defaultRouteId;
+  return defaultRoute;
 }
 
-export function urlForRoute(routeId: AppRouteId, basePath: string): string {
+export function urlForRoute(
+  routeId: AppRouteId,
+  basePath: string,
+  defaultRoute: AppRouteId = defaultRouteId,
+): string {
   const route = appRouteById.get(routeId) ?? appRouteById.get(defaultRouteId);
   const hashPath = route?.hashPath ?? '/';
 
-  if (routeId === defaultRouteId) {
+  if (routeId === defaultRoute) {
     return basePath;
   }
 

@@ -80,7 +80,8 @@ input:focus-visible {
 
 .story-route,
 .home-route,
-.planned-route {
+.planned-route,
+.about-route {
   position: relative;
   isolate: isolate;
   min-height: 100dvh;
@@ -89,7 +90,8 @@ input:focus-visible {
 
 .story-route::before,
 .home-route::before,
-.planned-route::before {
+.planned-route::before,
+.about-route::before {
   position: absolute;
   inset: 0;
   z-index: -3;
@@ -119,7 +121,8 @@ input:focus-visible {
 
 .story-route::after,
 .home-route::after,
-.planned-route::after {
+.planned-route::after,
+.about-route::after {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -894,7 +897,8 @@ input:focus-visible {
 }
 
 .home-route,
-.planned-route {
+.planned-route,
+.about-route {
   display: grid;
   justify-items: center;
   padding: clamp(1rem, 3vw, 2rem);
@@ -909,6 +913,10 @@ input:focus-visible {
 .planned-route {
   align-content: center;
   gap: clamp(1rem, 3dvh, 1.65rem);
+}
+
+.about-route {
+  align-content: center;
 }
 
 .home-ambient {
@@ -1105,6 +1113,14 @@ input:focus-visible {
   width: min(820px, 100%);
 }
 
+.about-stage {
+  display: grid;
+  grid-template-columns: minmax(12rem, 18rem) minmax(18rem, 38rem);
+  align-items: center;
+  gap: clamp(1.4rem, 5vw, 4rem);
+  width: min(880px, 100%);
+}
+
 .planned-rabbit {
   width: min(100%, 18rem);
   height: auto;
@@ -1117,6 +1133,37 @@ input:focus-visible {
 .planned-copy {
   display: grid;
   gap: 1rem;
+}
+
+.about-copy {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-copy h1,
+.about-copy p {
+  margin: 0;
+}
+
+.about-copy h1 {
+  color: #f6e8df;
+  font-size: clamp(2.1rem, 5vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.about-copy p {
+  max-width: 36rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
 }
 
 .quiet-action {
@@ -1145,7 +1192,8 @@ input:focus-visible {
   }
 
   .home-route,
-  .planned-route {
+  .planned-route,
+  .about-route {
     height: 100dvh;
     min-height: 0;
     overflow: auto;
@@ -1547,7 +1595,8 @@ input:focus-visible {
     width: min(100%, 36rem);
   }
 
-  .planned-stage {
+  .planned-stage,
+  .about-stage {
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
@@ -1557,8 +1606,13 @@ input:focus-visible {
     width: min(48vw, 13rem);
   }
 
-  .planned-copy {
+  .planned-copy,
+  .about-copy {
     justify-items: center;
+  }
+
+  .about-actions {
+    justify-content: center;
   }
 }
 
@@ -1650,7 +1704,8 @@ input:focus-visible {
   }
 
   .home-route,
-  .planned-route {
+  .planned-route,
+  .about-route {
     align-content: start;
     overflow: auto;
   }

@@ -2,18 +2,29 @@
 import { computed, ref } from 'vue';
 import { appRouteById, fallbackRouteId, homeEntrances, type AppRouteId } from './app/routes';
 import { useHashRouter } from './app/useHashRouter';
+import { loadStoredProfileName, saveStoredProfileName } from './app/useProfileNameStorage';
 import { useSecretFileTitle } from './app/useSecretFileTitle';
+import AboutView from './views/AboutView.vue';
 import HomeView from './views/HomeView.vue';
 import PlannedRouteView from './views/PlannedRouteView.vue';
 import StoryView from './views/StoryView.vue';
 
-const profileName = ref('');
+const storedProfileName = loadStoredProfileName();
+const profileName = ref(storedProfileName);
 const { appTitle } = useSecretFileTitle(profileName);
-const { currentRouteId, pushRoute } = useHashRouter(import.meta.env.BASE_URL);
+const { currentRouteId, pushRoute } = useHashRouter(
+  import.meta.env.BASE_URL,
+  storedProfileName ? 'home' : 'story',
+);
 const activeRoute = computed(() => appRouteById.get(currentRouteId.value) ?? appRouteById.get(fallbackRouteId));
 
 function navigate(routeId: AppRouteId): void {
   pushRoute(routeId);
+}
+
+function completeStory(): void {
+  profileName.value = saveStoredProfileName(profileName.value);
+  navigate('home');
 }
 </script>
 
@@ -23,7 +34,7 @@ function navigate(routeId: AppRouteId): void {
       v-if="currentRouteId === 'story'"
       v-model:profile-name="profileName"
       :app-title="appTitle"
-      @complete="navigate('home')"
+      @complete="completeStory"
       @restart="navigate('story')"
     />
 
@@ -31,6 +42,12 @@ function navigate(routeId: AppRouteId): void {
       v-else-if="currentRouteId === 'home'"
       :app-title="appTitle"
       :entrances="homeEntrances"
+      @navigate="navigate"
+    />
+
+    <AboutView
+      v-else-if="currentRouteId === 'about'"
+      :app-title="appTitle"
       @navigate="navigate"
     />
 
