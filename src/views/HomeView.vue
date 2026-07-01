@@ -42,7 +42,7 @@ const settingsEntrance = computed(() => routeById.value.get('settings'));
         <p class="home-kicker">歡迎回來</p>
         <SecretFileTitle :parts="titleParts" variant="home" />
         <p>
-          今天也可以慢慢來。先把目前的感覺放進檔案裡，或回頭看看以前留下的界線。
+          今天也可以慢慢來，可以創建新的檔案，也可以從舊的檔案繼續作答。噢，還是你打算查看自己的變化，或是分享給別人這一部分的你呢？
         </p>
       </div>
     </div>

@@ -37,14 +37,14 @@ export const appRoutes: AppRouteDefinition[] = [
     id: 'create',
     hashPath: '/create',
     label: '創建新檔案',
-    summary: '從測驗開始，整理目前的經驗、興趣與備註。',
+    summary: '開始新的測驗，整理對各個項目的經驗、興趣與備註。',
     state: 'planned',
   },
   {
     id: 'files',
     hashPath: '/files',
     label: '查看舊檔案',
-    summary: '檢閱本地保存的檔案，或用 ID、連結載入雲端檔案。',
+    summary: '檢閱、編輯本地保存的檔案，或用連結載入雲端檔案。',
     state: 'planned',
   },
   {
