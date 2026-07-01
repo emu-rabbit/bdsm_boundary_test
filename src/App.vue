@@ -49,6 +49,10 @@ function completeStory(): void {
   );
   navigate('home');
 }
+
+function updateProfileName(name: string): void {
+  profileName.value = saveStoredProfileName(name, messages.value.title.defaultProfileName);
+}
 </script>
 
 <template>
@@ -87,8 +91,10 @@ function completeStory(): void {
       :app-title="appTitle"
       :locale-options="localeOptions"
       :messages="messages"
+      :profile-name="profileName"
       @navigate="navigate"
       @update:locale="setLocale"
+      @update:profile-name="updateProfileName"
     />
 
     <PlannedRouteView

@@ -34,6 +34,7 @@ export type LocaleMessages = {
   };
   assets: {
     homeRabbitAlt: string;
+    settingsRabbitAlt: string;
   };
   brand: {
     restartStoryAria: (title: string) => string;
@@ -51,8 +52,11 @@ export type LocaleMessages = {
   routes: Record<AppRouteId, RouteMessage>;
   settings: {
     body: string;
-    languageHint: string;
     languageLabel: string;
+    profileFieldLabel: string;
+    profileLabel: string;
+    profilePlaceholder: string;
+    saveProfile: string;
     title: string;
   };
   story: {
@@ -119,6 +123,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: '白色兔子揮手，懷裡抱著秘密檔案筆記本。',
+      settingsRabbitAlt: '白色兔子抱著設定板，旁邊有小齒輪。',
     },
     brand: {
       restartStoryAria: (title) => `${title}：重新開始前導劇情`,
@@ -164,9 +169,12 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       },
     },
     settings: {
-      body: '先把語言放在這裡。其他偏好之後再慢慢整理。',
-      languageHint: '會記在這台裝置裡。',
-      languageLabel: '語言',
+      body: '這些設定只放在這台裝置裡。',
+      languageLabel: '守密兔要用的語言',
+      profileFieldLabel: '稱呼',
+      profileLabel: '想怎麼稱呼你',
+      profilePlaceholder: '兔子',
+      saveProfile: '儲存稱呼',
       title: '設定',
     },
     story: {
@@ -242,6 +250,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: '白色兔子挥手，怀里抱着秘密档案笔记本。',
+      settingsRabbitAlt: '白色兔子抱着设置板，旁边有小齿轮。',
     },
     brand: {
       restartStoryAria: (title) => `${title}：重新开始前导剧情`,
@@ -287,9 +296,12 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       },
     },
     settings: {
-      body: '先把语言放在这里。其他偏好之后再慢慢整理。',
-      languageHint: '会记在这台装置里。',
-      languageLabel: '语言',
+      body: '这些设置只放在这台装置里。',
+      languageLabel: '守密兔要用的语言',
+      profileFieldLabel: '称呼',
+      profileLabel: '想怎么称呼你',
+      profilePlaceholder: '兔子',
+      saveProfile: '保存称呼',
       title: '设置',
     },
     story: {
@@ -364,6 +376,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: '白いうさぎが手を振り、秘密ファイルのノートを抱えている。',
+      settingsRabbitAlt: '白いうさぎが設定ボードを抱え、小さな歯車がそばにある。',
     },
     brand: {
       restartStoryAria: (title) => `${title}：導入をもう一度始める`,
@@ -409,9 +422,12 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       },
     },
     settings: {
-      body: 'まず言語だけここに置いておきます。他の設定は、あとでゆっくり整えます。',
-      languageHint: 'この端末に保存されます。',
-      languageLabel: '言語',
+      body: 'この設定はこの端末だけに残ります。',
+      languageLabel: '守秘うさぎが使う言語',
+      profileFieldLabel: '呼び名',
+      profileLabel: 'なんて呼べばいい？',
+      profilePlaceholder: 'うさぎ',
+      saveProfile: '呼び名を保存',
       title: '設定',
     },
     story: {
@@ -486,6 +502,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: 'A white bunny waving while holding a secret file notebook.',
+      settingsRabbitAlt: 'A white bunny holding a settings board with small gears nearby.',
     },
     brand: {
       restartStoryAria: (title) => `${title}: restart the intro story`,
@@ -531,9 +548,12 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       },
     },
     settings: {
-      body: 'Language lives here for now. The other preferences can be shaped later, slowly.',
-      languageHint: 'Saved on this device.',
-      languageLabel: 'Language',
+      body: 'These settings stay on this device.',
+      languageLabel: 'Language for the Bunny',
+      profileFieldLabel: 'Name',
+      profileLabel: 'What should I call you?',
+      profilePlaceholder: 'Bunny',
+      saveProfile: 'Save Name',
       title: 'Settings',
     },
     story: {

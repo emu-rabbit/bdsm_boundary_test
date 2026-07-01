@@ -126,6 +126,15 @@ input:focus-visible {
   transform: scale(1.008);
 }
 
+.settings-route::before {
+  background:
+    linear-gradient(180deg, rgba(9, 5, 8, 0), rgba(9, 5, 8, 0.2)),
+    url("./assets/backgrounds/secret-archive-desktop.webp") center / cover no-repeat,
+    linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
+  filter: blur(1.2px) brightness(1.14) saturate(1.02);
+  transform: scale(1.008);
+}
+
 .story-route::after,
 .planned-route::after,
 .about-route::after,
@@ -155,6 +164,15 @@ input:focus-visible {
     radial-gradient(circle at 18% 76%, rgba(143, 61, 82, 0.08), transparent 34%),
     linear-gradient(90deg, rgba(7, 4, 6, 0.14), rgba(7, 4, 6, 0.03) 46%, rgba(7, 4, 6, 0.18)),
     rgba(8, 4, 7, 0.08);
+}
+
+.settings-route::after {
+  background:
+    radial-gradient(circle at 35% 33%, rgba(7, 4, 6, 0.28), transparent 25%),
+    radial-gradient(circle at 76% 28%, rgba(185, 144, 85, 0.1), transparent 28%),
+    radial-gradient(circle at 18% 76%, rgba(143, 61, 82, 0.1), transparent 34%),
+    linear-gradient(90deg, rgba(7, 4, 6, 0.18), rgba(7, 4, 6, 0.04) 46%, rgba(7, 4, 6, 0.24)),
+    rgba(8, 4, 7, 0.12);
 }
 
 .story-route[data-tone="mirror"]::after {
@@ -1305,10 +1323,18 @@ input:focus-visible {
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: minmax(12rem, 18rem) minmax(18rem, 38rem);
   align-items: center;
   gap: clamp(1.4rem, 5vw, 4rem);
+}
+
+.about-stage {
+  grid-template-columns: minmax(12rem, 18rem) minmax(18rem, 38rem);
   width: min(880px, 100%);
+}
+
+.settings-stage {
+  grid-template-columns: minmax(13rem, 20rem) minmax(20rem, 40rem);
+  width: min(960px, 100%);
 }
 
 .planned-rabbit {
@@ -1317,6 +1343,15 @@ input:focus-visible {
   justify-self: center;
   filter:
     drop-shadow(0 1.2rem 1.4rem rgba(11, 5, 9, 0.34))
+    drop-shadow(0 0.16rem 0.32rem rgba(246, 214, 198, 0.16));
+}
+
+.settings-rabbit {
+  width: min(100%, 19rem);
+  height: auto;
+  justify-self: center;
+  filter:
+    drop-shadow(0 1.25rem 1.5rem rgba(11, 5, 9, 0.36))
     drop-shadow(0 0.16rem 0.32rem rgba(246, 214, 198, 0.16));
 }
 
@@ -1335,15 +1370,20 @@ input:focus-visible {
   gap: 1rem;
 }
 
+.settings-heading {
+  display: grid;
+  gap: 1rem;
+}
+
 .about-copy h1,
 .about-copy p,
-.settings-copy h1,
-.settings-copy p {
+.settings-heading h1,
+.settings-device-note {
   margin: 0;
 }
 
 .about-copy h1,
-.settings-copy h1 {
+.settings-heading h1 {
   color: #f6e8df;
   font-size: clamp(2.1rem, 5vw, 4.4rem);
   font-weight: 400;
@@ -1351,7 +1391,7 @@ input:focus-visible {
 }
 
 .about-copy p,
-.settings-copy p {
+.settings-device-note {
   max-width: 36rem;
   color: var(--ink-soft);
   font-size: 1.05rem;
@@ -1361,10 +1401,12 @@ input:focus-visible {
 .settings-panel {
   display: grid;
   gap: 0.8rem;
-  width: min(100%, 32rem);
+  width: min(100%, 34rem);
   border: 1px solid rgba(236, 198, 187, 0.14);
   border-radius: 0.9rem;
-  background: rgba(31, 16, 24, 0.72);
+  background:
+    linear-gradient(180deg, rgba(58, 29, 43, 0.78), rgba(28, 14, 23, 0.82)),
+    rgba(31, 16, 24, 0.72);
   padding: 1rem;
 }
 
@@ -1384,6 +1426,31 @@ input:focus-visible {
 .settings-panel__heading small {
   color: var(--ink-muted);
   font-size: 0.82rem;
+}
+
+.settings-name-field {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.settings-name-field span {
+  color: var(--ink-muted);
+  font-size: 0.86rem;
+}
+
+.settings-name-field input {
+  width: 100%;
+  min-height: 3.35rem;
+  border: 1px solid rgba(236, 198, 187, 0.2);
+  border-radius: 0.8rem;
+  background: rgba(18, 10, 15, 0.72);
+  color: var(--ink);
+  font-size: 1.16rem;
+  padding: 0 0.95rem;
+}
+
+.settings-name-field input::placeholder {
+  color: rgba(246, 232, 223, 0.34);
 }
 
 .about-actions {
@@ -1429,6 +1496,17 @@ input:focus-visible {
     transform: scale(1.01);
   }
 
+  .settings-route::before {
+    position: fixed;
+    inset: -1rem;
+    background:
+      linear-gradient(180deg, rgba(9, 5, 8, 0), rgba(9, 5, 8, 0.2)),
+      url("./assets/backgrounds/secret-archive-mobile.webp") center 42% / cover no-repeat,
+      linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
+    filter: blur(1.2px) brightness(1.14) saturate(1.02);
+    transform: scale(1.01);
+  }
+
   .story-route::after,
   .planned-route::after,
   .about-route::after,
@@ -1450,6 +1528,16 @@ input:focus-visible {
       radial-gradient(circle at 25% 82%, rgba(143, 61, 82, 0.08), transparent 34%),
       linear-gradient(90deg, rgba(7, 4, 6, 0.17), rgba(7, 4, 6, 0.05) 50%, rgba(7, 4, 6, 0.18)),
       rgba(8, 4, 7, 0.1);
+  }
+
+  .settings-route::after {
+    position: fixed;
+    background:
+      radial-gradient(circle at 50% 34%, rgba(7, 4, 6, 0.34), transparent 27%),
+      radial-gradient(circle at 62% 20%, rgba(185, 144, 85, 0.1), transparent 26%),
+      radial-gradient(circle at 25% 82%, rgba(143, 61, 82, 0.1), transparent 34%),
+      linear-gradient(90deg, rgba(7, 4, 6, 0.2), rgba(7, 4, 6, 0.06) 50%, rgba(7, 4, 6, 0.22)),
+      rgba(8, 4, 7, 0.12);
   }
 
   .story-route[data-tone="mirror"]::after {
@@ -1931,8 +2019,18 @@ input:focus-visible {
     text-align: center;
   }
 
+  .settings-stage {
+    width: min(100%, 38rem);
+    gap: clamp(0.7rem, 2dvh, 1rem);
+  }
+
   .planned-rabbit {
     width: min(48vw, 13rem);
+  }
+
+  .settings-rabbit {
+    order: 2;
+    width: min(54vw, 14rem);
   }
 
   .planned-copy,
@@ -1941,8 +2039,49 @@ input:focus-visible {
     justify-items: center;
   }
 
+  .settings-copy {
+    display: contents;
+  }
+
+  .settings-heading {
+    order: 1;
+    justify-items: center;
+    width: min(100%, 34rem);
+  }
+
+  .settings-heading h1 {
+    font-size: clamp(2.1rem, 8vw, 3.5rem);
+  }
+
+  .settings-device-note {
+    order: 3;
+    width: min(100%, 34rem);
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
   .about-actions {
     justify-content: center;
+  }
+
+  .settings-panel {
+    order: 4;
+    width: min(calc(100vw - 2rem), 34rem);
+    text-align: left;
+  }
+
+  .settings-panel + .settings-panel {
+    order: 5;
+  }
+
+  .settings-copy > .quiet-action {
+    order: 6;
+    width: min(calc(100vw - 2rem), 34rem);
+  }
+
+  .settings-name-field input {
+    min-height: 3.2rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -1957,6 +2096,10 @@ input:focus-visible {
   }
 
   .home-entrances {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-language-grid {
     grid-template-columns: 1fr;
   }
 
