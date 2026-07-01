@@ -1,8 +1,6 @@
 import { computed, type Ref } from 'vue';
-import { defaultProfileName, measureProfileNameVisualWidth } from './useProfileNameStorage';
-
-const secretFileObjectLabel = '祕密檔案';
-const secretFilePossessiveLabel = '的';
+import type { LocaleMessages } from './i18n';
+import { measureProfileNameVisualWidth } from './useProfileNameStorage';
 
 export type SecretFileTitleDensity = 'default' | 'compact' | 'dense';
 
@@ -47,19 +45,23 @@ function getOwnerScale(visualWidth: number): number {
   return 0.52;
 }
 
-export function useSecretFileTitle(profileName: Ref<string>) {
-  const displayName = computed(() => profileName.value.trim() || defaultProfileName);
+export function useSecretFileTitle(
+  profileName: Ref<string>,
+  messages: { readonly value: LocaleMessages },
+) {
+  const displayName = computed(() => profileName.value.trim() || messages.value.title.defaultProfileName);
   const appTitle = computed(
-    () => `${displayName.value}${secretFilePossessiveLabel}${secretFileObjectLabel}`,
+    () =>
+      `${displayName.value}${messages.value.title.connector}${messages.value.title.objectLabel}`,
   );
   const titleParts = computed<SecretFileTitleParts>(() => {
     const visualWidth = measureProfileNameVisualWidth(displayName.value);
 
     return {
-      connector: secretFilePossessiveLabel,
+      connector: messages.value.title.connector,
       density: getTitleDensity(visualWidth),
       fullTitle: appTitle.value,
-      objectLabel: secretFileObjectLabel,
+      objectLabel: messages.value.title.objectLabel,
       ownerName: displayName.value,
       ownerScale: getOwnerScale(visualWidth),
     };

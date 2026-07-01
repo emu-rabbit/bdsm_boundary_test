@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { AppRouteDefinition, AppRouteId } from '../app/routes';
+import type { LocaleMessages } from '../app/i18n';
+import type { AppRouteId, LocalizedAppRouteDefinition } from '../app/routes';
 import { homeRabbitUrl } from '../features/story/rabbitAssets';
 
 defineProps<{
   appTitle: string;
-  route: AppRouteDefinition;
+  messages: LocaleMessages;
+  route: LocalizedAppRouteDefinition;
 }>();
 
 const emit = defineEmits<{
@@ -18,7 +20,7 @@ const emit = defineEmits<{
     <div class="planned-stage">
       <img
         :src="homeRabbitUrl"
-        alt="白色兔子揮手，懷裡抱著秘密檔案筆記本。"
+        :alt="messages.assets.homeRabbitAlt"
         class="planned-rabbit"
         width="1024"
         height="1536"
@@ -29,7 +31,7 @@ const emit = defineEmits<{
         <h1>{{ route.label }}</h1>
         <p>{{ route.summary }}</p>
         <button class="quiet-action" type="button" @click="emit('navigate', 'home')">
-          回主頁
+          {{ messages.common.backHome }}
         </button>
       </div>
     </div>

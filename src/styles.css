@@ -81,7 +81,8 @@ input:focus-visible {
 .story-route,
 .home-route,
 .planned-route,
-.about-route {
+.about-route,
+.settings-route {
   position: relative;
   isolate: isolate;
   min-height: 100dvh;
@@ -90,7 +91,8 @@ input:focus-visible {
 
 .story-route::before,
 .planned-route::before,
-.about-route::before {
+.about-route::before,
+.settings-route::before {
   position: absolute;
   inset: -1.25rem;
   z-index: 0;
@@ -126,7 +128,8 @@ input:focus-visible {
 
 .story-route::after,
 .planned-route::after,
-.about-route::after {
+.about-route::after,
+.settings-route::after {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -888,7 +891,16 @@ input:focus-visible {
   margin-top: 0.35rem;
 }
 
+.language-grid,
+.settings-language-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.62rem;
+  margin-top: 0.35rem;
+}
+
 .choice-button,
+.language-choice,
 .primary-action,
 .quiet-action {
   min-height: 3.2rem;
@@ -910,14 +922,38 @@ input:focus-visible {
   box-shadow: none;
 }
 
+.language-choice {
+  display: grid;
+  min-height: 4rem;
+  align-content: center;
+  gap: 0.22rem;
+  padding: 0.78rem 0.92rem;
+  border-color: rgba(236, 198, 187, 0.12);
+  background: rgba(43, 22, 34, 0.78);
+  color: #f7e5dc;
+  text-align: left;
+  box-shadow: none;
+}
+
+.language-choice span {
+  font-size: 1rem;
+  line-height: 1.22;
+}
+
 .choice-button::before {
   display: none;
 }
 
-.choice-button:hover {
+.choice-button:hover,
+.language-choice:hover,
+.language-choice--active {
   border-color: rgba(236, 198, 187, 0.2);
   background: rgba(82, 42, 57, 0.78);
   box-shadow: none;
+}
+
+.language-choice--active {
+  border-color: rgba(216, 160, 152, 0.44);
 }
 
 .primary-action,
@@ -999,7 +1035,8 @@ input:focus-visible {
 
 .home-route,
 .planned-route,
-.about-route {
+.about-route,
+.settings-route {
   display: grid;
   justify-items: center;
   padding: clamp(1rem, 3vw, 2rem);
@@ -1020,7 +1057,8 @@ input:focus-visible {
   gap: clamp(1rem, 3dvh, 1.65rem);
 }
 
-.about-route {
+.about-route,
+.settings-route {
   align-content: center;
 }
 
@@ -1262,7 +1300,8 @@ input:focus-visible {
   width: min(820px, 100%);
 }
 
-.about-stage {
+.about-stage,
+.settings-stage {
   position: relative;
   z-index: 3;
   display: grid;
@@ -1291,23 +1330,60 @@ input:focus-visible {
   gap: 1rem;
 }
 
+.settings-copy {
+  display: grid;
+  gap: 1rem;
+}
+
 .about-copy h1,
-.about-copy p {
+.about-copy p,
+.settings-copy h1,
+.settings-copy p {
   margin: 0;
 }
 
-.about-copy h1 {
+.about-copy h1,
+.settings-copy h1 {
   color: #f6e8df;
   font-size: clamp(2.1rem, 5vw, 4.4rem);
   font-weight: 400;
   line-height: 1;
 }
 
-.about-copy p {
+.about-copy p,
+.settings-copy p {
   max-width: 36rem;
   color: var(--ink-soft);
   font-size: 1.05rem;
   line-height: 1.9;
+}
+
+.settings-panel {
+  display: grid;
+  gap: 0.8rem;
+  width: min(100%, 32rem);
+  border: 1px solid rgba(236, 198, 187, 0.14);
+  border-radius: 0.9rem;
+  background: rgba(31, 16, 24, 0.72);
+  padding: 1rem;
+}
+
+.settings-panel__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+}
+
+.settings-panel__heading span {
+  color: #f8ded3;
+  font-size: 1.05rem;
+}
+
+.settings-panel__heading small {
+  color: var(--ink-muted);
+  font-size: 0.82rem;
 }
 
 .about-actions {
@@ -1329,6 +1405,7 @@ input:focus-visible {
   .story-route::before,
   .planned-route::before,
   .about-route::before,
+  .settings-route::before,
   .story-route[data-tone="mirror"]::before,
   .story-route[data-tone="naming"]::before,
   .story-route[data-tone="archive"]::before {
@@ -1354,7 +1431,8 @@ input:focus-visible {
 
   .story-route::after,
   .planned-route::after,
-  .about-route::after {
+  .about-route::after,
+  .settings-route::after {
     position: fixed;
     background:
       radial-gradient(circle at 50% 34%, rgba(7, 4, 6, 0.36), transparent 27%),
@@ -1419,7 +1497,8 @@ input:focus-visible {
 
   .home-route,
   .planned-route,
-  .about-route {
+  .about-route,
+  .settings-route {
     height: 100dvh;
     min-height: 0;
     overflow: auto;
@@ -1710,7 +1789,15 @@ input:focus-visible {
     padding-top: clamp(0.9rem, 4dvh, 2.35rem);
   }
 
+  .language-grid {
+    grid-template-columns: 1fr;
+    gap: 0.58rem;
+    margin-top: auto;
+    padding-top: clamp(0.9rem, 4dvh, 2.35rem);
+  }
+
   .choice-button,
+  .language-choice,
   .primary-action,
   .quiet-action {
     width: 100%;
@@ -1721,6 +1808,11 @@ input:focus-visible {
   .choice-button {
     border-radius: 0.78rem;
     font-size: 0.92rem;
+  }
+
+  .language-choice {
+    min-height: 3.05rem;
+    border-radius: 0.78rem;
   }
 
   .primary-action,
@@ -1832,7 +1924,8 @@ input:focus-visible {
   }
 
   .planned-stage,
-  .about-stage {
+  .about-stage,
+  .settings-stage {
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
@@ -1843,7 +1936,8 @@ input:focus-visible {
   }
 
   .planned-copy,
-  .about-copy {
+  .about-copy,
+  .settings-copy {
     justify-items: center;
   }
 
@@ -1925,6 +2019,7 @@ input:focus-visible {
   }
 
   .choice-button,
+  .language-choice,
   .primary-action,
   .quiet-action {
     min-height: 2.85rem;
@@ -1935,13 +2030,19 @@ input:focus-visible {
     font-size: 0.86rem;
   }
 
+  .language-grid,
+  .settings-language-grid {
+    gap: 0.48rem;
+  }
+
   .file-body {
     font-size: 0.9rem;
   }
 
   .home-route,
   .planned-route,
-  .about-route {
+  .about-route,
+  .settings-route {
     align-content: start;
     overflow: auto;
   }

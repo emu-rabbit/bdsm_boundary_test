@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { LocaleMessages } from '../app/i18n';
 import type { AppRouteId } from '../app/routes';
 import { homeRabbitUrl } from '../features/story/rabbitAssets';
 
 defineProps<{
   appTitle: string;
+  messages: LocaleMessages;
 }>();
 
 const emit = defineEmits<{
@@ -17,7 +19,7 @@ const emit = defineEmits<{
     <div class="about-stage">
       <img
         :src="homeRabbitUrl"
-        alt="白色兔子揮手，懷裡抱著秘密檔案筆記本。"
+        :alt="messages.assets.homeRabbitAlt"
         class="planned-rabbit"
         width="1024"
         height="1536"
@@ -25,16 +27,16 @@ const emit = defineEmits<{
       />
       <div class="about-copy">
         <p class="home-kicker">{{ appTitle }}</p>
-        <h1>關於這隻兔子</h1>
+        <h1>{{ messages.about.title }}</h1>
         <p>
-          這隻兔子會陪你把目前的感覺、界線與想說清楚的事整理成一份檔案。它只是溝通起點，不會替任何人做決定。
+          {{ messages.about.body }}
         </p>
         <div class="about-actions">
           <button class="quiet-action" type="button" @click="emit('navigate', 'story')">
-            重播前導劇情
+            {{ messages.about.replayStory }}
           </button>
           <button class="soft-link-action" type="button" @click="emit('navigate', 'home')">
-            回主頁
+            {{ messages.common.backHome }}
           </button>
         </div>
       </div>

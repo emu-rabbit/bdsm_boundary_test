@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import type { AppLocale, LocaleMessages, LocaleOption } from '../app/i18n';
 import type { SecretFileTitleParts } from '../app/useSecretFileTitle';
 import BrandMark from '../components/BrandMark.vue';
 import RabbitScene from '../components/RabbitScene.vue';
 import { rabbitPoseUrls, warmStoryAssets } from '../features/story/rabbitAssets';
 import StoryDialogue from '../features/story/StoryDialogue.vue';
-import { type StepId, storyStepIndex, storySteps } from '../features/story/storySteps';
+import { getStoryStepIndex, getStorySteps, type StepId } from '../features/story/storySteps';
 
-defineProps<{
+const props = defineProps<{
+  activeLocale: AppLocale;
   appTitle: string;
+  localeOptions: LocaleOption[];
+  messages: LocaleMessages;
   profileName: string;
   titleParts: SecretFileTitleParts;
 }>();
@@ -16,11 +20,14 @@ defineProps<{
 const emit = defineEmits<{
   complete: [];
   restart: [];
+  'update:locale': [locale: AppLocale];
   'update:profileName': [name: string];
 }>();
 
-const stepId = ref<StepId>('self-question');
-const activeStep = computed(() => storySteps[storyStepIndex.get(stepId.value) ?? 0]);
+const stepId = ref<StepId>('language');
+const storySteps = computed(() => getStorySteps(props.messages));
+const storyStepIndex = computed(() => getStoryStepIndex(storySteps.value));
+const activeStep = computed(() => storySteps.value[storyStepIndex.value.get(stepId.value) ?? 0]);
 const activeRabbitUrl = computed(() => rabbitPoseUrls[activeStep.value.pose]);
 
 function goToStep(next: StepId): void {
@@ -34,7 +41,7 @@ function continueFromMessage(): void {
 }
 
 function resetStory(): void {
-  stepId.value = 'self-question';
+  stepId.value = 'language';
   emit('restart');
 }
 
@@ -48,7 +55,7 @@ onMounted(() => {
     <div class="ambient-grid" aria-hidden="true" />
 
     <header class="story-header">
-      <BrandMark :title="appTitle" @restart="resetStory" />
+      <BrandMark :messages="messages" :title="appTitle" @restart="resetStory" />
     </header>
 
     <div class="story-layout">
@@ -60,12 +67,16 @@ onMounted(() => {
       />
 
       <StoryDialogue
+        :active-locale="activeLocale"
+        :locale-options="localeOptions"
+        :messages="messages"
         :profile-name="profileName"
         :step="activeStep"
         :title-parts="titleParts"
         @complete="emit('complete')"
         @continue="continueFromMessage"
         @go-to-step="goToStep"
+        @update:locale="emit('update:locale', $event)"
         @update:profile-name="emit('update:profileName', $event)"
       />
     </div>

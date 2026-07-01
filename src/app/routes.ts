@@ -1,3 +1,5 @@
+import type { LocaleMessages } from './i18n';
+
 export type AppRouteId =
   | 'story'
   | 'home'
@@ -10,10 +12,13 @@ export type AppRouteId =
 export interface AppRouteDefinition {
   id: AppRouteId;
   hashPath: string;
-  label: string;
-  summary: string;
   state: 'ready' | 'planned';
 }
+
+export type LocalizedAppRouteDefinition = AppRouteDefinition & {
+  label: string;
+  summary: string;
+};
 
 export const defaultRouteId: AppRouteId = 'story';
 export const fallbackRouteId: AppRouteId = 'home';
@@ -22,51 +27,37 @@ export const appRoutes: AppRouteDefinition[] = [
   {
     id: 'story',
     hashPath: '/',
-    label: '前導劇情',
-    summary: '讓兔子帶使用者進入秘密檔案的第一段互動。',
     state: 'ready',
   },
   {
     id: 'home',
     hashPath: '/home',
-    label: '主頁',
-    summary: '彙整後續主要流程入口，作為多頁功能的導覽起點。',
     state: 'ready',
   },
   {
     id: 'create',
     hashPath: '/create',
-    label: '創建新檔案',
-    summary: '開始新的測驗，整理對各個項目的經驗、興趣與備註。',
     state: 'planned',
   },
   {
     id: 'files',
     hashPath: '/files',
-    label: '查看舊檔案',
-    summary: '檢閱、編輯本地保存的檔案，或用連結載入雲端檔案。',
     state: 'planned',
   },
   {
     id: 'timeMachine',
     hashPath: '/time-machine',
-    label: '搭乘時光機',
-    summary: '比對不同檔案之間的變化，看看界線與感覺如何移動。',
     state: 'planned',
   },
   {
     id: 'about',
     hashPath: '/about',
-    label: '關於這隻兔子',
-    summary: '了解這個專案如何陪你整理界線與溝通起點。',
     state: 'ready',
   },
   {
     id: 'settings',
     hashPath: '/settings',
-    label: '設定',
-    summary: '調整語言、偏好與和本機資料相關的選項。',
-    state: 'planned',
+    state: 'ready',
   },
 ];
 
@@ -75,6 +66,13 @@ export const appRouteById = new Map(appRoutes.map((route) => [route.id, route]))
 export const homeEntrances = appRoutes.filter(
   (route) => route.id !== 'story' && route.id !== 'home',
 );
+
+export function localizeRoutes(messages: LocaleMessages): LocalizedAppRouteDefinition[] {
+  return appRoutes.map((route) => ({
+    ...route,
+    ...messages.routes[route.id],
+  }));
+}
 
 function normalizeHashPath(rawHash: string): string {
   const path = rawHash.replace(/^#/, '') || '/';

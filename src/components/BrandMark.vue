@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { LocaleMessages } from '../app/i18n';
+
 defineProps<{
+  messages: LocaleMessages;
   title: string;
 }>();
 
@@ -9,7 +12,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <button class="brand-mark" type="button" :aria-label="`${title}：重新開始前導劇情`" @click="emit('restart')">
+  <button class="brand-mark" type="button" :aria-label="messages.brand.restartStoryAria(title)" @click="emit('restart')">
     <span class="brand-folder-shell" aria-hidden="true">
       <svg class="brand-folder" viewBox="0 0 24 24" focusable="false">
         <path

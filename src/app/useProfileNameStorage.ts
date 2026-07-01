@@ -74,8 +74,8 @@ export function loadStoredProfileName(): string {
   }
 }
 
-export function saveStoredProfileName(name: string): string {
-  const normalizedName = normalizeProfileName(name, defaultProfileName);
+export function saveStoredProfileName(name: string, fallback = defaultProfileName): string {
+  const normalizedName = normalizeProfileName(name, fallback);
 
   try {
     storageAvailable()?.setItem(profileNameStorageKey, normalizedName);

@@ -1,22 +1,32 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { appRouteById, fallbackRouteId, homeEntrances, type AppRouteId } from './app/routes';
+import { fallbackRouteId, localizeRoutes, type AppRouteId } from './app/routes';
+import { useI18n } from './app/i18n';
 import { useHashRouter } from './app/useHashRouter';
 import { loadStoredProfileName, saveStoredProfileName } from './app/useProfileNameStorage';
 import { useSecretFileTitle } from './app/useSecretFileTitle';
 import AboutView from './views/AboutView.vue';
 import HomeView from './views/HomeView.vue';
 import PlannedRouteView from './views/PlannedRouteView.vue';
+import SettingsView from './views/SettingsView.vue';
 import StoryView from './views/StoryView.vue';
 
 const storedProfileName = loadStoredProfileName();
 const profileName = ref(storedProfileName);
-const { appTitle, titleParts } = useSecretFileTitle(profileName);
+const { locale, localeOptions, messages, setLocale } = useI18n();
+const { appTitle, titleParts } = useSecretFileTitle(profileName, messages);
 const { currentRouteId, pushRoute } = useHashRouter(
   import.meta.env.BASE_URL,
   storedProfileName ? 'home' : 'story',
 );
-const activeRoute = computed(() => appRouteById.get(currentRouteId.value) ?? appRouteById.get(fallbackRouteId));
+const localizedRoutes = computed(() => localizeRoutes(messages.value));
+const localizedRouteById = computed(() => new Map(localizedRoutes.value.map((route) => [route.id, route])));
+const localizedHomeEntrances = computed(() =>
+  localizedRoutes.value.filter((route) => route.id !== 'story' && route.id !== 'home'),
+);
+const activeRoute = computed(
+  () => localizedRouteById.value.get(currentRouteId.value) ?? localizedRouteById.value.get(fallbackRouteId),
+);
 
 watch(
   appTitle,
@@ -33,7 +43,10 @@ function navigate(routeId: AppRouteId): void {
 }
 
 function completeStory(): void {
-  profileName.value = saveStoredProfileName(profileName.value);
+  profileName.value = saveStoredProfileName(
+    profileName.value,
+    messages.value.title.defaultProfileName,
+  );
   navigate('home');
 }
 </script>
@@ -42,16 +55,21 @@ function completeStory(): void {
   <main class="app-shell min-h-dvh overflow-hidden text-ink-900">
     <StoryView
       v-if="currentRouteId === 'story'"
+      :active-locale="locale"
       v-model:profile-name="profileName"
       :app-title="appTitle"
+      :locale-options="localeOptions"
+      :messages="messages"
       :title-parts="titleParts"
       @complete="completeStory"
       @restart="navigate('story')"
+      @update:locale="setLocale"
     />
 
     <HomeView
       v-else-if="currentRouteId === 'home'"
-      :entrances="homeEntrances"
+      :entrances="localizedHomeEntrances"
+      :messages="messages"
       :title-parts="titleParts"
       @navigate="navigate"
     />
@@ -59,12 +77,24 @@ function completeStory(): void {
     <AboutView
       v-else-if="currentRouteId === 'about'"
       :app-title="appTitle"
+      :messages="messages"
       @navigate="navigate"
+    />
+
+    <SettingsView
+      v-else-if="currentRouteId === 'settings'"
+      :active-locale="locale"
+      :app-title="appTitle"
+      :locale-options="localeOptions"
+      :messages="messages"
+      @navigate="navigate"
+      @update:locale="setLocale"
     />
 
     <PlannedRouteView
       v-else-if="activeRoute"
       :app-title="appTitle"
+      :messages="messages"
       :route="activeRoute"
       @navigate="navigate"
     />

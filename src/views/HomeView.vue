@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { AppRouteDefinition, AppRouteId } from '../app/routes';
+import type { LocaleMessages } from '../app/i18n';
+import type { AppRouteId, LocalizedAppRouteDefinition } from '../app/routes';
 import type { SecretFileTitleParts } from '../app/useSecretFileTitle';
 import SecretFileTitle from '../components/SecretFileTitle.vue';
 import { homeRabbitUrl } from '../features/story/rabbitAssets';
 
 const props = defineProps<{
-  entrances: AppRouteDefinition[];
+  entrances: LocalizedAppRouteDefinition[];
+  messages: LocaleMessages;
   titleParts: SecretFileTitleParts;
 }>();
 
@@ -32,22 +34,22 @@ const settingsEntrance = computed(() => routeById.value.get('settings'));
     <div class="home-stage">
       <img
         :src="homeRabbitUrl"
-        alt="白色兔子揮手，懷裡抱著秘密檔案筆記本。"
+        :alt="messages.assets.homeRabbitAlt"
         class="home-rabbit"
         width="1024"
         height="1536"
         decoding="async"
       />
       <div class="home-copy">
-        <p class="home-kicker">歡迎回來</p>
+        <p class="home-kicker">{{ messages.home.kicker }}</p>
         <SecretFileTitle :parts="titleParts" variant="home" />
         <p>
-          今天也可以慢慢來，可以創建新的檔案，也可以從舊的檔案繼續作答。噢，還是你打算查看自己的變化，或是分享給別人這一部分的你呢？
+          {{ messages.home.copy }}
         </p>
       </div>
     </div>
 
-    <nav class="home-entrances" aria-label="秘密檔案主要入口">
+    <nav class="home-entrances" :aria-label="messages.home.navAria">
       <button
         v-for="entrance in primaryEntrances"
         :key="entrance.id"
@@ -57,7 +59,7 @@ const settingsEntrance = computed(() => routeById.value.get('settings'));
         @click="emit('navigate', entrance.id)"
       >
         <span class="entrance-state">
-          {{ entrance.state === 'ready' ? '可使用' : '規劃中' }}
+          {{ entrance.state === 'ready' ? messages.common.ready : messages.common.planned }}
         </span>
         <span class="entrance-title">{{ entrance.label }}</span>
         <span class="entrance-summary">{{ entrance.summary }}</span>
