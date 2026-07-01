@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import type { AppLocale, LocaleMessages, LocaleOption } from '../app/i18n';
 import type { AppRouteId } from '../app/routes';
 import { settingsRabbitUrl } from '../features/story/rabbitAssets';
@@ -19,9 +19,24 @@ const emit = defineEmits<{
 }>();
 
 const profileNameDraft = ref(props.profileName);
+const profileSaveFeedbackVisible = ref(false);
+const profileSaveFeedbackKey = ref(0);
+let profileSaveFeedbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
 
 function saveProfileName(): void {
   emit('update:profileName', profileNameDraft.value);
+  profileSaveFeedbackVisible.value = true;
+  profileSaveFeedbackKey.value += 1;
+
+  if (profileSaveFeedbackTimeout) {
+    window.clearTimeout(profileSaveFeedbackTimeout);
+  }
+
+  profileSaveFeedbackTimeout = window.setTimeout(() => {
+    profileSaveFeedbackVisible.value = false;
+    profileSaveFeedbackKey.value += 1;
+    profileSaveFeedbackTimeout = null;
+  }, 1800);
 }
 
 watch(
@@ -30,6 +45,19 @@ watch(
     profileNameDraft.value = profileName;
   },
 );
+
+watch(profileNameDraft, (draft) => {
+  if (draft !== props.profileName) {
+    profileSaveFeedbackVisible.value = false;
+    profileSaveFeedbackKey.value += 1;
+  }
+});
+
+onBeforeUnmount(() => {
+  if (profileSaveFeedbackTimeout) {
+    window.clearTimeout(profileSaveFeedbackTimeout);
+  }
+});
 </script>
 
 <template>
@@ -65,8 +93,17 @@ watch(
               type="text"
             />
           </label>
-          <button class="primary-action settings-save-action" type="submit">
-            {{ messages.settings.saveProfile }}
+          <button
+            class="primary-action settings-save-action"
+            :class="{ 'settings-save-action--saved': profileSaveFeedbackVisible }"
+            type="submit"
+            :aria-label="profileSaveFeedbackVisible ? messages.settings.profileSaved : messages.settings.saveProfile"
+            aria-live="polite"
+          >
+            <span :key="profileSaveFeedbackKey" class="settings-save-action__content">
+              <span v-if="profileSaveFeedbackVisible" aria-hidden="true">✓</span>
+              {{ profileSaveFeedbackVisible ? messages.settings.profileSaved : messages.settings.saveProfile }}
+            </span>
           </button>
         </form>
 

@@ -56,6 +56,7 @@ export type LocaleMessages = {
     profileFieldLabel: string;
     profileLabel: string;
     profilePlaceholder: string;
+    profileSaved: string;
     saveProfile: string;
     title: string;
   };
@@ -174,6 +175,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       profileFieldLabel: '稱呼',
       profileLabel: '想怎麼稱呼你',
       profilePlaceholder: '兔子',
+      profileSaved: '已儲存',
       saveProfile: '儲存稱呼',
       title: '設定',
     },
@@ -301,6 +303,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       profileFieldLabel: '称呼',
       profileLabel: '想怎么称呼你',
       profilePlaceholder: '兔子',
+      profileSaved: '已保存',
       saveProfile: '保存称呼',
       title: '设置',
     },
@@ -427,6 +430,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       profileFieldLabel: '呼び名',
       profileLabel: 'なんて呼べばいい？',
       profilePlaceholder: 'うさぎ',
+      profileSaved: '保存しました',
       saveProfile: '呼び名を保存',
       title: '設定',
     },
@@ -553,6 +557,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
       profileFieldLabel: 'Name',
       profileLabel: 'What should I call you?',
       profilePlaceholder: 'Bunny',
+      profileSaved: 'Saved',
       saveProfile: 'Save Name',
       title: 'Settings',
     },
