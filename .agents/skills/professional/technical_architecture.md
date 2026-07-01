@@ -30,6 +30,13 @@
 - **集中 route registry**：新增頁面入口時應優先更新集中 route registry，讓主頁入口、route 解析、placeholder 或正式 view 共用同一份定義。
 - **前導劇情不是主頁本體**：前導劇情可以作為初次進入流程，但不應承擔主頁、測驗、檔案、分享與歷史頁的所有狀態。
 
+## 前端多語系
+
+- **自製輕量 i18n**：目前多語系集中於 `src/app/i18n.ts`，不導入大型 i18n dependency。新增使用者可見文案時，優先放入 typed locale dictionary，再由元件透過 `messages` 或衍生資料使用。
+- **支援語系**：目前支援繁體中文、簡體中文、日文與英文；語系代碼為 `zh-Hant`、`zh-Hans`、`ja`、`en`。
+- **語系持久化**：使用者選擇語系後寫入 localStorage key `bdsm-boundary-test-locale`；若 localStorage 不可用，當前 session 仍應正常切換。
+- **路由與標題語系化**：route registry 只保存穩定 id、hash path 與狀態；label、summary 與「秘密檔案」標題片段由 locale dictionary 產生，不應在元件內硬編多語系文案。
+
 ## Firebase 與資料邊界
 
 - **後端服務**：後端使用 Firebase；主要只使用 Firestore 儲存使用者確定要分享的測驗結果。
