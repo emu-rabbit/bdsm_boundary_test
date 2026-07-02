@@ -774,8 +774,8 @@ input:focus-visible {
 }
 
 .illustration-scene[data-pose="thinking"] .rabbit-pose {
-  width: min(78%, 26rem);
-  translate: 1% 1%;
+  width: min(64%, 21.5rem);
+  translate: 0 4%;
 }
 
 .illustration-scene[data-pose="naming"] .rabbit-pose,
@@ -1923,12 +1923,16 @@ input:focus-visible {
   }
 
   .rabbit-pose,
-  .illustration-scene[data-pose="thinking"] .rabbit-pose,
   .illustration-scene[data-pose="naming"] .rabbit-pose,
   .illustration-scene[data-pose="folder"] .rabbit-pose {
     width: auto;
     max-width: min(43vw, 11.6rem);
     max-height: calc(100% - 0.25rem);
+  }
+
+  .illustration-scene[data-pose="thinking"] .rabbit-pose {
+    max-width: min(36vw, 9.8rem);
+    translate: 0 4%;
   }
 
   .dialogue-panel {
@@ -2252,10 +2256,13 @@ input:focus-visible {
   }
 
   .rabbit-pose,
-  .illustration-scene[data-pose="thinking"] .rabbit-pose,
   .illustration-scene[data-pose="naming"] .rabbit-pose,
   .illustration-scene[data-pose="folder"] .rabbit-pose {
     max-width: min(41vw, 10.4rem);
+  }
+
+  .illustration-scene[data-pose="thinking"] .rabbit-pose {
+    max-width: min(34vw, 8.8rem);
   }
 
   .dialogue-panel {
