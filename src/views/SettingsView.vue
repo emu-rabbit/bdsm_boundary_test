@@ -90,9 +90,9 @@ onBeforeUnmount(() => {
             <span>{{ messages.settings.profileLabel }}</span>
           </div>
           <label class="settings-name-field">
-            <span>{{ messages.settings.profileFieldLabel }}</span>
             <input
               v-model="profileNameDraft"
+              :aria-label="messages.settings.profileFieldLabel"
               :placeholder="messages.settings.profilePlaceholder"
               autocomplete="nickname"
               maxlength="32"
