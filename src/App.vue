@@ -56,7 +56,7 @@ function updateProfileName(name: string): void {
 </script>
 
 <template>
-  <main class="app-shell min-h-dvh overflow-hidden text-ink-900">
+  <main class="app-shell min-h-dvh text-ink-900">
     <StoryView
       v-if="currentRouteId === 'story'"
       :active-locale="locale"

@@ -53,7 +53,10 @@ body,
 }
 
 body {
-  overflow: hidden;
+  min-width: 320px;
+  background: var(--velvet-deep);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 button,
@@ -73,6 +76,7 @@ input:focus-visible {
 }
 
 .app-shell {
+  min-height: 100dvh;
   background:
     radial-gradient(circle at 18% 12%, rgba(143, 61, 82, 0.28), transparent 30%),
     linear-gradient(128deg, #10080d 0 34%, #2f1824 70%, #160c12 100%);
@@ -86,17 +90,18 @@ input:focus-visible {
   position: relative;
   isolate: isolate;
   min-height: 100dvh;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .story-route::before,
 .planned-route::before,
 .about-route::before,
 .settings-route::before {
-  position: absolute;
+  position: fixed;
   inset: -1.25rem;
   z-index: 0;
   content: "";
+  pointer-events: none;
   background:
     radial-gradient(circle at 50% 32%, rgba(143, 61, 82, 0.22), transparent 30%),
     radial-gradient(circle at 78% 22%, rgba(185, 144, 85, 0.08), transparent 28%),
@@ -114,10 +119,11 @@ input:focus-visible {
 }
 
 .home-route::before {
-  position: absolute;
+  position: fixed;
   inset: -1.25rem;
   z-index: 0;
   content: "";
+  pointer-events: none;
   background:
     linear-gradient(180deg, rgba(9, 5, 8, 0.14), rgba(9, 5, 8, 0.38)),
     url("./assets/backgrounds/secret-archive-desktop.webp") center / cover no-repeat,
@@ -140,7 +146,7 @@ input:focus-visible {
 .planned-route::after,
 .about-route::after,
 .settings-route::after {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
@@ -154,7 +160,7 @@ input:focus-visible {
 }
 
 .home-route::after {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
@@ -268,7 +274,7 @@ input:focus-visible {
   align-items: center;
   gap: clamp(1.2rem, 4.5vw, 4rem);
   width: min(1180px, calc(100vw - 2rem));
-  height: calc(100dvh - 4.75rem);
+  min-height: calc(100dvh - 4.75rem);
   margin: 0 auto;
   padding: 0.8rem 0 2.2rem;
 }
@@ -1074,7 +1080,7 @@ input:focus-visible {
 }
 
 .home-ambient {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 2;
   pointer-events: none;
@@ -1664,8 +1670,6 @@ input:focus-visible {
   .app-shell {
     min-height: 100svh;
     height: auto;
-    overflow-x: hidden;
-    overflow-y: visible;
   }
 
   body {
@@ -1678,8 +1682,7 @@ input:focus-visible {
     grid-template-rows: auto 1fr;
     min-height: 100svh;
     height: auto;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: visible;
   }
 
   .home-route,
@@ -1689,8 +1692,7 @@ input:focus-visible {
     min-height: 100svh;
     height: auto;
     align-content: start;
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow: visible;
   }
 
   .home-route {
@@ -2298,7 +2300,6 @@ input:focus-visible {
   .about-route,
   .settings-route {
     align-content: start;
-    overflow: auto;
   }
 
   .entrance-card {
