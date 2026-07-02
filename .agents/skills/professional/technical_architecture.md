@@ -29,6 +29,9 @@
 - **hash route 基準**：在沒有明確 host fallback 保證前，維持 hash route 作為可攜、低設定的 routing 基準；若未來 host 支援穩定 SPA fallback，再評估是否轉為 history route。
 - **集中 route registry**：新增頁面入口時應優先更新集中 route registry，讓主頁入口、route 解析、placeholder 或正式 view 共用同一份定義。
 - **前導劇情不是主頁本體**：前導劇情可以作為初次進入流程，但不應承擔主頁、測驗、檔案、分享與歷史頁的所有狀態。
+- **route shell 高度策略**：`body` 應是唯一的頁面級垂直捲動容器；`app-shell` 與各 route section 使用 `min-height` 撐滿 viewport，但不得用 `height: 100vh/100dvh` 或 route-level `overflow: hidden/auto` 把內容裁掉或製造第二層拉條。內容高度足夠時不得出現多餘頁面拉條；內容在極端短高 viewport 超出時，應由文件自然長高並可捲到底。
+- **背景層與內容層分離**：route 的背景、黑幕、ambient overlay、裝飾性偽元素應固定在 viewport 層或以不參與文件高度的方式呈現，並設定 `pointer-events: none`。背景層不得因負 inset、blur、scale、mask 或 absolute positioning 撐高文件，也不得在滾動到底部時露出與內容高度不同步的背景/黑幕斷層。
+- **CSS ownership**：route shell、viewport 高度、背景層、主要 responsive layout 與 overflow 策略目前集中在 `src/styles.css`；除非需要新的語意結構或可及性元素，修正高度、捲動、背景斷層、mobile/desktop layout 時應先檢查並調整共用 CSS 策略，而不是在單一 view template 內加局部 workaround。
 
 ## 前端多語系
 
@@ -67,6 +70,7 @@
 - **預熱策略要可見於程式**：圖片、插畫、字體、路由 chunk 或大型資料應透過明確的 preload、prefetch、lazy loading、cache warmup 或 staged loading 策略處理。
 - **核心流程優先**：預熱優先服務測驗流程、結果檢閱與分享頁的順暢感；非核心裝飾資源不得搶佔初始載入。
 - **可退化**：資源預熱、GA、Firestore 或網路請求失敗時，核心測驗與本地檢閱流程仍應有合理 fallback。
+- **viewport 驗證基準**：調整 route shell、背景、主要 layout 或 overflow 後，除了 build/typecheck，應至少用一般桌面、短高桌面、手機三類 viewport 驗證 `scrollHeight`/`clientHeight` 與視覺底部狀態；高度足夠的畫面不可有多餘拉條，短高畫面必須能捲到所有內容，背景與黑幕不可在滾動過程中斷層。
 
 ## 後續 Agent 行動
 
