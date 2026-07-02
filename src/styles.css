@@ -1469,6 +1469,29 @@ input:focus-visible {
 .settings-save-action--saved {
   border-color: rgba(219, 176, 118, 0.62);
   background: rgba(138, 78, 84, 0.94);
+}
+
+.settings-save-action--feedback {
+  animation: settings-save-pulse 720ms ease both;
+}
+
+.settings-save-action:disabled {
+  cursor: default;
+}
+
+.settings-save-action--saved:disabled {
+  border-color: rgba(236, 198, 187, 0.14);
+  background: rgba(70, 58, 64, 0.72);
+  color: rgba(246, 232, 223, 0.58);
+  animation: none;
+}
+
+.settings-save-action--saved:disabled:hover {
+  border-color: rgba(236, 198, 187, 0.14);
+  background: rgba(70, 58, 64, 0.72);
+}
+
+.settings-save-action--feedback:disabled {
   animation: settings-save-pulse 720ms ease both;
 }
 
@@ -1481,13 +1504,7 @@ input:focus-visible {
 }
 
 .settings-save-action__content span {
-  display: grid;
-  width: 1.12rem;
-  aspect-ratio: 1;
-  place-items: center;
-  border-radius: 999px;
-  background: rgba(185, 144, 85, 0.22);
-  color: #f7dba9;
+  color: currentColor;
   font-size: 0.78rem;
 }
 

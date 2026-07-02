@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import type { AppLocale, LocaleMessages, LocaleOption } from '../app/i18n';
 import type { AppRouteId } from '../app/routes';
 import { settingsRabbitUrl } from '../features/story/rabbitAssets';
@@ -23,7 +23,14 @@ const profileSaveFeedbackVisible = ref(false);
 const profileSaveFeedbackKey = ref(0);
 let profileSaveFeedbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
 
+const isProfileNameSaved = computed(() => profileNameDraft.value === props.profileName);
+const profileSaveButtonShowsSaved = computed(() => profileSaveFeedbackVisible.value || isProfileNameSaved.value);
+
 function saveProfileName(): void {
+  if (isProfileNameSaved.value) {
+    return;
+  }
+
   emit('update:profileName', profileNameDraft.value);
   profileSaveFeedbackVisible.value = true;
   profileSaveFeedbackKey.value += 1;
@@ -34,7 +41,6 @@ function saveProfileName(): void {
 
   profileSaveFeedbackTimeout = window.setTimeout(() => {
     profileSaveFeedbackVisible.value = false;
-    profileSaveFeedbackKey.value += 1;
     profileSaveFeedbackTimeout = null;
   }, 1800);
 }
@@ -95,14 +101,18 @@ onBeforeUnmount(() => {
           </label>
           <button
             class="primary-action settings-save-action"
-            :class="{ 'settings-save-action--saved': profileSaveFeedbackVisible }"
+            :class="{
+              'settings-save-action--saved': profileSaveButtonShowsSaved,
+              'settings-save-action--feedback': profileSaveFeedbackVisible,
+            }"
             type="submit"
-            :aria-label="profileSaveFeedbackVisible ? messages.settings.profileSaved : messages.settings.saveProfile"
+            :disabled="isProfileNameSaved"
+            :aria-label="profileSaveButtonShowsSaved ? messages.settings.profileSaved : messages.settings.saveProfile"
             aria-live="polite"
           >
             <span :key="profileSaveFeedbackKey" class="settings-save-action__content">
-              <span v-if="profileSaveFeedbackVisible" aria-hidden="true">✓</span>
-              {{ profileSaveFeedbackVisible ? messages.settings.profileSaved : messages.settings.saveProfile }}
+              <span v-if="profileSaveButtonShowsSaved" aria-hidden="true">✓</span>
+              {{ profileSaveButtonShowsSaved ? messages.settings.profileSaved : messages.settings.saveProfile }}
             </span>
           </button>
         </form>
