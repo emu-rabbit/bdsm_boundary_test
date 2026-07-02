@@ -124,7 +124,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: '白色兔子揮手，懷裡抱著秘密檔案筆記本。',
-      settingsRabbitAlt: '白色兔子抱著設定板，旁邊有小齒輪。',
+      settingsRabbitAlt: '白色兔子抱著設定板，齒輪圖案在設定板上。',
     },
     brand: {
       restartStoryAria: (title) => `${title}：重新開始前導劇情`,
@@ -252,7 +252,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: '白色兔子挥手，怀里抱着秘密档案笔记本。',
-      settingsRabbitAlt: '白色兔子抱着设置板，旁边有小齿轮。',
+      settingsRabbitAlt: '白色兔子抱着设置板，齿轮图案在设置板上。',
     },
     brand: {
       restartStoryAria: (title) => `${title}：重新开始前导剧情`,
@@ -379,7 +379,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: '白いうさぎが手を振り、秘密ファイルのノートを抱えている。',
-      settingsRabbitAlt: '白いうさぎが設定ボードを抱え、小さな歯車がそばにある。',
+      settingsRabbitAlt: '白いうさぎが設定ボードを抱え、歯車の図柄がボードに入っている。',
     },
     brand: {
       restartStoryAria: (title) => `${title}：導入をもう一度始める`,
@@ -506,7 +506,7 @@ export const messagesByLocale: Record<AppLocale, LocaleMessages> = {
     },
     assets: {
       homeRabbitAlt: 'A white bunny waving while holding a secret file notebook.',
-      settingsRabbitAlt: 'A white bunny holding a settings board with small gears nearby.',
+      settingsRabbitAlt: 'A white bunny holding a settings board with gear symbols on the board.',
     },
     brand: {
       restartStoryAria: (title) => `${title}: restart the intro story`,
