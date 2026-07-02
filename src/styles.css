@@ -1344,8 +1344,8 @@ input:focus-visible {
 }
 
 .settings-stage {
-  grid-template-columns: minmax(13rem, 20rem) minmax(20rem, 40rem);
-  width: min(960px, 100%);
+  grid-template-columns: minmax(15rem, 24rem) minmax(20rem, 40rem);
+  width: min(1040px, 100%);
 }
 
 .planned-rabbit {
@@ -1358,7 +1358,7 @@ input:focus-visible {
 }
 
 .settings-rabbit {
-  width: min(100%, 19rem);
+  width: min(100%, 26rem);
   height: auto;
   justify-self: center;
   filter:
