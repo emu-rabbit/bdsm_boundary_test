@@ -125,16 +125,16 @@ input:focus-visible {
   content: "";
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(9, 5, 8, 0.14), rgba(9, 5, 8, 0.38)),
+    linear-gradient(180deg, rgba(9, 5, 8, 0.08), rgba(9, 5, 8, 0.28)),
     url("./assets/backgrounds/secret-archive-desktop.webp") center / cover no-repeat,
     linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
-  filter: blur(7px) brightness(0.72) saturate(0.84);
+  filter: blur(7px) brightness(0.82) saturate(0.92);
   transform: scale(1.07);
 }
 
 .settings-route::before {
   background:
-    linear-gradient(180deg, rgba(9, 5, 8, 0.14), rgba(9, 5, 8, 0.38)),
+    linear-gradient(180deg, rgba(9, 5, 8, 0.08), rgba(9, 5, 8, 0.28)),
     url("./assets/backgrounds/secret-archive-desktop.webp") center / cover no-repeat,
     linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
   opacity: 1;
@@ -166,20 +166,20 @@ input:focus-visible {
   pointer-events: none;
   content: "";
   background:
-    radial-gradient(circle at 52% 35%, rgba(7, 4, 6, 0.58), transparent 25%),
+    radial-gradient(circle at 52% 35%, rgba(7, 4, 6, 0.44), transparent 25%),
     radial-gradient(circle at 74% 30%, rgba(185, 144, 85, 0.04), transparent 28%),
     radial-gradient(circle at 18% 76%, rgba(143, 61, 82, 0.08), transparent 34%),
-    linear-gradient(90deg, rgba(7, 4, 6, 0.42), rgba(7, 4, 6, 0.18) 46%, rgba(7, 4, 6, 0.48)),
-    rgba(8, 4, 7, 0.42);
+    linear-gradient(90deg, rgba(7, 4, 6, 0.28), rgba(7, 4, 6, 0.1) 46%, rgba(7, 4, 6, 0.32)),
+    rgba(8, 4, 7, 0.28);
 }
 
 .settings-route::after {
   background:
-    radial-gradient(circle at 52% 35%, rgba(7, 4, 6, 0.58), transparent 25%),
+    radial-gradient(circle at 52% 35%, rgba(7, 4, 6, 0.44), transparent 25%),
     radial-gradient(circle at 74% 30%, rgba(185, 144, 85, 0.04), transparent 28%),
     radial-gradient(circle at 18% 76%, rgba(143, 61, 82, 0.08), transparent 34%),
-    linear-gradient(90deg, rgba(7, 4, 6, 0.42), rgba(7, 4, 6, 0.18) 46%, rgba(7, 4, 6, 0.48)),
-    rgba(8, 4, 7, 0.42);
+    linear-gradient(90deg, rgba(7, 4, 6, 0.28), rgba(7, 4, 6, 0.1) 46%, rgba(7, 4, 6, 0.32)),
+    rgba(8, 4, 7, 0.28);
 }
 
 .story-route[data-tone="mirror"]::after {
@@ -1584,10 +1584,10 @@ input:focus-visible {
     height: min(68svh, 38rem);
     min-height: 29rem;
     background:
-      linear-gradient(180deg, rgba(9, 5, 8, 0.06), rgba(9, 5, 8, 0.24) 48%, rgba(9, 5, 8, 0.72) 100%),
+      linear-gradient(180deg, rgba(9, 5, 8, 0.04), rgba(9, 5, 8, 0.18) 48%, rgba(9, 5, 8, 0.56) 100%),
       url("./assets/backgrounds/secret-archive-mobile.webp") center bottom / cover no-repeat,
       linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
-    filter: blur(2.4px) brightness(0.9) saturate(0.96);
+    filter: blur(2.4px) brightness(1) saturate(1.02);
     transform: scale(1.025);
     animation: home-mobile-background-rise 780ms ease-out both;
   }
@@ -1601,11 +1601,11 @@ input:focus-visible {
     height: min(68svh, 38rem);
     min-height: 29rem;
     background:
-      linear-gradient(180deg, rgba(9, 5, 8, 0.06), rgba(9, 5, 8, 0.24) 48%, rgba(9, 5, 8, 0.72) 100%),
+      linear-gradient(180deg, rgba(9, 5, 8, 0.04), rgba(9, 5, 8, 0.18) 48%, rgba(9, 5, 8, 0.56) 100%),
       url("./assets/backgrounds/secret-archive-mobile.webp") center bottom / cover no-repeat,
       linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
     opacity: 1;
-    filter: blur(2.4px) brightness(0.9) saturate(0.96);
+    filter: blur(2.4px) brightness(1) saturate(1.02);
     transform: scale(1.025);
   }
 
@@ -1625,19 +1625,19 @@ input:focus-visible {
   .home-route::after {
     position: fixed;
     background:
-      radial-gradient(circle at 50% 31%, rgba(7, 4, 6, 0.42), transparent 24%),
+      radial-gradient(circle at 50% 31%, rgba(7, 4, 6, 0.32), transparent 24%),
       radial-gradient(circle at 62% 15%, rgba(185, 144, 85, 0.07), transparent 24%),
-      linear-gradient(180deg, rgba(7, 4, 6, 0.12) 0 34%, rgba(7, 4, 6, 0.5) 58%, rgba(7, 4, 6, 0.88) 82%, rgba(7, 4, 6, 0.96) 100%),
-      linear-gradient(90deg, rgba(7, 4, 6, 0.36), rgba(7, 4, 6, 0.12) 50%, rgba(7, 4, 6, 0.38));
+      linear-gradient(180deg, rgba(7, 4, 6, 0.08) 0 34%, rgba(7, 4, 6, 0.36) 58%, rgba(7, 4, 6, 0.72) 82%, rgba(7, 4, 6, 0.82) 100%),
+      linear-gradient(90deg, rgba(7, 4, 6, 0.24), rgba(7, 4, 6, 0.08) 50%, rgba(7, 4, 6, 0.26));
   }
 
   .settings-route::after {
     position: fixed;
     background:
-      radial-gradient(circle at 50% 31%, rgba(7, 4, 6, 0.42), transparent 24%),
+      radial-gradient(circle at 50% 31%, rgba(7, 4, 6, 0.32), transparent 24%),
       radial-gradient(circle at 62% 15%, rgba(185, 144, 85, 0.07), transparent 24%),
-      linear-gradient(180deg, rgba(7, 4, 6, 0.12) 0 34%, rgba(7, 4, 6, 0.5) 58%, rgba(7, 4, 6, 0.88) 82%, rgba(7, 4, 6, 0.96) 100%),
-      linear-gradient(90deg, rgba(7, 4, 6, 0.36), rgba(7, 4, 6, 0.12) 50%, rgba(7, 4, 6, 0.38));
+      linear-gradient(180deg, rgba(7, 4, 6, 0.08) 0 34%, rgba(7, 4, 6, 0.36) 58%, rgba(7, 4, 6, 0.72) 82%, rgba(7, 4, 6, 0.82) 100%),
+      linear-gradient(90deg, rgba(7, 4, 6, 0.24), rgba(7, 4, 6, 0.08) 50%, rgba(7, 4, 6, 0.26));
   }
 
   .story-route[data-tone="mirror"]::after {
