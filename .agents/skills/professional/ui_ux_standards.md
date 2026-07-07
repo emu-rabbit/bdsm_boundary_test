@@ -27,6 +27,7 @@
 ### 視覺設計
 
 - **建立一致系統**：色彩、字體、間距、邊框、陰影、圖案與動效都應有一致規則。
+- **CSS 分層一致性**：自訂 CSS 以 `src/styles/` 為維護入口；新增或調整樣式時，依責任放入 foundation、route-shell、story-stage、story-dialogue、home-page、secondary-pages 或 responsive，而不是回到單一巨型 stylesheet。`responsive.css` 是最後 cascade 層，mobile/desktop override 應集中在此檔或與此檔同等順序的位置。
 - **暗色調一致性**：本專案視覺應維持 BDSM 的神秘感與教育工具的溫和包容氛圍；UI 背景、前景面板、按鈕、輸入框與裝飾要素應一律往暗色調設計，避免深色背景搭配大面積亮色前景造成氛圍斷裂。
 - **自刻 UI**：本專案 UI 應自己刻，不使用現成 Vue UI/UX library 或模板化 component kit；若使用無樣式 helper，仍必須保留本專案自己的視覺語言。
 - **可讀性不可犧牲**：文字對比、行高、段落寬度、按鈕大小與 focus 狀態必須可讀可用。
@@ -40,6 +41,7 @@
 - **單一頁面捲動責任**：一般 route 不應各自建立第二層垂直捲動容器。預設由 `body` 承擔頁面級捲動；route section 與 app shell 以 `min-height` 填滿 viewport，內容不足時不出現拉條，內容在極端短高 viewport 超出時自然撐開文件並可捲到底。
 - **避免高度裁切捷徑**：不要用外層 `overflow: hidden`、固定 `height: 100vh/100dvh`、或只針對單一頁面的 `max-height` workaround 來掩蓋 overflow。若某頁需要內部捲動，必須有明確的互動理由，例如面板內長文區，且不能讓主要操作被裁切或形成互相競爭的雙重拉條。
 - **背景與黑幕不參與內容高度**：背景圖、黑幕、ambient overlay 與裝飾性偽元素必須與內容層分離，避免因 absolute layer、負 inset、blur、scale 或 mask 造成假高度、底部露白、黑幕斷層或高度足夠卻出現拉條。這類層通常應固定於 viewport、不可接收 pointer event，並由內容層自己的 `min-height` 決定頁面高度。
+- **避免 cascade 補丁化**：若一個視覺變更需要同時改多處 selector、提高 specificity、或靠動畫結束狀態覆蓋 base style，先停下來檢查 owner 檔案與 import order。應把 base style、狀態 style、responsive override 分別放在可預期的位置，讓單一元素的維護面積保持小而可讀。
 - **穩定尺寸**：固定格式元素需有明確 `aspect-ratio`、min/max、grid track 或其他約束，避免 hover、載入或文字長度造成 layout shift。
 - **文字不可溢出**：任何 viewport 中，標題、按鈕、卡片與標籤文字都不可互相重疊或超出容器。
 - **個人化大標題防線**：「{暱稱}的祕密檔案」這類含使用者輸入的大標題，應以共用元件拆成暱稱、語系連接詞與固定產品名片段；名稱長度應以視覺寬度量測並用於決定縮字密度，不使用單純字數一刀切，也不可靜默裁切使用者名稱。畫面呈現優先使用雙行 title，讓暱稱留在大標中、連接詞字級較小、固定產品名不可拆字；在關鍵螢幕寬度可能換行時，依內容長度縮小字體，而不是放任瀏覽器產生不舒適斷句。
@@ -63,6 +65,7 @@
 ### 檢查分工
 
 - **Agent 負責機械風險**：Agent 應檢查 build、資產路徑、DOM/CSS 結構、圖片尺寸屬性、lazy/fetch priority、可及性屬性與明顯 overflow/CLS 風險。
+- **CSS 重構驗證**：若目標是不改變畫面或行為的 CSS 重構，應優先比對 production CSS bundle、資產 URL、UTF-8 without BOM、主要 viewport computed metrics 與 browser surface。若 bundle hash 或 computed metrics 變化，需能說明是刻意變更，否則應修正到一致。
 - **overflow 實測責任**：修改 route shell、背景、主要 layout 或 responsive CSS 後，應用瀏覽器或等價工具實測一般桌面、極端短高桌面與手機 viewport。檢查重點包含：高度足夠時沒有頁面拉條；高度不足時可以捲到下方內容；背景、黑幕與 ambient overlay 在頂部與底部都沒有高度落差；不存在 route 內外雙重垂直拉條。
 - **視覺檢查依任務決定**：若使用者要求視覺驗證，使用可用瀏覽器或截圖工具檢查；若工具受限，清楚回報限制並交付可預覽狀態。
 - **依回饋修正**：使用者提供截圖或文字回饋後，Agent 應以該回饋為準修正實際頁面。

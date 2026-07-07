@@ -31,7 +31,8 @@
 - **前導劇情不是主頁本體**：前導劇情可以作為初次進入流程，但不應承擔主頁、測驗、檔案、分享與歷史頁的所有狀態。
 - **route shell 高度策略**：`body` 應是唯一的頁面級垂直捲動容器；`app-shell` 與各 route section 使用 `min-height` 撐滿 viewport，但不得用 `height: 100vh/100dvh` 或 route-level `overflow: hidden/auto` 把內容裁掉或製造第二層拉條。內容高度足夠時不得出現多餘頁面拉條；內容在極端短高 viewport 超出時，應由文件自然長高並可捲到底。
 - **背景層與內容層分離**：route 的背景、黑幕、ambient overlay、裝飾性偽元素應固定在 viewport 層或以不參與文件高度的方式呈現，並設定 `pointer-events: none`。背景層不得因負 inset、blur、scale、mask 或 absolute positioning 撐高文件，也不得在滾動到底部時露出與內容高度不同步的背景/黑幕斷層。
-- **CSS ownership**：route shell、viewport 高度、背景層、主要 responsive layout 與 overflow 策略目前集中在 `src/styles.css`；除非需要新的語意結構或可及性元素，修正高度、捲動、背景斷層、mobile/desktop layout 時應先檢查並調整共用 CSS 策略，而不是在單一 view template 內加局部 workaround。
+- **CSS ownership**：`src/styles.css` 只保留 Tailwind 入口；專案自訂 CSS 由 `src/main.ts` 在 Tailwind 後依序匯入 `src/styles/foundation.css`、`route-shell.css`、`story-stage.css`、`story-dialogue.css`、`home-page.css`、`secondary-pages.css`、`responsive.css`。此順序是 cascade contract：foundation 放 token/reset，route-shell 放 app shell、route 背景、viewport/overflow 策略，story-* 放前導劇情場景與對話，home/secondary pages 放各頁 base styles，responsive 必須最後匯入以承接 mobile/desktop overrides。
+- **CSS 擴充規則**：新增頁面時，先判斷是否屬於既有 page family；小型頁面可放入 `secondary-pages.css`，大型或獨立功能頁應新增命名清楚的 CSS 檔並在 `responsive.css` 之前匯入。除非需要新的語意結構或可及性元素，修正高度、捲動、背景斷層、mobile/desktop layout 時應先檢查 `route-shell.css` 與 `responsive.css` 的共用策略，而不是在單一 view template 內加局部 workaround。不得用提高 specificity、重複 selector 或動畫 override 來掩蓋 ownership 不清；應把規則移到正確 owner 檔案。
 
 ## 前端多語系
 
@@ -66,6 +67,7 @@
 ## UI 與資產效能
 
 - **自刻但不凌亂**：自刻 UI 不代表每個頁面都各寫各的；應建立可重用的基礎 component、style token、spacing、typography、focus state 與 responsive pattern。
+- **CSS token 與 pattern 優先**：跨頁共用的色彩、字體、焦點、按鈕、route shell、背景層與 responsive pattern 應優先沉澱到 `src/styles/` 的對應 owner 檔案，不把同一視覺規則複製到多個 view。若需要調整單一視覺元素，先確認該元素的 owner 檔案與 mobile override，不在多處同步改十幾行。
 - **避免模板感**：不得直接套用大型 Vue UI kit、dashboard template 或 landing page template。若使用 headless utility 或小型無樣式 helper，必須確認它不主導視覺語言。
 - **預熱策略要可見於程式**：圖片、插畫、字體、路由 chunk 或大型資料應透過明確的 preload、prefetch、lazy loading、cache warmup 或 staged loading 策略處理。
 - **核心流程優先**：預熱優先服務測驗流程、結果檢閱與分享頁的順暢感；非核心裝飾資源不得搶佔初始載入。
