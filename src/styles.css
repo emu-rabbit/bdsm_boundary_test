@@ -128,7 +128,7 @@ input:focus-visible {
     linear-gradient(180deg, rgba(9, 5, 8, 0.08), rgba(9, 5, 8, 0.28)),
     url("./assets/backgrounds/secret-archive-desktop.webp") center / cover no-repeat,
     linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
-  filter: blur(7px) brightness(0.82) saturate(0.92);
+  filter: blur(1.2px) brightness(0.82) saturate(0.92);
   transform: scale(1.07);
 }
 
@@ -1266,7 +1266,7 @@ input:focus-visible {
 
   to {
     opacity: 1;
-    filter: blur(1.2px) brightness(1.24) saturate(1.08);
+    filter: blur(1.6px) brightness(1.24) saturate(1.08);
     transform: scale(1.008);
   }
 }
@@ -1294,7 +1294,7 @@ input:focus-visible {
 
   to {
     opacity: 1;
-    filter: blur(2.4px) brightness(0.9) saturate(0.96);
+    filter: blur(0.8px) brightness(0.9) saturate(0.96);
     transform: scale(1.025);
   }
 }
@@ -1587,7 +1587,7 @@ input:focus-visible {
       linear-gradient(180deg, rgba(9, 5, 8, 0.04), rgba(9, 5, 8, 0.18) 48%, rgba(9, 5, 8, 0.56) 100%),
       url("./assets/backgrounds/secret-archive-mobile.webp") center bottom / cover no-repeat,
       linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
-    filter: blur(2.4px) brightness(1) saturate(1.02);
+    filter: blur(1.2px) brightness(1) saturate(1.02);
     transform: scale(1.025);
     animation: home-mobile-background-rise 780ms ease-out both;
   }
@@ -1605,7 +1605,7 @@ input:focus-visible {
       url("./assets/backgrounds/secret-archive-mobile.webp") center bottom / cover no-repeat,
       linear-gradient(122deg, #11080e 0 42%, #331925 72%, #160c12 100%);
     opacity: 1;
-    filter: blur(2.4px) brightness(1) saturate(1.02);
+    filter: blur(1.2px) brightness(1) saturate(1.02);
     transform: scale(1.025);
   }
 
