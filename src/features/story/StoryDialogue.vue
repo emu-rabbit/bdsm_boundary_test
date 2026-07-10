@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { AppLocale, LocaleMessages, LocaleOption } from '../../app/i18n';
+import { profileNameMaxLength } from '../../app/useProfileNameStorage';
 import type { SecretFileTitleParts } from '../../app/useSecretFileTitle';
 import SecretFileTitle from '../../components/SecretFileTitle.vue';
 import type { StepId, StoryStep } from './storySteps';
 
 const props = defineProps<{
   activeLocale: AppLocale;
-  localeOptions: LocaleOption[];
+  localeOptions: readonly LocaleOption[];
   profileName: string;
   step: StoryStep;
   messages: LocaleMessages;
@@ -95,6 +96,7 @@ function chooseLocale(locale: AppLocale): void {
           <input
             v-model="nameInput"
             autocomplete="nickname"
+            :maxlength="profileNameMaxLength"
             :placeholder="messages.title.defaultProfileName"
             type="text"
           />

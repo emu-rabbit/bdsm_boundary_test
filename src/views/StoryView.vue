@@ -1,31 +1,26 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import type { AppLocale, LocaleMessages, LocaleOption } from '../app/i18n';
-import type { SecretFileTitleParts } from '../app/useSecretFileTitle';
+import { useAppShell } from '../app/useAppShell';
 import BrandMark from '../components/BrandMark.vue';
 import RabbitScene from '../components/RabbitScene.vue';
 import { rabbitPoseUrls, warmStoryAssets } from '../features/story/rabbitAssets';
 import StoryDialogue from '../features/story/StoryDialogue.vue';
 import { getStoryStepIndex, getStorySteps, type StepId } from '../features/story/storySteps';
 
-const props = defineProps<{
-  activeLocale: AppLocale;
-  appTitle: string;
-  localeOptions: LocaleOption[];
-  messages: LocaleMessages;
-  profileName: string;
-  titleParts: SecretFileTitleParts;
-}>();
-
-const emit = defineEmits<{
-  complete: [];
-  restart: [];
-  'update:locale': [locale: AppLocale];
-  'update:profileName': [name: string];
-}>();
+const {
+  appTitle,
+  completeStory,
+  locale,
+  localeOptions,
+  messages,
+  navigate,
+  profileName,
+  setLocale,
+  titleParts,
+} = useAppShell();
 
 const stepId = ref<StepId>('language');
-const storySteps = computed(() => getStorySteps(props.messages));
+const storySteps = computed(() => getStorySteps(messages.value));
 const storyStepIndex = computed(() => getStoryStepIndex(storySteps.value));
 const activeStep = computed(() => storySteps.value[storyStepIndex.value.get(stepId.value) ?? 0]);
 const activeRabbitUrl = computed(() => rabbitPoseUrls[activeStep.value.pose]);
@@ -42,7 +37,11 @@ function continueFromMessage(): void {
 
 function resetStory(): void {
   stepId.value = 'language';
-  emit('restart');
+  navigate('story');
+}
+
+function updateProfileNameDraft(name: string): void {
+  profileName.value = name;
 }
 
 onMounted(() => {
@@ -67,17 +66,17 @@ onMounted(() => {
       />
 
       <StoryDialogue
-        :active-locale="activeLocale"
+        :active-locale="locale"
         :locale-options="localeOptions"
         :messages="messages"
         :profile-name="profileName"
         :step="activeStep"
         :title-parts="titleParts"
-        @complete="emit('complete')"
+        @complete="completeStory"
         @continue="continueFromMessage"
         @go-to-step="goToStep"
-        @update:locale="emit('update:locale', $event)"
-        @update:profile-name="emit('update:profileName', $event)"
+        @update:locale="setLocale"
+        @update:profile-name="updateProfileNameDraft"
       />
     </div>
   </section>

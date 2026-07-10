@@ -15,7 +15,7 @@
 ## 核心技術方向
 
 - **純網頁專案**：本專案是純 web app，不預設 native app、Electron、後端 server 或 CMS。
-- **前端技術棧**：使用 Vite、Vue、TypeScript 與 Tailwind 建構。
+- **前端技術棧**：使用 Vite、Vue、TypeScript、Tailwind 與 Vue Router 建構。
 - **部署可攜性**：目前部署到 GitHub Pages，但架構不得綁死在 GitHub Pages 或 `/bdsm_boundary_test/` 專案路徑。未來可能改部署到其他免費靜態網頁 host，並使用獨立 domain；base path、routing fallback 與靜態資源路徑都應可透過設定調整。
 - **路由可擴充**：目前只有前導劇情與主頁，但主頁未來會承載四個以上獨立頁面入口。前端 routing、view 結構與入口 registry 應支援逐步新增頁面，不應把 mode、route、故事步驟與主頁內容混在單一元件中。
 - **自刻 UI**：UI 應以本專案自己的 component、layout、style token 與互動語言實作，不使用現成 Vue UI/UX library，避免模板感與產品語氣偏移。
@@ -26,8 +26,9 @@
 
 - **現況**：GitHub Actions 會建置並部署到 GitHub Pages，GitHub Pages 需要 `404.html` fallback 支援直接重新整理或未知路徑回到 SPA。
 - **未來 host**：若改到其他靜態 host 或獨立 domain，應優先透過 `VITE_BASE_PATH`、host fallback 設定或小型 deploy script 調整，不為單一 host 在核心 UI 元件內硬編 URL。
-- **hash route 基準**：在沒有明確 host fallback 保證前，維持 hash route 作為可攜、低設定的 routing 基準；若未來 host 支援穩定 SPA fallback，再評估是否轉為 history route。
-- **集中 route registry**：新增頁面入口時應優先更新集中 route registry，讓主頁入口、route 解析、placeholder 或正式 view 共用同一份定義。
+- **Vue Router hash route 基準**：`src/app/router.ts` 使用 `createWebHashHistory(import.meta.env.BASE_URL)`，在沒有明確 host fallback 保證前維持 hash history，保留 GitHub Pages、其他靜態 host 與 base path 可攜性；若未來 host 支援穩定 SPA fallback，再評估是否轉為 history route。
+- **集中 route registry**：`src/app/routes.ts` 是 route id、path、狀態與 lazy route component 的單一 registry。新增頁面入口時應先更新這份 registry，讓主頁入口、route 解析、placeholder 或正式 view 共用同一份定義；不得重新在 `App.vue` 建立 route `v-if` switch。
+- **route view lazy loading**：正式 route view 由 Vue Router 透過 dynamic import 載入。`App.vue` 只保留 app-shell 層級的稱呼、多語系、標題與 navigation context，再由 `<RouterView>` 渲染頁面；不得把所有 view 改回 eager import。
 - **前導劇情不是主頁本體**：前導劇情可以作為初次進入流程，但不應承擔主頁、測驗、檔案、分享與歷史頁的所有狀態。
 - **route shell 高度策略**：`body` 應是唯一的頁面級垂直捲動容器；`app-shell` 與各 route section 使用 `min-height` 撐滿 viewport，但不得用 `height: 100vh/100dvh` 或 route-level `overflow: hidden/auto` 把內容裁掉或製造第二層拉條。內容高度足夠時不得出現多餘頁面拉條；內容在極端短高 viewport 超出時，應由文件自然長高並可捲到底。
 - **背景層與內容層分離**：route 的背景、黑幕、ambient overlay、裝飾性偽元素應固定在 viewport 層或以不參與文件高度的方式呈現，並設定 `pointer-events: none`。背景層不得因負 inset、blur、scale、mask 或 absolute positioning 撐高文件，也不得在滾動到底部時露出與內容高度不同步的背景/黑幕斷層。
@@ -36,7 +37,8 @@
 
 ## 前端多語系
 
-- **自製輕量 i18n**：目前多語系集中於 `src/app/i18n.ts`，不導入大型 i18n dependency。新增使用者可見文案時，優先放入 typed locale dictionary，再由元件透過 `messages` 或衍生資料使用。
+- **自製輕量 i18n**：`src/app/i18n.ts` 只保留相容 barrel；runtime、types 與四語 dictionary 分別位於 `src/app/i18n/index.ts`、`types.ts` 與 `locales/*`，不導入大型 i18n dependency。新增一般使用者可見文案時，放入 typed locale dictionary，再由元件透過 `messages` 或衍生資料使用。
+- **題庫語系資料分離**：未來題庫翻譯不得併入 app-shell locale dictionary。題庫繁中來源與各語系資料應維持獨立 feature/data boundary，並依實際 bundle 與載入需求設計 locale chunk；本次重構尚未建立題庫資料或 loader。
 - **支援語系**：目前支援繁體中文、簡體中文、日文與英文；語系代碼為 `zh-Hant`、`zh-Hans`、`ja`、`en`。
 - **語系持久化**：使用者選擇語系後寫入 localStorage key `bdsm-boundary-test-locale`；若 localStorage 不可用，當前 session 仍應正常切換。
 - **路由與標題語系化**：route registry 只保存穩定 id、hash path 與狀態；label、summary 與「秘密檔案」標題片段由 locale dictionary 產生，不應在元件內硬編多語系文案。
@@ -73,7 +75,7 @@
 
 - **自刻但不凌亂**：自刻 UI 不代表每個頁面都各寫各的；應建立可重用的基礎 component、style token、spacing、typography、focus state 與 responsive pattern。
 - **CSS token 與 pattern 優先**：跨頁共用的色彩、字體、焦點、按鈕、route shell、背景層與 responsive pattern 應優先沉澱到 `src/styles/` 的對應 owner 檔案，不把同一視覺規則複製到多個 view。若需要調整單一視覺元素，先確認該元素的 owner 檔案與 mobile override，不在多處同步改十幾行。
-- **字型資源可退化**：`src/styles/foundation.css` 維護全站字型 token 與語系 font stack。`jf-openhuninn` 是本地預設字型，主要服務繁體中文與英文；簡體中文與日文依 `html lang` 切換到 Noto Sans SC / JP 與 Source Han Sans SC / JP 優先的開源 CJK stack。若遠端字型載入失敗，必須保留系統 CJK fallback，不可讓核心流程因字型資源失敗而不可讀。
+- **字型資源可退化且保留完整字元覆蓋**：`src/styles/foundation.css` 維護全站字型 token 與語系 font stack。`jf-openhuninn` 是本地預設字型，主要服務繁體中文、英文與使用者自行輸入的稱呼或文字；不得用固定文案清單做 glyph subset，避免使用者輸入未收錄字元時產生不一致 fallback。簡體中文與日文依 `html lang` 切換到 Noto Sans SC / JP 與 Source Han Sans SC / JP 優先的開源 CJK stack；若遠端字型載入失敗，必須保留系統 CJK fallback，不可讓核心流程因字型資源失敗而不可讀。
 - **避免模板感**：不得直接套用大型 Vue UI kit、dashboard template 或 landing page template。若使用 headless utility 或小型無樣式 helper，必須確認它不主導視覺語言。
 - **預熱策略要可見於程式**：圖片、插畫、字體、路由 chunk 或大型資料應透過明確的 preload、prefetch、lazy loading、cache warmup 或 staged loading 策略處理。
 - **核心流程優先**：預熱優先服務測驗流程、結果檢閱與分享頁的順暢感；非核心裝飾資源不得搶佔初始載入。
@@ -81,6 +83,14 @@
 - **viewport 驗證基準**：調整 route shell、背景、主要 layout 或 overflow 後，除了 build/typecheck，應至少用一般桌面、短高桌面、手機三類 viewport 驗證 `scrollHeight`/`clientHeight` 與視覺底部狀態；高度足夠的畫面不可有多餘拉條，短高畫面必須能捲到所有內容，背景與黑幕不可在滾動過程中斷層。
 
 ## 後續 Agent 行動
+
+### 核心系統實作前待辦
+
+- **state 邊界**：核心系統開始實作時，先建立不依賴 Vue 的 domain rules，再以 Pinia 協調跨頁 active session 與 UI state；目前尚未安裝或建立 Pinia store，不應為現有少量 app-shell state 提前加入空 store。
+- **runtime schema**：在接受複製 JSON、舊版 localStorage 或 Firestore 資料前，導入小型 runtime schema validation dependency；本次重構不建立 schema，實際套件與 schema 應和核心資料模型一起確認。
+- **localStorage 上限**：核心檔案系統實作前，必須先確認明確的檔案數或容量上限；達到上限時不允許再建立檔案。實際門檻尚待核心系統工作開始前確認，不得在此之前自行猜定數字。
+- **測試基線**：核心 domain、migration 或 persistence 開始實作前，加入 Vitest 與 CI test step，優先覆蓋回答狀態、scope、進度、migration、validation 與 storage failure；本次只列入待辦，不安裝測試套件。
+- **實作順序**：核心系統第一階段只處理題庫、domain、本地保存、結果閱覽與匯入匯出；Firestore sharing 維持第二階段，第一階段只保留可替換的 cloud boundary，不建立實際 Firebase 分享流程。
 
 1. 進行技術或資料相關工作前，先檢查本文件是否與現有程式碼、Firebase 設定、README 或其他 architecture 文件一致。
 2. 若新增正式資料 schema、Firestore rules、GA event taxonomy、題庫 importer 或 asset preload policy，優先更新本文件、`.agents/specs/question_bank_and_secret_file_system.md` 或未來正式 architecture/privacy 文件。

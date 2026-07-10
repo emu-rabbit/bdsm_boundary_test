@@ -2,7 +2,7 @@
 
 `bdsm_boundary_test` 是「XX的祕密檔案」的前端專案。產品定位是協助使用者整理 BDSM（愉虐）互動項目的興趣、經驗與界線，並以知情同意為核心支援溝通。
 
-目前第一版落地內容是一個 Vite、Vue、TypeScript、Tailwind 的初始 app、前導劇情、可逐步擴充多個功能入口的主頁，以及「關於這隻兔子」頁面。
+目前第一版落地內容是一個 Vite、Vue、TypeScript、Tailwind、Vue Router 的初始 app、前導劇情、可逐步擴充多個功能入口的主頁，以及「關於這隻兔子」頁面。
 
 使用者在前導劇情填入的稱呼會儲存在瀏覽器 `localStorage` 的 `bdsm-boundary-test-profile-name`。根路徑載入時，若已有本機稱呼，會直接進入主頁並套用「{稱呼}的祕密檔案」；若沒有本機稱呼，才播放前導劇情。使用者也可以從「關於這隻兔子」重播前導劇情並重新命名。
 
@@ -31,7 +31,7 @@ npm run build
 
 GitHub Pages build 使用 `npm run build:pages`，讓 Vite 依 `vite.config.ts` 使用 `/bdsm_boundary_test/` 作為靜態資源路徑，並複製 `dist/index.html` 為 `dist/404.html` 作為 Pages fallback。
 
-前端頁面切換使用集中 route registry 與 hash route，例如 `/bdsm_boundary_test/#/home`。不要在 Pages 環境用 `history.pushState` 導向 `/home` 這類實體子路徑，因為 GitHub Pages 會把它視為不存在的檔案。
+前端頁面切換使用 `src/app/routes.ts` 的集中 route registry，以及 `src/app/router.ts` 建立的 Vue Router hash history，例如 `/bdsm_boundary_test/#/home`。Route view 會依頁面 lazy-load；不要在 Pages 環境改用實體 `/home` 子路徑，因為 GitHub Pages 會把它視為不存在的檔案。
 
 未來若改部署到其他免費靜態 host 或獨立 domain，應優先調整 `VITE_BASE_PATH`、host fallback 或部署 script，不要把 URL 規則硬寫進 view component。
 

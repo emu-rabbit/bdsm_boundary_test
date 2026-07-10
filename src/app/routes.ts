@@ -1,21 +1,27 @@
+import type { Component } from 'vue';
+import type { RouteRecordRaw } from 'vue-router';
 import type { LocaleMessages } from './i18n';
 
-export type AppRouteId =
-  | 'story'
-  | 'home'
-  | 'create'
-  | 'files'
-  | 'timeMachine'
-  | 'about'
-  | 'settings';
+export const appRouteIds = [
+  'story',
+  'home',
+  'create',
+  'files',
+  'timeMachine',
+  'about',
+  'settings',
+] as const;
+
+export type AppRouteId = (typeof appRouteIds)[number];
 
 export interface AppRouteDefinition {
   id: AppRouteId;
-  hashPath: string;
+  path: string;
   state: 'ready' | 'planned';
+  component: () => Promise<{ default: Component }>;
 }
 
-export type LocalizedAppRouteDefinition = AppRouteDefinition & {
+export type LocalizedAppRouteDefinition = Pick<AppRouteDefinition, 'id' | 'path' | 'state'> & {
   label: string;
   summary: string;
 };
@@ -23,93 +29,79 @@ export type LocalizedAppRouteDefinition = AppRouteDefinition & {
 export const defaultRouteId: AppRouteId = 'story';
 export const fallbackRouteId: AppRouteId = 'home';
 
-export const appRoutes: AppRouteDefinition[] = [
+export const appRoutes = [
   {
     id: 'story',
-    hashPath: '/',
+    path: '/',
     state: 'ready',
+    component: () => import('../views/StoryView.vue'),
   },
   {
     id: 'home',
-    hashPath: '/home',
+    path: '/home',
     state: 'ready',
+    component: () => import('../views/HomeView.vue'),
   },
   {
     id: 'create',
-    hashPath: '/create',
+    path: '/create',
     state: 'planned',
+    component: () => import('../views/PlannedRouteView.vue'),
   },
   {
     id: 'files',
-    hashPath: '/files',
+    path: '/files',
     state: 'planned',
+    component: () => import('../views/PlannedRouteView.vue'),
   },
   {
     id: 'timeMachine',
-    hashPath: '/time-machine',
+    path: '/time-machine',
     state: 'planned',
+    component: () => import('../views/PlannedRouteView.vue'),
   },
   {
     id: 'about',
-    hashPath: '/about',
+    path: '/about',
     state: 'ready',
+    component: () => import('../views/AboutView.vue'),
   },
   {
     id: 'settings',
-    hashPath: '/settings',
+    path: '/settings',
     state: 'ready',
+    component: () => import('../views/SettingsView.vue'),
   },
-];
+] as const satisfies readonly AppRouteDefinition[];
 
-export const appRouteById = new Map(appRoutes.map((route) => [route.id, route]));
+const appRouteIdSet = new Set<AppRouteId>(appRouteIds);
 
-export const homeEntrances = appRoutes.filter(
-  (route) => route.id !== 'story' && route.id !== 'home',
-);
+export function isAppRouteId(value: unknown): value is AppRouteId {
+  return typeof value === 'string' && appRouteIdSet.has(value as AppRouteId);
+}
 
 export function localizeRoutes(messages: LocaleMessages): LocalizedAppRouteDefinition[] {
   return appRoutes.map((route) => ({
-    ...route,
+    id: route.id,
+    path: route.path,
+    state: route.state,
     ...messages.routes[route.id],
   }));
 }
 
-function normalizeHashPath(rawHash: string): string {
-  const path = rawHash.replace(/^#/, '') || '/';
-  const withSlash = path.startsWith('/') ? path : `/${path}`;
-  return withSlash.replace(/\/+$/, '') || '/';
-}
-
-export function routeFromLocation(
-  location: Location,
-  defaultRoute: AppRouteId = defaultRouteId,
-): AppRouteId {
-  const hasExplicitHash = location.hash.length > 0;
-  const hashPath = normalizeHashPath(location.hash);
-  const matchedHashRoute = appRoutes.find((route) => route.hashPath === hashPath);
-
-  if (matchedHashRoute) {
-    if (matchedHashRoute.id === defaultRouteId && !hasExplicitHash) {
-      return defaultRoute;
-    }
-
-    return matchedHashRoute.id;
-  }
-
-  return defaultRoute;
-}
-
-export function urlForRoute(
-  routeId: AppRouteId,
-  basePath: string,
-  defaultRoute: AppRouteId = defaultRouteId,
-): string {
-  const route = appRouteById.get(routeId) ?? appRouteById.get(defaultRouteId);
-  const hashPath = route?.hashPath ?? '/';
-
-  if (routeId === defaultRoute) {
-    return basePath;
-  }
-
-  return `${basePath}#${hashPath}`;
+export function createRouteRecords(fallbackRoute: AppRouteId): RouteRecordRaw[] {
+  return [
+    ...appRoutes.map((route) => ({
+      path: route.path,
+      name: route.id,
+      component: route.component,
+      meta: {
+        state: route.state,
+      },
+    })),
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: { name: fallbackRoute },
+    },
+  ];
 }

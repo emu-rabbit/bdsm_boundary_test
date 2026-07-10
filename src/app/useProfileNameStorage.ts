@@ -1,5 +1,6 @@
 export const defaultProfileName = '兔子';
 export const profileNameStorageKey = 'bdsm-boundary-test-profile-name';
+export const profileNameMaxLength = 32;
 
 type GraphemeSegmenter = {
   segment: (input: string) => Iterable<{ segment: string }>;

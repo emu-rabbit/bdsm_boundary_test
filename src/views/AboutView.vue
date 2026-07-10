@@ -1,16 +1,8 @@
 <script setup lang="ts">
-import type { LocaleMessages } from '../app/i18n';
-import type { AppRouteId } from '../app/routes';
+import { useAppShell } from '../app/useAppShell';
 import { homeRabbitUrl } from '../features/story/rabbitAssets';
 
-defineProps<{
-  appTitle: string;
-  messages: LocaleMessages;
-}>();
-
-const emit = defineEmits<{
-  navigate: [routeId: AppRouteId];
-}>();
+const { appTitle, messages, navigate } = useAppShell();
 </script>
 
 <template>
@@ -32,10 +24,10 @@ const emit = defineEmits<{
           {{ messages.about.body }}
         </p>
         <div class="about-actions">
-          <button class="quiet-action" type="button" @click="emit('navigate', 'story')">
+          <button class="quiet-action" type="button" @click="navigate('story')">
             {{ messages.about.replayStory }}
           </button>
-          <button class="soft-link-action" type="button" @click="emit('navigate', 'home')">
+          <button class="soft-link-action" type="button" @click="navigate('home')">
             {{ messages.common.backHome }}
           </button>
         </div>

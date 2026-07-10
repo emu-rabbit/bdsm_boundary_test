@@ -1,29 +1,26 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
-import type { AppLocale, LocaleMessages, LocaleOption } from '../app/i18n';
-import type { AppRouteId } from '../app/routes';
+import { useAppShell } from '../app/useAppShell';
+import { profileNameMaxLength } from '../app/useProfileNameStorage';
 import { settingsRabbitUrl } from '../features/story/rabbitAssets';
 
-const props = defineProps<{
-  activeLocale: AppLocale;
-  appTitle: string;
-  localeOptions: LocaleOption[];
-  messages: LocaleMessages;
-  profileName: string;
-}>();
+const {
+  appTitle,
+  locale: activeLocale,
+  localeOptions,
+  messages,
+  navigate,
+  profileName,
+  setLocale,
+  updateProfileName,
+} = useAppShell();
 
-const emit = defineEmits<{
-  navigate: [routeId: AppRouteId];
-  'update:locale': [locale: AppLocale];
-  'update:profileName': [name: string];
-}>();
-
-const profileNameDraft = ref(props.profileName);
+const profileNameDraft = ref(profileName.value);
 const profileSaveFeedbackVisible = ref(false);
 const profileSaveFeedbackKey = ref(0);
 let profileSaveFeedbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
 
-const isProfileNameSaved = computed(() => profileNameDraft.value === props.profileName);
+const isProfileNameSaved = computed(() => profileNameDraft.value === profileName.value);
 const profileSaveButtonShowsSaved = computed(() => profileSaveFeedbackVisible.value || isProfileNameSaved.value);
 
 function saveProfileName(): void {
@@ -31,7 +28,7 @@ function saveProfileName(): void {
     return;
   }
 
-  emit('update:profileName', profileNameDraft.value);
+  updateProfileName(profileNameDraft.value);
   profileSaveFeedbackVisible.value = true;
   profileSaveFeedbackKey.value += 1;
 
@@ -45,15 +42,12 @@ function saveProfileName(): void {
   }, 1800);
 }
 
-watch(
-  () => props.profileName,
-  (profileName) => {
-    profileNameDraft.value = profileName;
-  },
-);
+watch(profileName, (name) => {
+  profileNameDraft.value = name;
+});
 
 watch(profileNameDraft, (draft) => {
-  if (draft !== props.profileName) {
+  if (draft !== profileName.value) {
     profileSaveFeedbackVisible.value = false;
     profileSaveFeedbackKey.value += 1;
   }
@@ -95,7 +89,7 @@ onBeforeUnmount(() => {
               :aria-label="messages.settings.profileFieldLabel"
               :placeholder="messages.settings.profilePlaceholder"
               autocomplete="nickname"
-              maxlength="32"
+              :maxlength="profileNameMaxLength"
               type="text"
             />
           </label>
@@ -129,14 +123,14 @@ onBeforeUnmount(() => {
               :class="{ 'language-choice--active': option.id === activeLocale }"
               :aria-pressed="option.id === activeLocale"
               type="button"
-              @click="emit('update:locale', option.id)"
+              @click="setLocale(option.id)"
             >
               <span>{{ option.label }}</span>
             </button>
           </div>
         </section>
 
-        <button class="quiet-action" type="button" @click="emit('navigate', 'home')">
+        <button class="quiet-action" type="button" @click="navigate('home')">
           {{ messages.common.backHome }}
         </button>
       </div>

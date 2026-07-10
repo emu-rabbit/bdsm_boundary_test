@@ -15,7 +15,7 @@
 ### 技術選型
 
 - **既有優先**：優先沿用 repo 既有語言、框架、檔案結構、命名與工具鏈。
-- **已確認技術棧**：本專案已確認使用 Vite、Vue、TypeScript、Tailwind、Firebase 與 Firestore；技術或資料相關工作必須同步讀取 `.agents/skills/professional/technical_architecture.md`。
+- **已確認技術棧**：本專案已確認使用 Vite、Vue、TypeScript、Tailwind、Vue Router、Firebase 與 Firestore；技術或資料相關工作必須同步讀取 `.agents/skills/professional/technical_architecture.md`。
 - **輕量優先**：不得為了簡單需求導入沉重 framework、runtime、大型 UI kit 或外部服務。
 - **依賴需有理由**：新增套件前，先確認它解決的問題是否值得增加維護、效能與供應鏈成本。
 - **可回退設計**：在專案使命尚未完整定義時，優先選擇局部、低風險、可替換的實作。

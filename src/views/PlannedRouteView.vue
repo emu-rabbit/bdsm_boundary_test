@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import type { LocaleMessages } from '../app/i18n';
-import type { AppRouteId, LocalizedAppRouteDefinition } from '../app/routes';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { fallbackRouteId, isAppRouteId } from '../app/routes';
+import { useAppShell } from '../app/useAppShell';
 import { homeRabbitUrl } from '../features/story/rabbitAssets';
 
-defineProps<{
-  appTitle: string;
-  messages: LocaleMessages;
-  route: LocalizedAppRouteDefinition;
-}>();
-
-const emit = defineEmits<{
-  navigate: [routeId: AppRouteId];
-}>();
+const currentRoute = useRoute();
+const { appTitle, localizedRouteById, messages, navigate } = useAppShell();
+const activeRoute = computed(() => {
+  const routeId = isAppRouteId(currentRoute.name) ? currentRoute.name : fallbackRouteId;
+  return localizedRouteById.value.get(routeId) ?? localizedRouteById.value.get(fallbackRouteId);
+});
 </script>
 
 <template>
-  <section class="planned-route">
+  <section v-if="activeRoute" class="planned-route">
     <div class="home-ambient" aria-hidden="true" />
     <div class="planned-stage">
       <img
@@ -28,9 +27,9 @@ const emit = defineEmits<{
       />
       <div class="planned-copy">
         <p class="home-kicker">{{ appTitle }}</p>
-        <h1>{{ route.label }}</h1>
-        <p>{{ route.summary }}</p>
-        <button class="quiet-action" type="button" @click="emit('navigate', 'home')">
+        <h1>{{ activeRoute.label }}</h1>
+        <p>{{ activeRoute.summary }}</p>
+        <button class="quiet-action" type="button" @click="navigate('home')">
           {{ messages.common.backHome }}
         </button>
       </div>

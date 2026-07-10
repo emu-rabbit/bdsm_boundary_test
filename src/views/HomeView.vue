@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { LocaleMessages } from '../app/i18n';
-import type { AppRouteId, LocalizedAppRouteDefinition } from '../app/routes';
-import type { SecretFileTitleParts } from '../app/useSecretFileTitle';
+import { useAppShell } from '../app/useAppShell';
 import SecretFileTitle from '../components/SecretFileTitle.vue';
 import { homeRabbitUrl } from '../features/story/rabbitAssets';
 
-const props = defineProps<{
-  entrances: LocalizedAppRouteDefinition[];
-  messages: LocaleMessages;
-  titleParts: SecretFileTitleParts;
-}>();
+const {
+  localizedHomeEntrances: entrances,
+  messages,
+  navigate,
+  titleParts,
+} = useAppShell();
 
-const emit = defineEmits<{
-  navigate: [routeId: AppRouteId];
-}>();
-
-const routeById = computed(() => new Map(props.entrances.map((entrance) => [entrance.id, entrance])));
+const routeById = computed(() => new Map(entrances.value.map((entrance) => [entrance.id, entrance])));
 const primaryEntrances = computed(() =>
-  props.entrances.filter(
+  entrances.value.filter(
     (entrance) =>
       entrance.id === 'create' || entrance.id === 'files' || entrance.id === 'timeMachine',
   ),
@@ -56,7 +51,7 @@ const settingsEntrance = computed(() => routeById.value.get('settings'));
         class="entrance-card"
         :data-route="entrance.id"
         type="button"
-        @click="emit('navigate', entrance.id)"
+        @click="navigate(entrance.id)"
       >
         <span class="entrance-state">
           {{ entrance.state === 'ready' ? messages.common.ready : messages.common.planned }}
@@ -71,7 +66,7 @@ const settingsEntrance = computed(() => routeById.value.get('settings'));
         v-if="settingsEntrance"
         class="soft-link-action"
         type="button"
-        @click="emit('navigate', settingsEntrance.id)"
+        @click="navigate(settingsEntrance.id)"
       >
         {{ settingsEntrance.label }}
       </button>
@@ -79,7 +74,7 @@ const settingsEntrance = computed(() => routeById.value.get('settings'));
         v-if="aboutEntrance"
         class="soft-link-action"
         type="button"
-        @click="emit('navigate', aboutEntrance.id)"
+        @click="navigate(aboutEntrance.id)"
       >
         {{ aboutEntrance.label }}
       </button>
