@@ -12,6 +12,7 @@ export const experienceAnswers = [
   'little',
   'some',
   'extensive',
+  'veryExtensive',
   'unsure',
   'seeDetails',
 ] as const;

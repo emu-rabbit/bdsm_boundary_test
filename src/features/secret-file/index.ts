@@ -18,7 +18,19 @@ export type {
   SecretFileScope,
 } from './domain/types';
 export {
+  experienceAnswers,
+  preferenceAnswers,
+  questionLevels,
+  questionRoles,
+  secretFileScopes,
+} from './domain/types';
+export {
   parseSecretFile,
+  secretFileNoteSchema,
   SecretFileValidationError,
   UnsupportedSecretFileSchemaError,
 } from './validation/secretFileSchema';
+export {
+  LocalSecretFileLimitError,
+  maxLocalSecretFiles,
+} from './storage/browserSecretFileRepository';

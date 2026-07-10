@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { createSecretFile } from '../domain/secretFile';
 import type { QuestionDefinition } from '../domain/types';
-import { BrowserSecretFileRepository, type KeyValueStorage } from './browserSecretFileRepository';
+import {
+  BrowserSecretFileRepository,
+  LocalSecretFileLimitError,
+  maxLocalSecretFiles,
+  type KeyValueStorage,
+} from './browserSecretFileRepository';
 
 const questions: readonly QuestionDefinition[] = [
   { id: 'detail.impact.hand.active', level: 'detail', role: 'active' },
@@ -65,5 +70,26 @@ describe('BrowserSecretFileRepository', () => {
 
     expect(repository.read(secretFile.fileId)).toEqual(secretFile);
     expect(repository.getStatus()).toEqual({ mode: 'memory', reason: 'writeFailed' });
+  });
+
+  it('blocks a new file after the confirmed local limit but still permits updates', () => {
+    const repository = new BrowserSecretFileRepository(createMemoryStorage());
+
+    for (let index = 0; index < maxLocalSecretFiles; index += 1) {
+      repository.save({
+        ...createTestSecretFile(),
+        fileId: `local_test-file-${String(index).padStart(4, '0')}`,
+      });
+    }
+
+    const firstFile = repository.read('local_test-file-0000');
+    expect(firstFile).not.toBeNull();
+    expect(() => repository.save(firstFile!)).not.toThrow();
+    expect(() =>
+      repository.save({
+        ...createTestSecretFile(),
+        fileId: 'local_test-file-over-limit',
+      }),
+    ).toThrow(LocalSecretFileLimitError);
   });
 });

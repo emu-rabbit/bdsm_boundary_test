@@ -3,6 +3,14 @@ import { parseSecretFile } from '../validation/secretFileSchema';
 
 const indexKey = 'bdsm-boundary-test-secret-files:index';
 const fileKeyPrefix = 'bdsm-boundary-test-secret-files:file:';
+export const maxLocalSecretFiles = 20;
+
+export class LocalSecretFileLimitError extends Error {
+  constructor() {
+    super(`這台裝置最多只能保存 ${maxLocalSecretFiles} 份秘密檔案。`);
+    this.name = 'LocalSecretFileLimitError';
+  }
+}
 
 export interface KeyValueStorage {
   getItem(key: string): string | null;
@@ -120,6 +128,14 @@ export class BrowserSecretFileRepository {
   save(secretFile: SecretFile): SecretFile {
     this.ensureLoaded();
     const validatedSecretFile = parseSecretFile(secretFile);
+
+    if (
+      !this.files.has(validatedSecretFile.fileId) &&
+      this.files.size >= maxLocalSecretFiles
+    ) {
+      throw new LocalSecretFileLimitError();
+    }
+
     this.files.set(validatedSecretFile.fileId, cloneSecretFile(validatedSecretFile));
 
     if (this.storage) {
