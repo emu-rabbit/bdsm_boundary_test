@@ -7,11 +7,15 @@
     "dev": "vite --base=/",
     "build": "vue-tsc -b && vite build",
     "build:pages": "npm run build && node scripts/copy-pages-fallback.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^3.0.4",
     "vue": "^3.5.17",
-    "vue-router": "^4.6.4"
+    "vue-router": "^4.6.4",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.4",
@@ -21,6 +25,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
+    "vitest": "^4.1.10",
     "vue-tsc": "^2.2.12"
   }
 }

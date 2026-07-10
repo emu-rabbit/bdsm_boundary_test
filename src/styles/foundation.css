@@ -1,17 +1,8 @@
 /* Foundation: app tokens, font face, reset, and shared focus affordances. */
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+SC&display=swap");
-
-
-@font-face {
-  font-family: "jf-openhuninn";
-  src: url("../assets/fonts/jf-openhuninn-2.1.ttf") format("truetype");
-  font-display: swap;
-}
-
 :root {
   color-scheme: dark;
-  --font-family-default: "jf-openhuninn", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
+  --font-family-default: "Huninn", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
     system-ui, sans-serif;
   --font-family-zh-hans: "Noto Sans SC", "Source Han Sans SC", "Source Han Sans CN",
     "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif;

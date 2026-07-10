@@ -2,7 +2,7 @@
 
 `bdsm_boundary_test` 是「XX的祕密檔案」的前端專案。產品定位是協助使用者整理 BDSM（愉虐）互動項目的興趣、經驗與界線，並以知情同意為核心支援溝通。
 
-目前第一版落地內容是一個 Vite、Vue、TypeScript、Tailwind、Vue Router 的初始 app、前導劇情、可逐步擴充多個功能入口的主頁，以及「關於這隻兔子」頁面。
+目前第一版落地內容是一個 Vite、Vue、TypeScript、Tailwind、Vue Router 的初始 app、前導劇情、可逐步擴充多個功能入口的主頁，以及「關於這隻兔子」頁面。核心系統已建立 Pinia session 邊界、Zod runtime schema、localStorage repository 與 Vitest 測試基線；題庫資料、作答頁與雲端分享尚未實作。
 
 使用者在前導劇情填入的稱呼會儲存在瀏覽器 `localStorage` 的 `bdsm-boundary-test-profile-name`。根路徑載入時，若已有本機稱呼，會直接進入主頁並套用「{稱呼}的祕密檔案」；若沒有本機稱呼，才播放前導劇情。使用者也可以從「關於這隻兔子」重播前導劇情並重新命名。
 
@@ -21,6 +21,14 @@ npm run dev
 npm run build
 ```
 
+## 測試
+
+```powershell
+npm run test
+```
+
+目前測試覆蓋秘密檔案的 scope／回答狀態、題庫更新時的回答補齊、runtime schema 的備註安全限制，以及 localStorage 失敗時的 session-memory fallback。GitHub Pages workflow 會先執行這組測試，再進行建置。
+
 `vite.config.ts` 預設使用 GitHub Pages 專案路徑 `/bdsm_boundary_test/`。本機開發指令 `npm run dev` 會以 `--base=/` 覆蓋，讓開發伺服器維持根路徑；若其他 host、預覽環境或獨立 domain 需要覆蓋路徑，可設定 `VITE_BASE_PATH`。
 
 本機 Codex 環境若執行 Vite build 時遇到 sandbox access 問題，依 `AGENTS.md` 的 Windows/Vite 說明改用 Codex `require_escalated` 權限執行實際 build。
@@ -37,8 +45,8 @@ GitHub Pages build 使用 `npm run build:pages`，讓 Vite 依 `vite.config.ts` 
 
 ## 第三方資產
 
-- 本專案自託管 `jf open-huninn / jf open 粉圓` 2.1 作為主要中文字體，來源為 justfont 的 open-source font project：https://github.com/justfont/open-huninn-font
-- 字體以 SIL Open Font License 1.1 授權；授權文字保存在 `third-party-notices/jf-openhuninn-LICENSE.txt`，摘要記錄在 `NOTICE.md`。
+- 繁體中文與英文主字體為 `Huninn / jf open 粉圓`，透過 Google Fonts 的 WOFF2 unicode-range 子集載入；本專案不再提交完整 TTF 字型檔。來源為 justfont 的 open-source font project：https://github.com/justfont/open-huninn-font
+- 字體以 SIL Open Font License 1.1 授權；授權文字保存在 `third-party-notices/jf-openhuninn-LICENSE.txt`，摘要記錄在 `NOTICE.md`。Google Fonts、Noto Sans SC 與 Noto Sans JP 載入失敗時，頁面仍會退回各平台的系統 CJK 字型。
 
 ## 產品邊界
 

@@ -1,0 +1,88 @@
+import { describe, expect, it } from 'vitest';
+import { answerSecretFileQuestion } from './answers';
+import { createSecretFile, reconcileSecretFileQuestions } from './secretFile';
+import { getSecretFileProgress } from './progress';
+import type { QuestionDefinition } from './types';
+
+const createdAt = '2026-07-10T06:00:00.000Z';
+const questions: readonly QuestionDefinition[] = [
+  { id: 'category.impact.active', level: 'category', role: 'active' },
+  { id: 'detail.impact.hand.active', level: 'detail', role: 'active' },
+  { id: 'detail.impact.hand.passive', level: 'detail', role: 'passive' },
+];
+
+function createActiveOnlyFile() {
+  return createSecretFile({
+    bankSchemaVersion: 1,
+    bankVersion: '2026-07-08',
+    createdAt,
+    fileId: 'local_test-file-1234',
+    profileName: '兔子',
+    questions,
+    scope: 'activeOnly',
+  });
+}
+
+describe('secret-file domain', () => {
+  it('initializes unanswered and filteredOut states from the selected scope', () => {
+    const secretFile = createActiveOnlyFile();
+
+    expect(secretFile.answers['category.impact.active']).toEqual({ state: 'unanswered' });
+    expect(secretFile.answers['detail.impact.hand.active']).toEqual({ state: 'unanswered' });
+    expect(secretFile.answers['detail.impact.hand.passive']).toEqual({ state: 'filteredOut' });
+    expect(getSecretFileProgress(secretFile, questions)).toEqual({
+      answered: 0,
+      percent: 0,
+      total: 2,
+      unanswered: 2,
+    });
+  });
+
+  it('allows seeDetails for a category but rejects it for a detail question', () => {
+    const secretFile = createActiveOnlyFile();
+    const answeredCategory = answerSecretFileQuestion(
+      secretFile,
+      questions[0],
+      { experience: 'seeDetails', note: '', preference: 'seeDetails' },
+      '2026-07-10T06:01:00.000Z',
+    );
+
+    expect(answeredCategory.answers['category.impact.active']).toEqual({
+      experience: 'seeDetails',
+      note: '',
+      preference: 'seeDetails',
+      state: 'answered',
+    });
+    expect(() =>
+      answerSecretFileQuestion(
+        secretFile,
+        questions[1],
+        { experience: 'seeDetails', note: '', preference: 'neutral' },
+      ),
+    ).toThrow('Only category questions');
+  });
+
+  it('preserves old answers and only appends newly introduced questions', () => {
+    const secretFile = answerSecretFileQuestion(
+      createActiveOnlyFile(),
+      questions[1],
+      { experience: 'some', note: '目前先記下這個感覺', preference: 'like' },
+      '2026-07-10T06:01:00.000Z',
+    );
+    const newQuestion: QuestionDefinition = {
+      id: 'detail.impact.paddle.active',
+      level: 'detail',
+      role: 'active',
+    };
+    const reconciled = reconcileSecretFileQuestions(
+      secretFile,
+      [...questions, newQuestion],
+      '2026-07-10T06:02:00.000Z',
+    );
+
+    expect(reconciled.answers['detail.impact.hand.active']).toEqual(
+      secretFile.answers['detail.impact.hand.active'],
+    );
+    expect(reconciled.answers[newQuestion.id]).toEqual({ state: 'unanswered' });
+  });
+});

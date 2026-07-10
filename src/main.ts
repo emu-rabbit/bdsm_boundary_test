@@ -1,7 +1,9 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import App from './App.vue';
 import { createAppRouter } from './app/router';
 import { loadStoredProfileName } from './app/useProfileNameStorage';
+import { useSecretFileStore } from './features/secret-file/application/useSecretFileStore';
 import './styles.css';
 import './styles/foundation.css';
 import './styles/route-shell.css';
@@ -17,8 +19,11 @@ const router = createAppRouter(
   initialProfileName ? 'home' : 'story',
 );
 const app = createApp(App, { initialProfileName });
+const pinia = createPinia();
 
+app.use(pinia);
 app.use(router);
+useSecretFileStore(pinia).refresh();
 void router.isReady().then(() => {
   app.mount('#app');
 });

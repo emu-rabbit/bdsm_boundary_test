@@ -75,7 +75,7 @@
 
 - **自刻但不凌亂**：自刻 UI 不代表每個頁面都各寫各的；應建立可重用的基礎 component、style token、spacing、typography、focus state 與 responsive pattern。
 - **CSS token 與 pattern 優先**：跨頁共用的色彩、字體、焦點、按鈕、route shell、背景層與 responsive pattern 應優先沉澱到 `src/styles/` 的對應 owner 檔案，不把同一視覺規則複製到多個 view。若需要調整單一視覺元素，先確認該元素的 owner 檔案與 mobile override，不在多處同步改十幾行。
-- **字型資源可退化且保留完整字元覆蓋**：`src/styles/foundation.css` 維護全站字型 token 與語系 font stack。`jf-openhuninn` 是本地預設字型，主要服務繁體中文、英文與使用者自行輸入的稱呼或文字；不得用固定文案清單做 glyph subset，避免使用者輸入未收錄字元時產生不一致 fallback。簡體中文與日文依 `html lang` 切換到 Noto Sans SC / JP 與 Source Han Sans SC / JP 優先的開源 CJK stack；若遠端字型載入失敗，必須保留系統 CJK fallback，不可讓核心流程因字型資源失敗而不可讀。
+- **字型資源可退化且保留完整字元覆蓋**：`index.html` 在字型 stylesheet 前宣告 Google Fonts 與 fonts.gstatic.com 的 `preconnect`；Google Fonts 以 `display=swap` 提供 `Huninn / jf open 粉圓`、Noto Sans SC 與 Noto Sans JP 的 WOFF2 unicode-range 子集，避免把完整 TTF 打包進應用程式。`src/styles/foundation.css` 只維護 font token 與 locale stack。不得用固定文案清單做 glyph subset，避免使用者輸入未收錄字元時產生不一致 fallback；遠端字型載入失敗時必須保留系統 CJK fallback，不可讓核心流程因字型資源失敗而不可讀。
 - **避免模板感**：不得直接套用大型 Vue UI kit、dashboard template 或 landing page template。若使用 headless utility 或小型無樣式 helper，必須確認它不主導視覺語言。
 - **預熱策略要可見於程式**：圖片、插畫、字體、路由 chunk 或大型資料應透過明確的 preload、prefetch、lazy loading、cache warmup 或 staged loading 策略處理。
 - **核心流程優先**：預熱優先服務測驗流程、結果檢閱與分享頁的順暢感；非核心裝飾資源不得搶佔初始載入。
@@ -84,13 +84,14 @@
 
 ## 後續 Agent 行動
 
-### 核心系統實作前待辦
+### 核心系統基礎建設
 
-- **state 邊界**：核心系統開始實作時，先建立不依賴 Vue 的 domain rules，再以 Pinia 協調跨頁 active session 與 UI state；目前尚未安裝或建立 Pinia store，不應為現有少量 app-shell state 提前加入空 store。
-- **runtime schema**：在接受複製 JSON、舊版 localStorage 或 Firestore 資料前，導入小型 runtime schema validation dependency；本次重構不建立 schema，實際套件與 schema 應和核心資料模型一起確認。
-- **localStorage 上限**：核心檔案系統實作前，必須先確認明確的檔案數或容量上限；達到上限時不允許再建立檔案。實際門檻尚待核心系統工作開始前確認，不得在此之前自行猜定數字。
-- **測試基線**：核心 domain、migration 或 persistence 開始實作前，加入 Vitest 與 CI test step，優先覆蓋回答狀態、scope、進度、migration、validation 與 storage failure；本次只列入待辦，不安裝測試套件。
-- **實作順序**：核心系統第一階段只處理題庫、domain、本地保存、結果閱覽與匯入匯出；Firestore sharing 維持第二階段，第一階段只保留可替換的 cloud boundary，不建立實際 Firebase 分享流程。
+- **state 邊界**：`src/features/secret-file/domain/` 維持 framework-independent 的 scope、回答狀態、回答更新、進度與題庫新增問題時的補齊規則；`application/useSecretFileStore.ts` 才以 Pinia 管理跨頁 active session、檔案列表與 storage status。`src/main.ts` 已安裝 Pinia，並在啟動時初始化 store；不得把核心規則移入 Vue view 或 store。
+- **runtime schema 與 migration boundary**：Zod 為 `src/features/secret-file/validation/secretFileSchema.ts` 的唯一 runtime validation dependency。localStorage 讀回、JSON 匯入與未來的 Firestore 讀寫都必須先經 `parseSecretFile`；未知 `schemaVersion` 必須明確拒絕，未來版本應先新增 migration 再放行。
+- **本地保存與 fallback**：`storage/browserSecretFileRepository.ts` 集中管理 `bdsm-boundary-test-secret-files:index` 與 `...:file:{fileId}`。讀寫資料都先驗證；browser storage 不可用或寫入失敗時保留當前 session 的記憶體副本，並透過 store 的 `storageStatus` 暴露狀態。不得自動刪除舊檔案。
+- **localStorage 上限**：正式建立新檔案 UI 前，仍必須先確認明確的檔案數或容量上限；達到上限時不允許再建立檔案。這次不自行猜定數字，也沒有把建立流程接到 UI。
+- **測試基線**：Vitest 已設定為 `npm run test`，並已加入 GitHub Pages workflow。優先覆蓋回答狀態、scope、進度、題庫補齊、validation 與 storage failure；新 migration、persistence 或 domain rules 必須一起新增對應測試。
+- **實作順序**：下一步才接入正式題庫、建立新檔案與分類層作答 UI；第一階段仍只處理題庫、domain、本地保存、結果閱覽與匯入匯出。Firestore sharing 維持第二階段，現階段只保留可替換的 cloud boundary，不建立實際 Firebase 分享流程。
 
 1. 進行技術或資料相關工作前，先檢查本文件是否與現有程式碼、Firebase 設定、README 或其他 architecture 文件一致。
 2. 若新增正式資料 schema、Firestore rules、GA event taxonomy、題庫 importer 或 asset preload policy，優先更新本文件、`.agents/specs/question_bank_and_secret_file_system.md` 或未來正式 architecture/privacy 文件。
