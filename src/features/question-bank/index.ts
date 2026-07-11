@@ -13,5 +13,6 @@ export type {
   QuestionBank,
   QuestionBankCategory,
   QuestionBankCategoryRoleCopy,
+  QuestionBankDetailItem,
   QuestionBankCounts,
 } from './types';

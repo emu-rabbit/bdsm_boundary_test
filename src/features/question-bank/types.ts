@@ -8,8 +8,15 @@ export interface QuestionBankCategoryRoleCopy {
   description: string;
 }
 
+export interface QuestionBankDetailItem {
+  label: string;
+  roles: Record<QuestionRole, { description: string }>;
+  warning: string | null;
+}
+
 export interface QuestionBankCategory {
   categoryId: string;
+  detailItems: readonly QuestionBankDetailItem[];
   includeInCategoryRound: boolean;
   itemCount: number;
   name: string;

@@ -12,6 +12,11 @@ export interface QuestionnaireMessages {
   backQuestion: string;
   categoryVisualAlt: (categoryName: string) => string;
   completedProgress: (completed: number, total: number) => string;
+  closeDetails: string;
+  detailListDescription: string;
+  detailSeeDetailsExplanation: string;
+  detailListTitle: string;
+  detailWarningPrefix: string;
   experienceLabels: Record<ExperienceAnswer, string>;
   experienceLegend: string;
   intro: {
@@ -34,6 +39,7 @@ export interface QuestionnaireMessages {
   noteHelp: string;
   noteLabel: string;
   notePlaceholder: string;
+  nextQuestion: string;
   preferenceLabels: Record<PreferenceAnswer, string>;
   preferenceLegend: string;
   progress: (current: number, total: number) => string;
@@ -50,6 +56,7 @@ export interface QuestionnaireMessages {
   };
   roleLabels: Record<QuestionRole, string>;
   storageWarning: string;
+  viewDetails: string;
 }
 
 const zhHant: QuestionnaireMessages = {
@@ -58,6 +65,11 @@ const zhHant: QuestionnaireMessages = {
   backQuestion: '上一題',
   categoryVisualAlt: (categoryName) => `${categoryName}的分類示意圖`,
   completedProgress: (completed, total) => `已完成 ${completed} / ${total}`,
+  closeDetails: '關閉詳細列表',
+  detailListDescription: '這裡只供閱覽，先看看每一項在這個分類裡的描述。',
+  detailSeeDetailsExplanation: '若選擇參考細項，代表你希望閱讀者用你未來在細項的填答來了解，而非為整個分類選擇一種狀態。',
+  detailListTitle: '細項列表',
+  detailWarningPrefix: '高風險項目：',
   experienceLabels: {
     none: '沒經驗',
     little: '少量經驗',
@@ -65,7 +77,7 @@ const zhHant: QuestionnaireMessages = {
     extensive: '大量經驗',
     veryExtensive: '非常熟悉',
     unsure: '不確定',
-    seeDetails: '請看細項',
+    seeDetails: '參考細項',
   },
   experienceLegend: '你的經驗程度',
   intro: {
@@ -101,6 +113,7 @@ const zhHant: QuestionnaireMessages = {
   noteHelp: '選填，最多 80 個字；請不要填入連結。',
   noteLabel: '想補充的小提醒',
   notePlaceholder: '不確定也可以留白',
+  nextQuestion: '下一題',
   preferenceLabels: {
     hardNo: '絕對禁止',
     reluctant: '勉強配合',
@@ -108,7 +121,7 @@ const zhHant: QuestionnaireMessages = {
     like: '喜歡',
     love: '超級喜歡',
     unsure: '不確定',
-    seeDetails: '請看細項',
+    seeDetails: '參考細項',
   },
   preferenceLegend: '你目前的喜好程度',
   progress: (current, total) => `分類 ${current} / ${total}`,
@@ -129,6 +142,7 @@ const zhHant: QuestionnaireMessages = {
     passive: '被動方',
   },
   storageWarning: '目前無法使用瀏覽器持久儲存；這次作答暫時保留在目前頁面，離開後可能無法恢復。',
+  viewDetails: '查看細項列表',
 };
 
 const zhHans: QuestionnaireMessages = {
@@ -138,6 +152,11 @@ const zhHans: QuestionnaireMessages = {
   backQuestion: '上一题',
   categoryVisualAlt: (categoryName) => `${categoryName}的分类示意图`,
   completedProgress: (completed, total) => `已完成 ${completed} / ${total}`,
+  closeDetails: '关闭详细列表',
+  detailListDescription: '这里只供阅览，先看看这个分类中每一项的描述。',
+  detailSeeDetailsExplanation: '若选择参考细项，代表你希望阅读者通过你未来的细项填写来了解，而非为整个分类选择一种状态。',
+  detailListTitle: '细项列表',
+  detailWarningPrefix: '高风险项目：',
   experienceLabels: {
     none: '没经验',
     little: '少量经验',
@@ -145,7 +164,7 @@ const zhHans: QuestionnaireMessages = {
     extensive: '大量经验',
     veryExtensive: '非常熟悉',
     unsure: '不确定',
-    seeDetails: '请看细项',
+    seeDetails: '参考细项',
   },
   experienceLegend: '你的经验程度',
   intro: {
@@ -169,6 +188,7 @@ const zhHans: QuestionnaireMessages = {
   noteHelp: '选填，最多 80 个字符；请勿填写链接。',
   noteLabel: '想补充的小提醒',
   notePlaceholder: '不确定也可以留空',
+  nextQuestion: '下一题',
   preferenceLegend: '你目前的喜好程度',
   preferenceLabels: {
     hardNo: '绝对禁止',
@@ -177,7 +197,7 @@ const zhHans: QuestionnaireMessages = {
     like: '喜欢',
     love: '超级喜欢',
     unsure: '不确定',
-    seeDetails: '请看细项',
+    seeDetails: '参考细项',
   },
   results: {
     ...zhHant.results,
@@ -191,6 +211,7 @@ const zhHans: QuestionnaireMessages = {
       `这份测验结果仅供参考，无法完整描述${profileName}的喜好或特质，也请勿用来替代任何必要的沟通。`,
   },
   storageWarning: '目前无法使用浏览器持久存储；这次填写暂时保留在当前页面，离开后可能无法恢复。',
+  viewDetails: '查看细项列表',
 };
 
 const ja: QuestionnaireMessages = {
@@ -200,6 +221,11 @@ const ja: QuestionnaireMessages = {
   backQuestion: '前の質問',
   categoryVisualAlt: (categoryName) => `${categoryName}のカテゴリーイメージ`,
   completedProgress: (completed, total) => `${completed} / ${total} 回答済み`,
+  closeDetails: '詳細リストを閉じる',
+  detailListDescription: 'ここでは回答せず、このカテゴリーに含まれる項目の説明だけを確認できます。',
+  detailSeeDetailsExplanation: '詳細項目を参照する場合は、カテゴリー全体に一つの状態を選ぶのではなく、読む人に後で各詳細項目への回答から理解してもらいたいという意味です。',
+  detailListTitle: '詳細リスト',
+  detailWarningPrefix: '高リスク項目：',
   experienceLabels: {
     none: '経験なし',
     little: '少し経験あり',
@@ -207,7 +233,7 @@ const ja: QuestionnaireMessages = {
     extensive: '多く経験あり',
     veryExtensive: 'とても多い',
     unsure: 'わからない',
-    seeDetails: '詳細項目を見る',
+    seeDetails: '詳細項目を参照',
   },
   experienceLegend: '経験の程度',
   intro: {
@@ -231,6 +257,7 @@ const ja: QuestionnaireMessages = {
   noteHelp: '任意・80文字まで。リンクは入力できません。',
   noteLabel: '小さなメモ',
   notePlaceholder: '迷っているなら空欄でも大丈夫です',
+  nextQuestion: '次の質問',
   preferenceLegend: '現在の興味',
   preferenceLabels: {
     hardNo: '絶対に不可',
@@ -239,7 +266,7 @@ const ja: QuestionnaireMessages = {
     like: '好き',
     love: 'とても好き',
     unsure: 'わからない',
-    seeDetails: '詳細項目を見る',
+    seeDetails: '詳細項目を参照',
   },
   progress: (current, total) => `カテゴリー ${current} / ${total}`,
   results: {
@@ -258,6 +285,7 @@ const ja: QuestionnaireMessages = {
     passive: '受ける側',
   },
   storageWarning: 'ブラウザーに保存できません。現在のページには残りますが、離れると復元できない可能性があります。',
+  viewDetails: '詳細リストを見る',
 };
 
 const en: QuestionnaireMessages = {
@@ -267,6 +295,11 @@ const en: QuestionnaireMessages = {
   backQuestion: 'Previous question',
   categoryVisualAlt: (categoryName) => `${categoryName} category illustration`,
   completedProgress: (completed, total) => `${completed} of ${total} completed`,
+  closeDetails: 'Close detail list',
+  detailListDescription: 'This is read-only. Review the descriptions for the items in this category.',
+  detailSeeDetailsExplanation: 'Choosing Reference details means you would rather readers understand this through your future detailed answers than choose one status for the whole category.',
+  detailListTitle: 'Detail list',
+  detailWarningPrefix: 'Higher-risk item: ',
   experienceLabels: {
     none: 'No experience',
     little: 'A little experience',
@@ -274,7 +307,7 @@ const en: QuestionnaireMessages = {
     extensive: 'Extensive experience',
     veryExtensive: 'Very experienced',
     unsure: 'Unsure',
-    seeDetails: 'See details',
+    seeDetails: 'Reference details',
   },
   experienceLegend: 'Your experience',
   intro: {
@@ -298,6 +331,7 @@ const en: QuestionnaireMessages = {
   noteHelp: 'Optional, up to 80 characters. Links are not allowed.',
   noteLabel: 'A small note',
   notePlaceholder: 'It is okay to leave this blank',
+  nextQuestion: 'Next question',
   preferenceLegend: 'Your current preference',
   preferenceLabels: {
     hardNo: 'Hard no',
@@ -306,7 +340,7 @@ const en: QuestionnaireMessages = {
     like: 'Like',
     love: 'Love',
     unsure: 'Unsure',
-    seeDetails: 'See details',
+    seeDetails: 'Reference details',
   },
   progress: (current, total) => `Category ${current} of ${total}`,
   results: {
@@ -325,6 +359,7 @@ const en: QuestionnaireMessages = {
     passive: 'Receptive',
   },
   storageWarning: 'Browser storage is unavailable. This session is still here for now, but it may not be recoverable after you leave.',
+  viewDetails: 'View detail list',
 };
 
 const messagesByLocale: Record<AppLocale, QuestionnaireMessages> = {

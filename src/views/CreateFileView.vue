@@ -37,6 +37,7 @@ const {
 
 const creationError = ref('');
 const questionCursor = ref<number | null>(null);
+const questionTransition = ref<'question-slide-next' | 'question-slide-back'>('question-slide-next');
 const messages = computed(() => getQuestionnaireMessages(locale.value));
 const secretFile = computed(() => store.activeSecretFile);
 const categoryQuestions = computed(() =>
@@ -138,6 +139,7 @@ function advanceQuestion(): void {
     return;
   }
 
+  questionTransition.value = 'question-slide-next';
   questionCursor.value = currentQuestionIndex.value + 1;
   void nextTick(() => {
     window.scrollTo({ left: 0, top: 0 });
@@ -149,6 +151,7 @@ function goToPreviousQuestion(): void {
     return;
   }
 
+  questionTransition.value = 'question-slide-back';
   questionCursor.value = currentQuestionIndex.value - 1;
   void nextTick(() => {
     window.scrollTo({ left: 0, top: 0 });
@@ -214,24 +217,27 @@ onMounted(() => {
     @start="startQuestionnaire"
   />
 
-  <CategoryQuestionStep
-    v-else-if="currentQuestion"
-    :key="currentQuestion.id"
-    :can-go-back="canGoBack"
-    :completed="answeredCategoryCount"
-    :current="currentQuestionIndex + 1"
-    :initial-answer="currentAnswer?.state === 'answered' ? currentAnswer : null"
-    :messages="messages"
-    :question="currentQuestion"
-    :storage-warning="storageWarning"
-    :total="categoryQuestions.length"
-    @advance="advanceQuestion"
-    @back="goToPreviousQuestion"
-    @save="saveQuestionAnswer"
-  />
+  <div v-if="secretFile && currentQuestion" class="questionnaire-question-transition">
+    <Transition :name="questionTransition" mode="out-in">
+      <CategoryQuestionStep
+        :key="currentQuestion.id"
+        :can-go-back="canGoBack"
+        :completed="answeredCategoryCount"
+        :current="currentQuestionIndex + 1"
+        :initial-answer="currentAnswer?.state === 'answered' ? currentAnswer : null"
+        :messages="messages"
+        :question="currentQuestion"
+        :storage-warning="storageWarning"
+        :total="categoryQuestions.length"
+        @advance="advanceQuestion"
+        @back="goToPreviousQuestion"
+        @save="saveQuestionAnswer"
+      />
+    </Transition>
+  </div>
 
   <QuestionnaireResults
-    v-else
+    v-if="secretFile && !currentQuestion"
     :back-home="appMessages.common.backHome"
     :messages="messages"
     :secret-file="secretFile"
