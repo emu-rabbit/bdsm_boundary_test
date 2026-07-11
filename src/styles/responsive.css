@@ -381,6 +381,10 @@
     translate: 0 4%;
   }
 
+  .illustration-scene[data-pose="startled"] .rabbit-pose {
+    max-width: min(34.4vw, 9.28rem);
+  }
+
   .dialogue-panel {
     display: flex;
     flex-direction: column;
@@ -732,6 +736,10 @@
 
   .illustration-scene[data-pose="thinking"] .rabbit-pose {
     max-width: min(34vw, 8.8rem);
+  }
+
+  .illustration-scene[data-pose="startled"] .rabbit-pose {
+    max-width: min(32.8vw, 8.32rem);
   }
 
   .dialogue-panel {

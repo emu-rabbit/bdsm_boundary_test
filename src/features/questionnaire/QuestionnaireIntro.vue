@@ -38,7 +38,7 @@ const poseByStep: Record<IntroStep, RabbitPose> = {
   scope: 'storyGreeting',
   explanation: 'thinking',
   questionCount: 'questioning',
-  categoryCount: 'thinking',
+  categoryCount: 'startled',
   autosave: 'folder',
   ready: 'storyGreeting',
 };

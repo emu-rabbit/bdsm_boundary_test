@@ -569,6 +569,11 @@
   translate: 0 4%;
 }
 
+.illustration-scene[data-pose="startled"] .rabbit-pose {
+  width: min(60.8%, 20.4rem);
+  translate: 0 -5%;
+}
+
 .illustration-scene[data-pose="naming"] .rabbit-pose,
 .illustration-scene[data-pose="folder"] .rabbit-pose {
   width: min(70%, 24rem);
