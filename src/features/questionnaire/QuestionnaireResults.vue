@@ -103,19 +103,19 @@ function getRatingTone(
   value: ExperienceAnswer | PreferenceAnswer,
 ): string {
   if (kind === 'preference' && value === 'hardNo') {
-    return 'is-boundary';
+    return 'is-negative-extreme';
   }
 
   if (kind === 'preference' && value === 'love') {
-    return 'is-favorite';
+    return 'is-positive-extreme';
   }
 
   if (kind === 'experience' && value === 'veryExtensive') {
-    return 'is-expert';
+    return 'is-positive-extreme';
   }
 
   if (kind === 'experience' && value === 'none') {
-    return 'is-none';
+    return 'is-negative-extreme';
   }
 
   return '';
@@ -160,6 +160,7 @@ const overallProgress = computed(() => {
           <p class="questionnaire-kicker">{{ messages.results.editing }}</p>
           <h1>{{ messages.results.title }}</h1>
           <p>{{ messages.results.firstPhaseComplete }}</p>
+          <p class="results-last-edited">{{ messages.results.lastEdited(secretFile.updatedAt) }}</p>
         </div>
 
         <p v-if="storageWarning" class="questionnaire-warning" role="status">
