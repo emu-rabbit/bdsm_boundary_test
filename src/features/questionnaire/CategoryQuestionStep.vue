@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, type ObjectDirective } from 'vue';
+import AnswerRatingIcon from './AnswerRatingIcon.vue';
 import {
   getCategoryVisualUrl,
   type CategoryQuestion,
@@ -29,6 +30,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   advance: [];
   back: [];
+  home: [];
   save: [answer: AnswerQuestionInput];
 }>();
 
@@ -40,38 +42,38 @@ const autoAdvancePending = ref(false);
 const countdownKey = ref(0);
 const detailListDialog = ref<HTMLDialogElement | null>(null);
 let autoAdvanceTimer: ReturnType<typeof setTimeout> | undefined;
+const optionGroupObservers = new WeakMap<HTMLElement, ResizeObserver>();
 
-const experienceIcons: Record<ExperienceAnswer, string> = {
-  none: '○',
-  little: '◔',
-  some: '◑',
-  extensive: '◕',
-  veryExtensive: '●',
-  unsure: '?',
-  seeDetails: '☷',
+function syncWrappedOptionLabels(element: HTMLElement): void {
+  const labels = [...element.querySelectorAll<HTMLElement>('.answer-option-label')];
+  const hasWrappedLabel = labels.some((label) => {
+    const lineHeight = Number.parseFloat(getComputedStyle(label).lineHeight);
+    return Number.isFinite(lineHeight) && label.scrollHeight > lineHeight * 1.5;
+  });
+
+  element.classList.toggle('has-wrapped-labels', hasWrappedLabel);
+}
+
+const vBalancedOptionLabels: ObjectDirective<HTMLElement> = {
+  mounted(element) {
+    const observer = new ResizeObserver(() => syncWrappedOptionLabels(element));
+    optionGroupObservers.set(element, observer);
+    observer.observe(element);
+    syncWrappedOptionLabels(element);
+  },
+  updated(element) {
+    void nextTick(() => syncWrappedOptionLabels(element));
+  },
+  unmounted(element) {
+    optionGroupObservers.get(element)?.disconnect();
+    optionGroupObservers.delete(element);
+  },
 };
-const experienceFillPercent: Record<Exclude<ExperienceAnswer, 'unsure' | 'seeDetails'>, number> = {
-  none: 0,
-  little: 25,
-  some: 50,
-  extensive: 75,
-  veryExtensive: 100,
-};
-const preferenceIcons: Record<PreferenceAnswer, string> = {
-  hardNo: '⊘',
-  reluctant: '△',
-  neutral: '—',
-  like: '♡',
-  love: '♥',
-  unsure: '?',
-  seeDetails: '☷',
-};
+
 const experienceLevelOptions = computed(() =>
   experienceAnswers
     .filter((value) => value !== 'unsure' && value !== 'seeDetails')
     .map((value) => ({
-      fill: experienceFillPercent[value],
-      icon: experienceIcons[value],
       label: props.messages.experienceLabels[value],
       value,
     })),
@@ -79,17 +81,17 @@ const experienceLevelOptions = computed(() =>
 const experienceSpecialOptions = computed(() =>
   experienceAnswers
     .filter((value) => value === 'unsure' || value === 'seeDetails')
-    .map((value) => ({ icon: experienceIcons[value], label: props.messages.experienceLabels[value], value })),
+    .map((value) => ({ label: props.messages.experienceLabels[value], value })),
 );
 const preferenceLevelOptions = computed(() =>
   preferenceAnswers
     .filter((value) => value !== 'unsure' && value !== 'seeDetails')
-    .map((value) => ({ icon: preferenceIcons[value], label: props.messages.preferenceLabels[value], value })),
+    .map((value) => ({ label: props.messages.preferenceLabels[value], value })),
 );
 const preferenceSpecialOptions = computed(() =>
   preferenceAnswers
     .filter((value) => value === 'unsure' || value === 'seeDetails')
-    .map((value) => ({ icon: preferenceIcons[value], label: props.messages.preferenceLabels[value], value })),
+    .map((value) => ({ label: props.messages.preferenceLabels[value], value })),
 );
 const categoryVisualUrl = computed(() => getCategoryVisualUrl(props.question.category.categoryId));
 const canAdvance = computed(() => Boolean(experience.value && preference.value));
@@ -160,6 +162,10 @@ function saveNote(): void {
   }
 }
 
+function openNote(): void {
+  clearAutoAdvance();
+}
+
 function advanceImmediately(): void {
   if (!saveAnswer()) {
     return;
@@ -189,14 +195,16 @@ onBeforeUnmount(() => {
       <header class="questionnaire-page-header">
         <button
           class="questionnaire-header-action"
-          :aria-label="messages.backQuestion"
-          :disabled="!canGoBack"
-          :title="messages.backQuestion"
+          :aria-label="messages.home"
+          :title="messages.home"
           type="button"
-          @click="emit('back')"
+          @click="emit('home')"
         >
-          <span aria-hidden="true">←</span>
-          <span class="sr-only">{{ messages.backQuestion }}</span>
+          <svg class="questionnaire-header-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M5.5 15.2 16 6l10.5 9.2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" />
+            <path d="M8.5 13.4V26h15V13.4M13 26v-7.5h6V26" stroke="currentColor" stroke-linejoin="round" stroke-width="2.4" />
+          </svg>
+          <span class="sr-only">{{ messages.home }}</span>
         </button>
 
         <div class="question-step-value" :aria-label="messages.progress(current, total)">
@@ -210,7 +218,7 @@ onBeforeUnmount(() => {
           type="button"
           @click="openDetailList"
         >
-          <span aria-hidden="true">☷</span>
+          <AnswerRatingIcon class="questionnaire-header-icon" kind="special" value="seeDetails" />
           <span class="sr-only">{{ messages.viewDetails }}</span>
         </button>
 
@@ -244,7 +252,7 @@ onBeforeUnmount(() => {
             <legend>
               {{ messages.experienceLegend }}<span class="answer-required-marker" aria-hidden="true">*</span>
             </legend>
-            <div class="answer-level-options">
+            <div v-balanced-option-labels class="answer-level-options">
               <button
                 v-for="option in experienceLevelOptions"
                 :key="option.value"
@@ -254,12 +262,8 @@ onBeforeUnmount(() => {
                 type="button"
                 @click="chooseExperience(option.value)"
               >
-                <span
-                  class="answer-option-icon answer-option-icon--experience"
-                  :style="{ '--experience-fill': `${option.fill}%` }"
-                  aria-hidden="true"
-                >{{ option.icon }}</span>
-                <span>{{ option.label }}</span>
+                <AnswerRatingIcon class="answer-option-icon" kind="experience" :value="option.value" />
+                <span class="answer-option-label">{{ option.label }}</span>
               </button>
             </div>
             <div class="answer-special-options">
@@ -272,8 +276,8 @@ onBeforeUnmount(() => {
                 type="button"
                 @click="chooseExperience(option.value)"
               >
-                <span class="answer-option-icon" aria-hidden="true">{{ option.icon }}</span>
-                <span>{{ option.label }}</span>
+                <AnswerRatingIcon class="answer-option-icon" kind="special" :value="option.value" />
+                <span class="answer-option-label">{{ option.label }}</span>
               </button>
             </div>
           </fieldset>
@@ -282,7 +286,7 @@ onBeforeUnmount(() => {
             <legend>
               {{ messages.preferenceLegend }}<span class="answer-required-marker" aria-hidden="true">*</span>
             </legend>
-            <div class="answer-level-options">
+            <div v-balanced-option-labels class="answer-level-options">
               <button
                 v-for="option in preferenceLevelOptions"
                 :key="option.value"
@@ -292,8 +296,8 @@ onBeforeUnmount(() => {
                 type="button"
                 @click="choosePreference(option.value)"
               >
-                <span class="answer-option-icon" aria-hidden="true">{{ option.icon }}</span>
-                <span>{{ option.label }}</span>
+                <AnswerRatingIcon class="answer-option-icon" kind="preference" :value="option.value" />
+                <span class="answer-option-label">{{ option.label }}</span>
               </button>
             </div>
             <div class="answer-special-options">
@@ -306,27 +310,42 @@ onBeforeUnmount(() => {
                 type="button"
                 @click="choosePreference(option.value)"
               >
-                <span class="answer-option-icon" aria-hidden="true">{{ option.icon }}</span>
-                <span>{{ option.label }}</span>
+                <AnswerRatingIcon class="answer-option-icon" kind="special" :value="option.value" />
+                <span class="answer-option-label">{{ option.label }}</span>
               </button>
             </div>
           </fieldset>
         </div>
 
-        <label class="category-note-field">
-          <span>{{ messages.noteLabel }}</span>
-          <input
-            v-model="note"
-            :placeholder="messages.notePlaceholder"
-            type="text"
-            @blur="saveNote"
-            @focus="clearAutoAdvance"
-            @pointerdown="clearAutoAdvance"
-          />
+        <details class="category-note-field" @toggle="openNote">
+          <summary>{{ messages.noteLabel }}</summary>
+          <label>
+            <span class="sr-only">{{ messages.noteLabel }}</span>
+            <input
+              v-model="note"
+              :placeholder="messages.notePlaceholder"
+              type="text"
+              @blur="saveNote"
+              @focus="clearAutoAdvance"
+              @pointerdown="clearAutoAdvance"
+            />
+          </label>
           <small>{{ messages.noteHelp }}</small>
-        </label>
+        </details>
 
         <div class="questionnaire-navigation">
+          <button
+            class="questionnaire-previous-action"
+            :aria-label="messages.backQuestion"
+            :disabled="!canGoBack"
+            :title="messages.backQuestion"
+            type="button"
+            @click="emit('back')"
+          >
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="m18.5 8-8 8 8 8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6" />
+            </svg>
+          </button>
           <button class="questionnaire-next-action" :disabled="!canAdvance" type="submit">
             <template v-if="autoAdvancePending">
               <svg :key="countdownKey" class="next-action-countdown-ring" viewBox="0 0 120 120" aria-hidden="true">
@@ -357,7 +376,7 @@ onBeforeUnmount(() => {
       <p class="category-detail-dialog__intro">{{ messages.detailListDescription }}</p>
       <p class="category-detail-dialog__see-details">{{ messages.detailSeeDetailsExplanation }}</p>
       <ol class="category-detail-list">
-        <li v-for="item in question.category.detailItems" :key="item.label">
+        <li v-for="item in question.category.detailItems" :key="item.detailId">
           <span>{{ item.roles[question.role].description }}</span>
           <small v-if="item.warning">{{ messages.detailWarningPrefix }}{{ item.warning }}</small>
         </li>

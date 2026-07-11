@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import {
   getCategoryQuestionId,
-  questionBank,
+  type QuestionBank,
 } from '../question-bank';
 import type {
   AnsweredSecretFileAnswer,
@@ -14,6 +14,7 @@ import type { QuestionnaireMessages } from './messages';
 const props = defineProps<{
   backHome: string;
   messages: QuestionnaireMessages;
+  questionBank: QuestionBank;
   secretFile: SecretFile;
   storageWarning: boolean;
 }>();
@@ -79,7 +80,7 @@ function getDetailAnsweredCount(categoryId: string): number {
 
       <div class="result-category-grid">
         <article
-          v-for="category in questionBank.categories"
+          v-for="category in props.questionBank.categories"
           :key="`${category.categoryId}.${selectedRole}`"
           class="result-category-card"
           :class="{ 'is-other': !category.includeInCategoryRound }"

@@ -4,7 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
 import {
   allCategoryQuestionDefinitions,
-  getCategoryQuestionsForScope,
+  getLocalizedCategoryQuestionsForScope,
+  localizeQuestionBank,
   questionBank,
   warmCategoryVisual,
 } from '../features/question-bank';
@@ -39,9 +40,12 @@ const creationError = ref('');
 const questionCursor = ref<number | null>(null);
 const questionTransition = ref<'question-slide-next' | 'question-slide-back'>('question-slide-next');
 const messages = computed(() => getQuestionnaireMessages(locale.value));
+const localizedQuestionBank = computed(() => localizeQuestionBank(questionBank, locale.value));
 const secretFile = computed(() => store.activeSecretFile);
 const categoryQuestions = computed(() =>
-  secretFile.value ? getCategoryQuestionsForScope(secretFile.value.scope) : [],
+  secretFile.value
+    ? getLocalizedCategoryQuestionsForScope(questionBank, locale.value, secretFile.value.scope)
+    : [],
 );
 const answeredCategoryCount = computed(() =>
   secretFile.value
@@ -96,7 +100,7 @@ async function startQuestionnaire(scope: SecretFileScope): Promise<void> {
   creationError.value = '';
 
   if (store.files.length >= maxLocalSecretFiles) {
-    creationError.value = `這台裝置已保存 ${maxLocalSecretFiles} 份秘密檔案。請先從舊檔案刪除一份再建立新的檔案。`;
+    creationError.value = messages.value.fileLimitReached(maxLocalSecretFiles);
     return;
   }
 
@@ -118,8 +122,8 @@ async function startQuestionnaire(scope: SecretFileScope): Promise<void> {
   } catch (error) {
     creationError.value =
       error instanceof LocalSecretFileLimitError
-        ? `這台裝置已保存 ${maxLocalSecretFiles} 份秘密檔案。請先從舊檔案刪除一份再建立新的檔案。`
-        : '暫時無法建立檔案，請稍後再試一次。';
+        ? messages.value.fileLimitReached(maxLocalSecretFiles)
+        : messages.value.fileCreateFailed;
   }
 }
 
@@ -231,6 +235,7 @@ onMounted(() => {
         :total="categoryQuestions.length"
         @advance="advanceQuestion"
         @back="goToPreviousQuestion"
+        @home="goHome"
         @save="saveQuestionAnswer"
       />
     </Transition>
@@ -239,6 +244,7 @@ onMounted(() => {
   <QuestionnaireResults
     v-if="secretFile && !currentQuestion"
     :back-home="appMessages.common.backHome"
+    :question-bank="localizedQuestionBank"
     :messages="messages"
     :secret-file="secretFile"
     :storage-warning="storageWarning"

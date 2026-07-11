@@ -9,6 +9,7 @@ export interface QuestionBankCategoryRoleCopy {
 }
 
 export interface QuestionBankDetailItem {
+  detailId: string;
   label: string;
   roles: Record<QuestionRole, { description: string }>;
   warning: string | null;

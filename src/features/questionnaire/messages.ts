@@ -20,6 +20,9 @@ export interface QuestionnaireMessages {
   detailWarningPrefix: string;
   experienceLabels: Record<ExperienceAnswer, string>;
   experienceLegend: string;
+  fileLimitReached: (limit: number) => string;
+  fileCreateFailed: string;
+  home: string;
   intro: {
     autosaveAction: string;
     autosaveLines: string[];
@@ -82,6 +85,9 @@ const zhHant: QuestionnaireMessages = {
     seeDetails: '參考細項',
   },
   experienceLegend: '你的經驗程度',
+  fileLimitReached: (limit) => `這台裝置已保存 ${limit} 份祕密檔案。請先從舊檔案刪除一份，再建立新的檔案。`,
+  fileCreateFailed: '暫時無法建立檔案，請稍後再試一次。',
+  home: '回到主頁',
   intro: {
     autosaveAction: '太.....太好了',
     autosaveLines: [
@@ -95,8 +101,8 @@ const zhHant: QuestionnaireMessages = {
     ],
     explanationAction: '我了解了',
     explanationLines: [
-      '所有的問題，我們都會分類為主動方和被動方兩種面相。',
-      '前者代表你是在互動中施予/執行的那一個角色，後者則是接納/承受的那一個角色。',
+      '所有的問題，我們都會分類為主導側和配合側兩種方向。',
+      '前者代表你是在互動中主導/施予/執行的那一個角色，後者則是配合/接納/承受的那一個角色。',
     ],
     notReady: '還沒......',
     questionCountAction: '(((ﾟДﾟ;)))',
@@ -105,8 +111,8 @@ const zhHant: QuestionnaireMessages = {
     readyLines: ['準備好開始第一階段的填答了嗎？'],
     speakerName: '守密兔',
     scopeChoices: [
-      { label: '僅顯示主動方', suffix: '相關問題', scope: 'activeOnly' },
-      { label: '僅顯示被動方', suffix: '相關問題', scope: 'passiveOnly' },
+      { label: '僅顯示主導側', scope: 'activeOnly' },
+      { label: '僅顯示配合側', scope: 'passiveOnly' },
       { label: '顯示所有問題', scope: 'all' },
     ],
     scopeHelp: '這些是甚麼？',
@@ -140,8 +146,8 @@ const zhHant: QuestionnaireMessages = {
       `這份測驗結果僅供參考，並無法完整的描述${profileName}的喜好或特質，也請勿用來替代任何必要的溝通。`,
   },
   roleLabels: {
-    active: '主動方',
-    passive: '被動方',
+    active: '主導側',
+    passive: '配合側',
   },
   storageWarning: '目前無法使用瀏覽器持久儲存；這次作答暫時保留在目前頁面，離開後可能無法恢復。',
   viewDetails: '查看細項列表',
@@ -170,23 +176,43 @@ const zhHans: QuestionnaireMessages = {
     seeDetails: '参考细项',
   },
   experienceLegend: '你的经验程度',
+  fileLimitReached: (limit) => `这台装置已保存 ${limit} 份秘密档案。请先从旧档案删除一份，再创建新的档案。`,
+  fileCreateFailed: '暂时无法创建档案，请稍后再试一次。',
+  home: '回到主页',
   intro: {
     ...zhHant.intro,
+    autosaveAction: '太……太好了',
+    autosaveLines: [
+      '填写过程会即时保存，你可以随时离开，也可以随时回来继续。',
+      '甚至还可以把档案传到其他装置继续填写！',
+    ],
+    categoryCountAction: '（惊魂未定）',
+    categoryCountLines: (count) => [
+      `吓到你了吗？没事，我们已经把这些问题整理成${count}个分类。`,
+      '你只需要先告诉我，你对每个分类的感受。',
+    ],
+    explanationAction: '我了解了',
     scopeLines: ['嗨，很高兴在这里看到你。开始前，我们先确定测验范围。'],
     explanationLines: [
-      '所有问题都会分成主动方与被动方两个面向。',
-      '前者代表在互动中施予或执行的一方，后者代表接纳或承受的一方。',
+      '所有问题都会分为主导侧与配合侧两个方向。',
+      '前者代表在互动中主导、施予或执行的一方，后者代表配合、接纳或承受的一方。',
     ],
     readyLines: ['准备好开始第一阶段的填写了吗？'],
     ready: '准备好了',
     speakerName: '守密兔',
     notReady: '还没……',
+    questionCountAction: '(((ﾟДﾟ;)))',
+    questionCountLines: (count) => [`嗯……好的，这里总共有${count}个问题！`],
     scopeChoices: [
-      { label: '只显示主动方', suffix: '相关问题', scope: 'activeOnly' },
-      { label: '只显示被动方', suffix: '相关问题', scope: 'passiveOnly' },
+      { label: '仅显示主导侧', scope: 'activeOnly' },
+      { label: '仅显示配合侧', scope: 'passiveOnly' },
       { label: '显示所有问题', scope: 'all' },
     ],
     scopeHelp: '这些是什么？',
+  },
+  roleLabels: {
+    active: '主导侧',
+    passive: '配合侧',
   },
   noteHelp: '选填，最多 80 个字符；请勿填写链接。',
   noteLabel: '想补充的小提醒',
@@ -240,21 +266,37 @@ const ja: QuestionnaireMessages = {
     seeDetails: '詳細項目を参照',
   },
   experienceLegend: '経験の程度',
+  fileLimitReached: (limit) => `この端末にはすでに${limit}件の秘密ファイルがあります。古いファイルを1件削除してから、新しいファイルを作成してください。`,
+  fileCreateFailed: 'ファイルを作成できませんでした。しばらくしてから、もう一度お試しください。',
+  home: 'ホームへ戻る',
   intro: {
     ...zhHant.intro,
+    autosaveAction: 'そ、それなら安心した……',
+    autosaveLines: [
+      '回答はその都度保存されます。いつ離れても、戻って続きから再開できます。',
+      'ファイルを別の端末へ移して、そちらで続きを回答することもできます。',
+    ],
+    categoryCountAction: '（まだ少し驚いている）',
+    categoryCountLines: (count) => [
+      `びっくりした？大丈夫。質問は${count}個のカテゴリーに整理してあるよ。`,
+      'まずは、それぞれのカテゴリーについて今の気持ちを教えてください。',
+    ],
+    explanationAction: 'わかった',
     scopeLines: ['こんにちは。始める前に、質問の範囲を決めましょう。'],
     explanationLines: [
-      'すべての質問には、する側と受ける側の二つの面があります。',
-      '前者は行為をする側、後者はそれを受ける側を表します。',
+      'すべての質問は、リード側とフォロー側の二つの方向に分けています。',
+      '前者はやり取りで主導・施与・実行を担う側、後者はそれに合わせて受け止める側を表します。',
     ],
     readyLines: ['第一段階の回答を始める準備はできましたか？'],
     ready: '準備できた',
     speakerName: '守秘うさぎ',
     notReady: 'まだ……',
+    questionCountAction: '(((ﾟДﾟ;)))',
+    questionCountLines: (count) => [`ええと……全部で${count}問あります！`],
     scopeChoices: [
-      { label: 'する側', suffix: 'の質問だけ', scope: 'activeOnly' },
-      { label: '受ける側', suffix: 'の質問だけ', scope: 'passiveOnly' },
-      { label: 'すべての質問', scope: 'all' },
+      { label: 'リード側のみ', scope: 'activeOnly' },
+      { label: 'フォロー側のみ', scope: 'passiveOnly' },
+      { label: 'すべて表示', scope: 'all' },
     ],
     scopeHelp: 'どういう意味？',
   },
@@ -285,8 +327,8 @@ const ja: QuestionnaireMessages = {
       `この結果だけでは${profileName}さんの好みや特性を完全には表せません。必要な対話の代わりにはしないでください。`,
   },
   roleLabels: {
-    active: 'する側',
-    passive: '受ける側',
+    active: 'リード側',
+    passive: 'フォロー側',
   },
   storageWarning: 'ブラウザーに保存できません。現在のページには残りますが、離れると復元できない可能性があります。',
   viewDetails: '詳細リストを見る',
@@ -315,21 +357,37 @@ const en: QuestionnaireMessages = {
     seeDetails: 'Reference details',
   },
   experienceLegend: 'Your experience',
+  fileLimitReached: (limit) => `This device already has ${limit} secret files. Delete one old file before creating a new one.`,
+  fileCreateFailed: 'The file could not be created. Please try again in a moment.',
+  home: 'Return home',
   intro: {
     ...zhHant.intro,
+    autosaveAction: 'That is… a relief',
+    autosaveLines: [
+      'Your answers are saved as you go. You can leave at any time and return whenever you are ready.',
+      'You can even move your file to another device and continue there.',
+    ],
+    categoryCountAction: '(Still recovering)',
+    categoryCountLines: (count) => [
+      `Did that number startle you? It is okay—we have organized the questions into ${count} categories.`,
+      'For now, you only need to tell me how you feel about each category.',
+    ],
+    explanationAction: 'I understand',
     scopeLines: ['Hi, it is good to see you. Before we begin, let us choose the scope of the questionnaire.'],
     explanationLines: [
-      'Every question has an active and a receptive perspective.',
-      'Active means doing or applying the interaction; receptive means receiving or experiencing it.',
+      'Every question is grouped into a Leading and a Following direction.',
+      'Leading means taking the lead, giving, or carrying out the interaction; Following means joining in, receiving, or experiencing it.',
     ],
     readyLines: ['Ready to begin the first stage?'],
     ready: 'I am ready',
     speakerName: 'Secretkeeper Bunny',
     notReady: 'Not yet…',
+    questionCountAction: '(((ﾟДﾟ;)))',
+    questionCountLines: (count) => [`All right… there are ${count} questions in total!`],
     scopeChoices: [
-      { label: 'Active-side', suffix: 'questions only', scope: 'activeOnly' },
-      { label: 'Receptive-side', suffix: 'questions only', scope: 'passiveOnly' },
-      { label: 'Show every question', scope: 'all' },
+      { label: 'Leading only', scope: 'activeOnly' },
+      { label: 'Following only', scope: 'passiveOnly' },
+      { label: 'Show all', scope: 'all' },
     ],
     scopeHelp: 'What does that mean?',
   },
@@ -360,8 +418,8 @@ const en: QuestionnaireMessages = {
       `These results are only a reference and cannot fully describe ${profileName}'s preferences or traits. Do not use them in place of necessary communication.`,
   },
   roleLabels: {
-    active: 'Active',
-    passive: 'Receptive',
+    active: 'Leading',
+    passive: 'Following',
   },
   storageWarning: 'Browser storage is unavailable. This session is still here for now, but it may not be recoverable after you leave.',
   viewDetails: 'View detail list',

@@ -8,6 +8,7 @@ export {
   questionBank,
 } from './questionBank';
 export { getCategoryVisualUrl, warmCategoryVisual } from './categoryVisuals';
+export { getLocalizedCategoryQuestionsForScope, localizeQuestionBank } from './locales';
 export type {
   CategoryQuestion,
   QuestionBank,

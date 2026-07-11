@@ -38,6 +38,7 @@ function category(
 const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   impact_spanking: [
     {
+      detailId: 'detail-impact_spanking-1qzzr10',
       label: "用手",
       roles: {
         active: {
@@ -50,6 +51,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-gwssxu',
       label: "用皮拍",
       roles: {
         active: {
@@ -62,6 +64,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1uy95nk',
       label: "用木拍",
       roles: {
         active: {
@@ -74,6 +77,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-i4vf80',
       label: "用木條",
       roles: {
         active: {
@@ -86,6 +90,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-i4t2fc',
       label: "用硬塑膠/壓克力",
       roles: {
         active: {
@@ -98,6 +103,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1uxz7gx',
       label: "用軟塑膠",
       roles: {
         active: {
@@ -110,6 +116,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1lmlugr',
       label: "用熱溶膠條",
       roles: {
         active: {
@@ -122,6 +129,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1bcfzjw',
       label: "用藤條",
       roles: {
         active: {
@@ -134,6 +142,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-14bm3qs',
       label: "用梳子",
       roles: {
         active: {
@@ -146,6 +155,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1i2vvrm',
       label: "泛紅的程度",
       roles: {
         active: {
@@ -158,6 +168,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-t3fgz5',
       label: "小瘀青的程度",
       roles: {
         active: {
@@ -170,6 +181,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1ijb2cv',
       label: "大範圍重瘀青的程度",
       roles: {
         active: {
@@ -182,6 +194,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-19dbc6o',
       label: "破皮滲組織液的程度",
       roles: {
         active: {
@@ -194,6 +207,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意傷口後續保養與處理"
     },
     {
+      detailId: 'detail-impact_spanking-1q2onnn',
       label: "破皮流血的程度",
       roles: {
         active: {
@@ -206,6 +220,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意傷口後續保養與處理"
     },
     {
+      detailId: 'detail-impact_spanking-1744x4z',
       label: "拍打屁股",
       roles: {
         active: {
@@ -218,6 +233,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-915jo9',
       label: "拍打胸部",
       roles: {
         active: {
@@ -230,6 +246,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-9ncnsk',
       label: "拍打生殖器",
       roles: {
         active: {
@@ -242,6 +259,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-syc2dj',
       label: "拍打大腿",
       roles: {
         active: {
@@ -254,6 +272,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1lby5ih',
       label: "拍打腳底",
       roles: {
         active: {
@@ -266,6 +285,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-18swthz',
       label: "拍打手心",
       roles: {
         active: {
@@ -278,6 +298,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-1pli4vm',
       label: "趴在膝蓋上打",
       roles: {
         active: {
@@ -290,6 +311,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-m08x3j',
       label: "包尿布式姿勢打",
       roles: {
         active: {
@@ -302,6 +324,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-yjl4cm',
       label: "站姿打",
       roles: {
         active: {
@@ -314,6 +337,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-impact_spanking-cnf6uz',
       label: "墊腳打",
       roles: {
         active: {
@@ -328,6 +352,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   whipping: [
     {
+      detailId: 'detail-whipping-9q3jnv',
       label: "用散鞭",
       roles: {
         active: {
@@ -340,6 +365,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-1w83a3j',
       label: "用長鞭",
       roles: {
         active: {
@@ -352,6 +378,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-d25qdd',
       label: "用音爆鞭",
       roles: {
         active: {
@@ -364,6 +391,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-pt4u3j',
       label: "用皮帶",
       roles: {
         active: {
@@ -376,6 +404,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-2nwvqy',
       label: "泛紅的程度",
       roles: {
         active: {
@@ -388,6 +417,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-sw4wfd',
       label: "小瘀青的程度",
       roles: {
         active: {
@@ -400,6 +430,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-hekt6v',
       label: "大範圍重瘀青的程度",
       roles: {
         active: {
@@ -412,6 +443,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-k3sn5k',
       label: "破皮滲組織液的程度",
       roles: {
         active: {
@@ -424,6 +456,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意傷口後續保養與處理"
     },
     {
+      detailId: 'detail-whipping-1oyyq0b',
       label: "破皮流血的程度",
       roles: {
         active: {
@@ -436,6 +469,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意傷口後續保養與處理"
     },
     {
+      detailId: 'detail-whipping-15c25xn',
       label: "鞭打屁股",
       roles: {
         active: {
@@ -448,6 +482,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-1f72zmt',
       label: "鞭打背部",
       roles: {
         active: {
@@ -460,6 +495,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-1lvzphd',
       label: "鞭打胸部",
       roles: {
         active: {
@@ -472,6 +508,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-1kkr5xo',
       label: "鞭打生殖器",
       roles: {
         active: {
@@ -484,6 +521,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-pby8ov',
       label: "鞭打大腿",
       roles: {
         active: {
@@ -496,6 +534,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-whipping-1bop80o',
       label: "鞭打腹部",
       roles: {
         active: {
@@ -510,6 +549,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   bondage: [
     {
+      detailId: 'detail-bondage-122x6cf',
       label: "用麻繩",
       roles: {
         active: {
@@ -522,6 +562,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1tiowlt',
       label: "用棉繩",
       roles: {
         active: {
@@ -534,6 +575,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-3cl427',
       label: "用皮帶",
       roles: {
         active: {
@@ -546,6 +588,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1fq32i8',
       label: "用手銬",
       roles: {
         active: {
@@ -558,6 +601,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1b5wnt',
       label: "用鎖鏈",
       roles: {
         active: {
@@ -570,6 +614,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1atcv41',
       label: "用布/布條",
       roles: {
         active: {
@@ -582,6 +627,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1pcf9zg',
       label: "用靜電膠帶",
       roles: {
         active: {
@@ -594,6 +640,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1eqwak3',
       label: "用大型拘束家具",
       roles: {
         active: {
@@ -606,6 +653,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-14lh93b',
       label: "用小型情趣道具",
       roles: {
         active: {
@@ -618,6 +666,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-9mjx48',
       label: "用肢體壓制",
       roles: {
         active: {
@@ -630,6 +679,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1b013pq',
       label: "約十分鐘內的長度",
       roles: {
         active: {
@@ -642,6 +692,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-spf6ae',
       label: "約十分鐘到一小時的長度",
       roles: {
         active: {
@@ -654,6 +705,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意麻木、痠痛與血液循環狀態"
     },
     {
+      detailId: 'detail-bondage-m6v84b',
       label: "約一小時到三小時的長度",
       roles: {
         active: {
@@ -666,6 +718,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意長時間姿勢壓迫、血液循環與補水休息"
     },
     {
+      detailId: 'detail-bondage-1ey2gp4',
       label: "多於三小時的長度",
       roles: {
         active: {
@@ -678,6 +731,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意長時間拘束造成的血液循環、神經壓迫與身心壓力"
     },
     {
+      detailId: 'detail-bondage-mueg5n',
       label: "拘束手部",
       roles: {
         active: {
@@ -690,6 +744,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-o3hqfj',
       label: "拘束腿部",
       roles: {
         active: {
@@ -702,6 +757,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-1vyd9h5',
       label: "拘束全身",
       roles: {
         active: {
@@ -714,6 +770,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-bondage-gyoc0q',
       label: "吊縛",
       roles: {
         active: {
@@ -726,6 +783,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意吊縛風險，需經驗、監看與緊急解放方式"
     },
     {
+      detailId: 'detail-bondage-bagc3e',
       label: "木乃伊",
       roles: {
         active: {
@@ -740,6 +798,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   tickling: [
     {
+      detailId: 'detail-tickling-hvz7o9',
       label: "用手",
       roles: {
         active: {
@@ -752,6 +811,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-axmdvn',
       label: "用梳子",
       roles: {
         active: {
@@ -764,6 +824,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-10fu930',
       label: "用羽毛",
       roles: {
         active: {
@@ -776,6 +837,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-1hi631w',
       label: "用刺輪",
       roles: {
         active: {
@@ -788,6 +850,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-1a2ptfb',
       label: "用震動情趣用品",
       roles: {
         active: {
@@ -800,6 +863,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-1uurnpt',
       label: "輕搔",
       roles: {
         active: {
@@ -812,6 +876,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-dhntqh',
       label: "重搔",
       roles: {
         active: {
@@ -824,6 +889,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-j94l9q',
       label: "拘束狀態搔癢",
       roles: {
         active: {
@@ -836,6 +902,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意恐慌反應、呼吸與無法閃避造成的壓力"
     },
     {
+      detailId: 'detail-tickling-1krfcvz',
       label: "裸身搔癢",
       roles: {
         active: {
@@ -848,6 +915,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-1nouw8a',
       label: "僅穿內衣褲搔癢",
       roles: {
         active: {
@@ -860,6 +928,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-uttpwj',
       label: "穿衣服搔癢",
       roles: {
         active: {
@@ -872,6 +941,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-ni7x64',
       label: "搔癢脖子",
       roles: {
         active: {
@@ -884,6 +954,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-11gglre',
       label: "搔癢耳朵",
       roles: {
         active: {
@@ -896,6 +967,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-ayd8dk',
       label: "搔癢腋下",
       roles: {
         active: {
@@ -908,6 +980,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-s5eumi',
       label: "搔癢腳底",
       roles: {
         active: {
@@ -920,6 +993,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-tickling-cypicd',
       label: "搔癢肋骨間隙",
       roles: {
         active: {
@@ -934,6 +1008,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   pain_stimulation: [
     {
+      detailId: 'detail-pain_stimulation-3jsgcf',
       label: "輕度乳夾",
       roles: {
         active: {
@@ -946,6 +1021,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pain_stimulation-qux8jb',
       label: "重度乳夾",
       roles: {
         active: {
@@ -958,6 +1034,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pain_stimulation-6cy0m2',
       label: "乳夾並且承重",
       roles: {
         active: {
@@ -970,6 +1047,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意撕裂傷、血液循環受阻與過度拉扯"
     },
     {
+      detailId: 'detail-pain_stimulation-9h5col',
       label: "用手虐乳",
       roles: {
         active: {
@@ -982,6 +1060,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pain_stimulation-fg5ey3',
       label: "輕度電擊",
       roles: {
         active: {
@@ -994,6 +1073,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "避免心臟附近、頭頸部與身體狀況不適者"
     },
     {
+      detailId: 'detail-pain_stimulation-rqbs5g',
       label: "較強的電擊",
       roles: {
         active: {
@@ -1006,6 +1086,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意心臟風險、肌肉抽動、灼傷與身體不適"
     },
     {
+      detailId: 'detail-pain_stimulation-mjdyqb',
       label: "電擊生殖器",
       roles: {
         active: {
@@ -1018,6 +1099,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意生殖器傷害、灼傷、麻木與身體不適"
     },
     {
+      detailId: 'detail-pain_stimulation-565m1l',
       label: "在生殖器周圍姜罰",
       roles: {
         active: {
@@ -1030,6 +1112,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意皮膚與黏膜刺激、灼熱感與過敏反應"
     },
     {
+      detailId: 'detail-pain_stimulation-10b0fb5',
       label: "插入生殖器的姜罰",
       roles: {
         active: {
@@ -1042,6 +1125,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意黏膜損傷、感染風險、灼熱感與身體不適"
     },
     {
+      detailId: 'detail-pain_stimulation-145kjnj',
       label: "在肛門周圍姜罰",
       roles: {
         active: {
@@ -1054,6 +1138,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意皮膚與黏膜刺激、灼熱感與過敏反應"
     },
     {
+      detailId: 'detail-pain_stimulation-10kh2bt',
       label: "插入肛門的姜罰",
       roles: {
         active: {
@@ -1066,6 +1151,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意黏膜損傷、感染風險、灼熱感與身體不適"
     },
     {
+      detailId: 'detail-pain_stimulation-369ag3',
       label: "滴蠟在身體",
       roles: {
         active: {
@@ -1078,6 +1164,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意燙傷、皮膚敏感與蠟材溫度"
     },
     {
+      detailId: 'detail-pain_stimulation-8lrs4c',
       label: "滴蠟在胸部",
       roles: {
         active: {
@@ -1090,6 +1177,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意燙傷、皮膚敏感與乳頭周圍刺激過強"
     },
     {
+      detailId: 'detail-pain_stimulation-j8e4pr',
       label: "滴蠟在生殖器",
       roles: {
         active: {
@@ -1102,6 +1190,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意黏膜燙傷、皮膚敏感與感染風險"
     },
     {
+      detailId: 'detail-pain_stimulation-1jrzewy',
       label: "輕度咬人/被咬",
       roles: {
         active: {
@@ -1114,6 +1203,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pain_stimulation-j9milm',
       label: "重度咬人/被咬",
       roles: {
         active: {
@@ -1126,6 +1216,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意皮膚破損、感染風險與傷口照護"
     },
     {
+      detailId: 'detail-pain_stimulation-yllz3q',
       label: "拉扯頭髮",
       roles: {
         active: {
@@ -1138,6 +1229,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pain_stimulation-151bev7',
       label: "陰唇/陰蒂夾",
       roles: {
         active: {
@@ -1150,6 +1242,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pain_stimulation-fdi4gl',
       label: "冰塊刺激",
       roles: {
         active: {
@@ -1164,6 +1257,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   humiliation: [
     {
+      detailId: 'detail-humiliation-ngy4jt',
       label: "搧巴掌",
       roles: {
         active: {
@@ -1176,6 +1270,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意臉部、耳朵、牙齒與頸部受傷風險"
     },
     {
+      detailId: 'detail-humiliation-pn03',
       label: "言語羞辱",
       roles: {
         active: {
@@ -1188,6 +1283,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-18rp5a3',
       label: "強迫尿床",
       roles: {
         active: {
@@ -1200,6 +1296,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-1podlwa',
       label: "強迫照鏡子",
       roles: {
         active: {
@@ -1212,6 +1309,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-1amvb9e',
       label: "身體寫羞辱字眼",
       roles: {
         active: {
@@ -1224,6 +1322,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-1vz66lf',
       label: "剃光頭",
       roles: {
         active: {
@@ -1236,6 +1335,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-1w3livx',
       label: "變裝",
       roles: {
         active: {
@@ -1248,6 +1348,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-1h3yf1m',
       label: "私人場所羞辱",
       roles: {
         active: {
@@ -1260,6 +1361,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-humiliation-ri5nyc',
       label: "公開羞辱",
       roles: {
         active: {
@@ -1274,6 +1376,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   service: [
     {
+      detailId: 'detail-service-7v0tu6',
       label: "腳底按摩",
       roles: {
         active: {
@@ -1286,6 +1389,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-1rvnr6f',
       label: "全身按摩",
       roles: {
         active: {
@@ -1298,6 +1402,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-1cqhir7',
       label: "準備餐點",
       roles: {
         active: {
@@ -1310,6 +1415,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-5cfc80',
       label: "倒茶/飲料",
       roles: {
         active: {
@@ -1322,6 +1428,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-177yx3t',
       label: "提行李/包包",
       roles: {
         active: {
@@ -1334,6 +1441,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-16nyopw',
       label: "清潔玩具/道具",
       roles: {
         active: {
@@ -1346,6 +1454,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-176k705',
       label: "做家事",
       roles: {
         active: {
@@ -1358,6 +1467,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-b75ksu',
       label: "洗澡服侍",
       roles: {
         active: {
@@ -1370,6 +1480,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-z1q598',
       label: "美甲",
       roles: {
         active: {
@@ -1382,6 +1493,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-1nx0nqc',
       label: "載送對方",
       roles: {
         active: {
@@ -1394,6 +1506,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-service-15yxo0r',
       label: "性服侍",
       roles: {
         active: {
@@ -1408,6 +1521,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   discipline: [
     {
+      detailId: 'detail-discipline-11uedoh',
       label: "撰寫日記",
       roles: {
         active: {
@@ -1420,6 +1534,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-11sxnh8',
       label: "撰寫實踐心得",
       roles: {
         active: {
@@ -1432,6 +1547,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-1g2g00r',
       label: "姿勢訓練",
       roles: {
         active: {
@@ -1444,6 +1560,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-qp6v84',
       label: "增肥",
       roles: {
         active: {
@@ -1456,6 +1573,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-nqdxf9',
       label: "減肥",
       roles: {
         active: {
@@ -1468,6 +1586,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-18zxvtr',
       label: "飲食控制",
       roles: {
         active: {
@@ -1480,6 +1599,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意營養不足、健康狀況與控制界線"
     },
     {
+      detailId: 'detail-discipline-vrrge7',
       label: "身體檢查",
       roles: {
         active: {
@@ -1492,6 +1612,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-mrnfh0',
       label: "進行對方指定的任務",
       roles: {
         active: {
@@ -1504,6 +1625,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-1h3vvc3',
       label: "對不當的行為訓誡",
       roles: {
         active: {
@@ -1516,6 +1638,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-7ki0ex',
       label: "指定學習項目",
       roles: {
         active: {
@@ -1528,6 +1651,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-1686v9k',
       label: "言語規範",
       roles: {
         active: {
@@ -1540,6 +1664,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-discipline-s0l9h0',
       label: "制定/執行儀式",
       roles: {
         active: {
@@ -1554,54 +1679,59 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   sexual_interaction: [
     {
+      detailId: 'detail-sexual_interaction-ln7hc7',
       label: "性交",
       roles: {
         active: {
-          description: "在性交中擔任主動方"
+          description: "在性交中擔任主導側"
         },
         passive: {
-          description: "在性交中擔任被動方"
+          description: "在性交中擔任配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1aef53n',
       label: "口交",
       roles: {
         active: {
-          description: "在口交中擔任主動方"
+          description: "在口交中擔任主導側"
         },
         passive: {
-          description: "在口交中擔任被動方"
+          description: "在口交中擔任配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1ytloln',
       label: "肛交",
       roles: {
         active: {
-          description: "在肛交中擔任主動方"
+          description: "在肛交中擔任主導側"
         },
         passive: {
-          description: "在肛交中擔任被動方"
+          description: "在肛交中擔任配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-wc6vs3',
       label: "乳交",
       roles: {
         active: {
-          description: "在乳交中擔任主動方"
+          description: "在乳交中擔任主導側"
         },
         passive: {
-          description: "在乳交中擔任被動方"
+          description: "在乳交中擔任配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1k4ddkr',
       label: "手交",
       roles: {
         active: {
@@ -1614,6 +1744,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1g5pujn',
       label: "拳交",
       roles: {
         active: {
@@ -1626,6 +1757,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意撕裂傷、出血、感染風險與身體不適"
     },
     {
+      detailId: 'detail-sexual_interaction-filrqn',
       label: "射精於嘴內",
       roles: {
         active: {
@@ -1638,6 +1770,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1rt5tu9',
       label: "射精於臉上",
       roles: {
         active: {
@@ -1650,6 +1783,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1ue4af6',
       label: "射精於胸部",
       roles: {
         active: {
@@ -1662,6 +1796,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-tvmpfz',
       label: "射精於陰道",
       roles: {
         active: {
@@ -1674,6 +1809,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-dsyi29',
       label: "射精於肛門",
       roles: {
         active: {
@@ -1686,6 +1822,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-29csl5',
       label: "射精於頭髮",
       roles: {
         active: {
@@ -1698,6 +1835,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-qk9oti',
       label: "吞精液",
       roles: {
         active: {
@@ -1710,6 +1848,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-ik3j9u',
       label: "吃含精液的食物",
       roles: {
         active: {
@@ -1722,6 +1861,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-jfpa5h',
       label: "潮吹",
       roles: {
         active: {
@@ -1734,6 +1874,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-8jcyoj',
       label: "強制高潮",
       roles: {
         active: {
@@ -1746,6 +1887,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-w99mgx',
       label: "自慰展示",
       roles: {
         active: {
@@ -1758,6 +1900,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1sl20mr',
       label: "用性玩具服務",
       roles: {
         active: {
@@ -1770,6 +1913,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-1xo6keo',
       label: "尿道棒調教",
       roles: {
         active: {
@@ -1782,6 +1926,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-sexual_interaction-6pp140',
       label: "交與跳蛋操作權",
       roles: {
         active: {
@@ -1794,6 +1939,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意場合、強度、身體不適與停止方式"
     },
     {
+      detailId: 'detail-sexual_interaction-flhbf2',
       label: "於公共場所穿戴跳蛋",
       roles: {
         active: {
@@ -1808,6 +1954,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   anal_interaction: [
     {
+      detailId: 'detail-anal_interaction-1oupd9i',
       label: "直徑小於三公分的肛塞",
       roles: {
         active: {
@@ -1820,6 +1967,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-1m59dfi',
       label: "直徑介於三到五公分的肛塞",
       roles: {
         active: {
@@ -1832,6 +1980,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意潤滑、撕裂傷、尺寸適應與身體不適"
     },
     {
+      detailId: 'detail-anal_interaction-b8y6xr',
       label: "直徑大於五公分的肛塞",
       roles: {
         active: {
@@ -1844,6 +1993,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意撕裂傷、出血、括約肌傷害與身體不適"
     },
     {
+      detailId: 'detail-anal_interaction-1sgm90w',
       label: "肛鞭",
       roles: {
         active: {
@@ -1856,6 +2006,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-4g0x9i',
       label: "串珠情趣玩具",
       roles: {
         active: {
@@ -1868,6 +2019,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-ilmux2',
       label: "擴肛訓練",
       roles: {
         active: {
@@ -1880,6 +2032,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意循序漸進、潤滑、撕裂傷與身體不適"
     },
     {
+      detailId: 'detail-anal_interaction-n69t3o',
       label: "肛門擴張器",
       roles: {
         active: {
@@ -1892,6 +2045,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意尺寸、潤滑、撕裂傷與出血"
     },
     {
+      detailId: 'detail-anal_interaction-v6v9dp',
       label: "肛門窺器",
       roles: {
         active: {
@@ -1904,6 +2058,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-12ghyy9',
       label: "被灌腸",
       roles: {
         active: {
@@ -1916,6 +2071,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-gwnjaf',
       label: "舔肛服務",
       roles: {
         active: {
@@ -1928,6 +2084,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-1wf7u60',
       label: "一小時內穿戴肛塞",
       roles: {
         active: {
@@ -1940,6 +2097,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-anal_interaction-19jmdrg',
       label: "一到三小時穿戴肛塞",
       roles: {
         active: {
@@ -1952,6 +2110,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意長時間壓迫、潤滑不足與身體不適"
     },
     {
+      detailId: 'detail-anal_interaction-ww1hfr',
       label: "三小時以上穿戴肛塞",
       roles: {
         active: {
@@ -1964,6 +2123,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意長時間壓迫、黏膜刺激、取出困難與身體不適"
     },
     {
+      detailId: 'detail-anal_interaction-npcnih',
       label: "睡覺時穿戴肛塞",
       roles: {
         active: {
@@ -1976,6 +2136,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意長時間壓迫、睡眠中不適與緊急取出困難"
     },
     {
+      detailId: 'detail-anal_interaction-1c35d5h',
       label: "於公共場所穿戴肛塞",
       roles: {
         active: {
@@ -1990,10 +2151,11 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   multi_party_interaction: [
     {
+      detailId: 'detail-multi_party_interaction-jy04v5',
       label: "一主多奴/寵",
       roles: {
         active: {
-          description: "在一主多奴/寵關係中擔任主動方"
+          description: "在一主多奴/寵關係中擔任主導側"
         },
         passive: {
           description: "在一主多奴/寵關係中擔任奴方或寵物方"
@@ -2002,10 +2164,11 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-1retpvp',
       label: "多主一奴/寵",
       roles: {
         active: {
-          description: "在多主一奴/寵關係中擔任主動方之一"
+          description: "在多主一奴/寵關係中擔任主導側之一"
         },
         passive: {
           description: "在多主一奴/寵關係中擔任奴方或寵物方"
@@ -2014,6 +2177,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-14o4ip9',
       label: "交換伴侶",
       roles: {
         active: {
@@ -2026,6 +2190,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-rrbnk5',
       label: "綠帽遊戲",
       roles: {
         active: {
@@ -2038,6 +2203,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-2wnhye',
       label: "群交",
       roles: {
         active: {
@@ -2050,6 +2216,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意所有參與者同意、性病風險、避孕與界線管理"
     },
     {
+      detailId: 'detail-multi_party_interaction-1rwzxqq',
       label: "知情同意下的輪姦",
       roles: {
         active: {
@@ -2062,6 +2229,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意明確同意、停止方式、身體安全與創傷觸發"
     },
     {
+      detailId: 'detail-multi_party_interaction-1p23a5n',
       label: "短期分享/交予給第三人",
       roles: {
         active: {
@@ -2074,6 +2242,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-18qgi5',
       label: "長期分享/交予給第三人",
       roles: {
         active: {
@@ -2086,6 +2255,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意關係權責、生活影響、同意更新與退出方式"
     },
     {
+      detailId: 'detail-multi_party_interaction-8rm4og',
       label: "特定情況分享/交予給第三人",
       roles: {
         active: {
@@ -2098,6 +2268,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-rxs1rf',
       label: "多人約會",
       roles: {
         active: {
@@ -2110,6 +2281,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-multi_party_interaction-1ovw0ci',
       label: "多人調教",
       roles: {
         active: {
@@ -2124,6 +2296,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   enslavement: [
     {
+      detailId: 'detail-enslavement-bei8uo',
       label: "性奴",
       roles: {
         active: {
@@ -2136,6 +2309,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-1lnxc6o',
       label: "家事奴",
       roles: {
         active: {
@@ -2148,6 +2322,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-emvul7',
       label: "服侍奴",
       roles: {
         active: {
@@ -2160,6 +2335,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-5p38rr',
       label: "ATM奴",
       roles: {
         active: {
@@ -2172,6 +2348,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-ktgyn6',
       label: "司機奴",
       roles: {
         active: {
@@ -2184,6 +2361,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-8hpgnn',
       label: "疼痛奴/出氣包",
       roles: {
         active: {
@@ -2196,6 +2374,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-p5y68w',
       label: "奴隸訓練",
       roles: {
         active: {
@@ -2208,6 +2387,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-8sl7b1',
       label: "給予/擁有奴隸項圈",
       roles: {
         active: {
@@ -2220,6 +2400,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-wgiuuj',
       label: "私人空間牽繩牽引",
       roles: {
         active: {
@@ -2232,6 +2413,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-1654r6x',
       label: "公開空間牽繩牽引",
       roles: {
         active: {
@@ -2244,6 +2426,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意身分暴露、他人同意、公共場合界線與安全風險"
     },
     {
+      detailId: 'detail-enslavement-w3wrxl',
       label: "關奴隸籠子",
       roles: {
         active: {
@@ -2256,6 +2439,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意姿勢壓迫、恐慌反應、通風與緊急解放方式"
     },
     {
+      detailId: 'detail-enslavement-1d5ybf5',
       label: "短暫奴化",
       roles: {
         active: {
@@ -2268,6 +2452,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-enslavement-tu6x63',
       label: "長期奴化",
       roles: {
         active: {
@@ -2280,6 +2465,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意現實生活影響、身分界線、同意更新與退出方式"
     },
     {
+      detailId: 'detail-enslavement-swx1g2',
       label: "永久奴化",
       roles: {
         active: {
@@ -2294,6 +2480,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   pet_play: [
     {
+      detailId: 'detail-pet_play-1jsyyjh',
       label: "幫寵物洗澡/梳毛",
       roles: {
         active: {
@@ -2306,6 +2493,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-a609w4',
       label: "玩寵物玩具",
       roles: {
         active: {
@@ -2318,6 +2506,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-x5vjdy',
       label: "四肢爬行",
       roles: {
         active: {
@@ -2330,6 +2519,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-nv1pij',
       label: "發出獸/寵物叫",
       roles: {
         active: {
@@ -2342,6 +2532,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-rvrxgu',
       label: "寵物碗餵食人類食物",
       roles: {
         active: {
@@ -2354,6 +2545,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-4bs8mo',
       label: "寵物碗餵食寵物濕食",
       roles: {
         active: {
@@ -2366,6 +2558,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意食品安全、腸胃不適、過敏與衛生"
     },
     {
+      detailId: 'detail-pet_play-1hw29un',
       label: "寵物碗餵食寵物乾食",
       roles: {
         active: {
@@ -2378,6 +2571,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意食品安全、噎到、腸胃不適與衛生"
     },
     {
+      detailId: 'detail-pet_play-etd5x1',
       label: "寵物技能訓練",
       roles: {
         active: {
@@ -2390,6 +2584,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-52x52j',
       label: "給予/擁有寵物項圈",
       roles: {
         active: {
@@ -2402,6 +2597,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-ljh0h7',
       label: "私人空間牽繩牽引",
       roles: {
         active: {
@@ -2414,6 +2610,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-1efmrop',
       label: "公開空間牽繩牽引",
       roles: {
         active: {
@@ -2426,6 +2623,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意身分暴露、他人同意、公共場合界線與安全風險"
     },
     {
+      detailId: 'detail-pet_play-iua2gj',
       label: "關寵物籠子",
       roles: {
         active: {
@@ -2438,6 +2636,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意姿勢壓迫、恐慌反應、通風與緊急解放方式"
     },
     {
+      detailId: 'detail-pet_play-1hdeo81',
       label: "穿戴寵物髮飾/尾巴",
       roles: {
         active: {
@@ -2450,6 +2649,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-jkh6sm',
       label: "短暫獸/寵物化",
       roles: {
         active: {
@@ -2462,6 +2662,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-pet_play-1o3a8sg',
       label: "長期獸/寵物化",
       roles: {
         active: {
@@ -2474,6 +2675,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意現實生活影響、身分界線、同意更新與退出方式"
     },
     {
+      detailId: 'detail-pet_play-7xqowr',
       label: "永久獸/寵物化",
       roles: {
         active: {
@@ -2488,6 +2690,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   role_play: [
     {
+      detailId: 'detail-role_play-j6rqh7',
       label: "扮演小寶寶",
       roles: {
         active: {
@@ -2500,6 +2703,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-role_play-1hqqab2',
       label: "扮演小孩",
       roles: {
         active: {
@@ -2512,6 +2716,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-role_play-1b6vck1',
       label: "扮演青少年",
       roles: {
         active: {
@@ -2524,6 +2729,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-role_play-1bf86f7',
       label: "扮演老年人",
       roles: {
         active: {
@@ -2536,6 +2742,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-role_play-1qg4s3q',
       label: "扮演人偶或娃娃",
       roles: {
         active: {
@@ -2548,90 +2755,98 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-role_play-1i9t0en',
       label: "扮演主僕腳色",
       roles: {
         active: {
-          description: "在貴族僕役情境中扮演主動方"
+          description: "在貴族僕役情境中扮演主導側"
         },
         passive: {
-          description: "在貴族僕役情境中扮演被動方"
+          description: "在貴族僕役情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-1n9uevy',
       label: "扮演上司/下屬",
       roles: {
         active: {
-          description: "在上司和下屬的情境中扮演主動方"
+          description: "在上司和下屬的情境中扮演主導側"
         },
         passive: {
-          description: "在上司和下屬的情境中扮演被動方"
+          description: "在上司和下屬的情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-kodrud',
       label: "扮演醫生或護士/病患",
       roles: {
         active: {
-          description: "在醫護和病患的情境中扮演主動方"
+          description: "在醫護和病患的情境中扮演主導側"
         },
         passive: {
-          description: "在醫護和病患的情境中扮演被動方"
+          description: "在醫護和病患的情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-1gts3i7',
       label: "扮演獄卒/服刑人",
       roles: {
         active: {
-          description: "在獄卒和服刑人的情境中扮演主動方"
+          description: "在獄卒和服刑人的情境中扮演主導側"
         },
         passive: {
-          description: "在獄卒和服刑人的情境中扮演被動方"
+          description: "在獄卒和服刑人的情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-vepd7q',
       label: "扮演老師/學生",
       roles: {
         active: {
-          description: "在老師和學生的情境中扮演主動方"
+          description: "在老師和學生的情境中扮演主導側"
         },
         passive: {
-          description: "在老師和學生的情境中扮演被動方"
+          description: "在老師和學生的情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-1virdb',
       label: "扮演父母/兒女",
       roles: {
         active: {
-          description: "在父母和兒女的情境中扮演主動方"
+          description: "在父母和兒女的情境中扮演主導側"
         },
         passive: {
-          description: "在父母和兒女的情境中扮演被動方"
+          description: "在父母和兒女的情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-18ycvwm',
       label: "扮演兄弟姊妹",
       roles: {
         active: {
-          description: "在兄弟姊妹的情境中扮演主動方"
+          description: "在兄弟姊妹的情境中扮演主導側"
         },
         passive: {
-          description: "在兄弟姊妹的情境中扮演被動方"
+          description: "在兄弟姊妹的情境中扮演配合側"
         }
       },
       warning: null
     },
     {
+      detailId: 'detail-role_play-pyo1lh',
       label: "包尿布",
       roles: {
         active: {
@@ -2644,6 +2859,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-role_play-u5m4ic',
       label: "塗鴉遊戲",
       roles: {
         active: {
@@ -2658,6 +2874,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   objectification: [
     {
+      detailId: 'detail-objectification-1l6nra5',
       label: "作為椅子",
       roles: {
         active: {
@@ -2670,6 +2887,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-1nqioit',
       label: "作為沙發",
       roles: {
         active: {
@@ -2682,6 +2900,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-6z8u5c',
       label: "作為踏腳墊",
       roles: {
         active: {
@@ -2694,6 +2913,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-gmtfv3',
       label: "作為花瓶",
       roles: {
         active: {
@@ -2706,6 +2926,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-1xfrg59',
       label: "作為衣架",
       roles: {
         active: {
@@ -2718,6 +2939,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-11fzq08',
       label: "作為人偶",
       roles: {
         active: {
@@ -2730,6 +2952,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-ydg8ls',
       label: "作為菸灰缸",
       roles: {
         active: {
@@ -2742,6 +2965,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意燙傷、菸灰接觸、衛生與呼吸道不適"
     },
     {
+      detailId: 'detail-objectification-15peili',
       label: "作為食物盤子/碗",
       roles: {
         active: {
@@ -2754,6 +2978,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-18d3dxj',
       label: "作為自慰套",
       roles: {
         active: {
@@ -2766,6 +2991,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-gg0tot',
       label: "作為假陽具",
       roles: {
         active: {
@@ -2778,6 +3004,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-objectification-11y1b4u',
       label: "作為交易用資產",
       roles: {
         active: {
@@ -2792,6 +3019,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   exposure: [
     {
+      detailId: 'detail-exposure-yrd6oh',
       label: "在對方面前暴露",
       roles: {
         active: {
@@ -2804,6 +3032,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-84q67p',
       label: "在朋友面前暴露",
       roles: {
         active: {
@@ -2816,6 +3045,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-1c953fq',
       label: "在陌生人面前暴露",
       roles: {
         active: {
@@ -2828,6 +3058,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-cf5jn6',
       label: "在私人空間暴露",
       roles: {
         active: {
@@ -2840,6 +3071,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-jg19zi',
       label: "在公共空間暴露",
       roles: {
         active: {
@@ -2852,6 +3084,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意非參與者同意、法律風險、身分暴露與安全"
     },
     {
+      detailId: 'detail-exposure-14ngx9f',
       label: "觀賞/被觀賞性愛過程",
       roles: {
         active: {
@@ -2864,6 +3097,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-iztub',
       label: "上半身暴露",
       roles: {
         active: {
@@ -2876,6 +3110,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-lc5lxg',
       label: "下半身暴露",
       roles: {
         active: {
@@ -2888,6 +3123,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-exposure-rhnyao',
       label: "外出不穿內衣褲",
       roles: {
         active: {
@@ -2900,6 +3136,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意舒適度、衛生、身分暴露與公共場合風險"
     },
     {
+      detailId: 'detail-exposure-1on1gyu',
       label: "在公共空間自慰",
       roles: {
         active: {
@@ -2914,6 +3151,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   image_recording: [
     {
+      detailId: 'detail-image_recording-wr9mg2',
       label: "拍攝/錄製裸體",
       roles: {
         active: {
@@ -2926,6 +3164,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-image_recording-pottfn',
       label: "拍攝/錄製性愛過程",
       roles: {
         active: {
@@ -2938,6 +3177,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-image_recording-ijadox',
       label: "拍攝/錄製調教過程",
       roles: {
         active: {
@@ -2950,6 +3190,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-image_recording-xuxzia',
       label: "傳送私密影像/影片",
       roles: {
         active: {
@@ -2962,6 +3203,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-image_recording-1c6bdpw',
       label: "在網路公開私密影像/影片",
       roles: {
         active: {
@@ -2974,6 +3216,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意不可逆外流、平台規範、身分暴露與法律風險"
     },
     {
+      detailId: 'detail-image_recording-1942hqe',
       label: "用對方的私密影像/應片自慰",
       roles: {
         active: {
@@ -2986,10 +3229,11 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
-      label: "用被動方的裝置拍攝",
+      detailId: 'detail-image_recording-1ie3kyu',
+      label: "用配合側的裝置拍攝",
       roles: {
         active: {
-          description: "用被動方的裝置拍攝私密影像或影片"
+          description: "用配合側的裝置拍攝私密影像或影片"
         },
         passive: {
           description: "自己的裝置被用來拍攝私密影像或影片"
@@ -2998,7 +3242,8 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
-      label: "用主動方的裝置拍攝",
+      detailId: 'detail-image_recording-r9zfxi',
+      label: "用主導側的裝置拍攝",
       roles: {
         active: {
           description: "用自己的裝置拍攝對方私密影像或影片"
@@ -3010,6 +3255,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意保存權限、裝置安全、外流風險與刪除約定"
     },
     {
+      detailId: 'detail-image_recording-16hzzoq',
       label: "製作身體影像歷程紀錄",
       roles: {
         active: {
@@ -3024,6 +3270,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   piercing_cutting: [
     {
+      detailId: 'detail-piercing_cutting-1rw9xzg',
       label: "作為裝飾的身體穿刺",
       roles: {
         active: {
@@ -3036,6 +3283,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意消毒、感染、過敏、疤痕與專業操作"
     },
     {
+      detailId: 'detail-piercing_cutting-2ewqgb',
       label: "作為刺激的身體穿刺",
       roles: {
         active: {
@@ -3048,6 +3296,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意消毒、感染、出血、疼痛與身體不適"
     },
     {
+      detailId: 'detail-piercing_cutting-ypns2e',
       label: "穿刺後承重",
       roles: {
         active: {
@@ -3060,6 +3309,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意撕裂傷、出血、感染與過度拉扯"
     },
     {
+      detailId: 'detail-piercing_cutting-1jvq8gi',
       label: "暫時穿孔/環",
       roles: {
         active: {
@@ -3072,6 +3322,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意消毒、感染、出血與傷口照護"
     },
     {
+      detailId: 'detail-piercing_cutting-rdg71s',
       label: "永久穿孔/環",
       roles: {
         active: {
@@ -3084,6 +3335,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意永久身體改變、疤痕、感染與後續照護"
     },
     {
+      detailId: 'detail-piercing_cutting-5uq5u0',
       label: "乳環",
       roles: {
         active: {
@@ -3096,6 +3348,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意感染、撕裂、血液循環與乳頭敏感"
     },
     {
+      detailId: 'detail-piercing_cutting-rxxg5l',
       label: "肚環",
       roles: {
         active: {
@@ -3108,6 +3361,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意感染、過敏、衣物摩擦與傷口照護"
     },
     {
+      detailId: 'detail-piercing_cutting-az913p',
       label: "生殖器穿環",
       roles: {
         active: {
@@ -3120,6 +3374,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意感染、出血、性功能影響與專業操作"
     },
     {
+      detailId: 'detail-piercing_cutting-1rewigf',
       label: "舌環",
       roles: {
         active: {
@@ -3132,6 +3387,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意腫脹、感染、牙齒損傷與吞嚥不適"
     },
     {
+      detailId: 'detail-piercing_cutting-1fkp3oe',
       label: "不流血程度的割/切",
       roles: {
         active: {
@@ -3144,6 +3400,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意皮膚損傷、消毒、疼痛與疤痕"
     },
     {
+      detailId: 'detail-piercing_cutting-126gchb',
       label: "流血程度的割/切",
       roles: {
         active: {
@@ -3158,6 +3415,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   excretion: [
     {
+      detailId: 'detail-excretion-10mgbv7',
       label: "在身體上淋尿",
       roles: {
         active: {
@@ -3170,6 +3428,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-excretion-18pmjci',
       label: "在頭部以上淋尿",
       roles: {
         active: {
@@ -3182,6 +3441,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意眼睛、口鼻、耳道、衛生與心理壓力"
     },
     {
+      detailId: 'detail-excretion-d0tfsd',
       label: "飲尿",
       roles: {
         active: {
@@ -3194,6 +3454,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意感染風險、身體不適、衛生與心理界線"
     },
     {
+      detailId: 'detail-excretion-bz8baf',
       label: "碰觸排泄物",
       roles: {
         active: {
@@ -3206,6 +3467,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意感染風險、皮膚接觸、清潔與心理壓力"
     },
     {
+      detailId: 'detail-excretion-1d9pfly',
       label: "食用排泄物",
       roles: {
         active: {
@@ -3218,6 +3480,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意嚴重感染、腸胃不適、衛生與醫療風險"
     },
     {
+      detailId: 'detail-excretion-1x972yx',
       label: "用排泄物自慰",
       roles: {
         active: {
@@ -3230,6 +3493,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意黏膜感染、皮膚刺激、清潔與醫療風險"
     },
     {
+      detailId: 'detail-excretion-4yx1it',
       label: "扮演尿壺",
       roles: {
         active: {
@@ -3242,6 +3506,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意衛生、身體位置、清理與心理界線"
     },
     {
+      detailId: 'detail-excretion-15e9ike',
       label: "扮演便座",
       roles: {
         active: {
@@ -3254,6 +3519,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意感染風險、身體位置、清理與心理壓力"
     },
     {
+      detailId: 'detail-excretion-36n9ra',
       label: "排泄展示/觀賞",
       roles: {
         active: {
@@ -3268,6 +3534,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   behavior_restriction: [
     {
+      detailId: 'detail-behavior_restriction-1q2915m',
       label: "限制自慰",
       roles: {
         active: {
@@ -3280,6 +3547,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-behavior_restriction-10wmuve',
       label: "限制性愛",
       roles: {
         active: {
@@ -3292,6 +3560,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-behavior_restriction-1v32uv6',
       label: "限制高潮",
       roles: {
         active: {
@@ -3304,6 +3573,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-behavior_restriction-1qutp1i',
       label: "限制排泄",
       roles: {
         active: {
@@ -3316,6 +3586,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意泌尿腸胃風險、身體不適與醫療風險"
     },
     {
+      detailId: 'detail-behavior_restriction-7yynqx',
       label: "限制睡眠",
       roles: {
         active: {
@@ -3328,6 +3599,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意身心健康、判斷力下降與現實生活影響"
     },
     {
+      detailId: 'detail-behavior_restriction-p66lsr',
       label: "限制進食",
       roles: {
         active: {
@@ -3340,6 +3612,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意營養不足、低血糖、飲食失調與健康風險"
     },
     {
+      detailId: 'detail-behavior_restriction-p4j1x',
       label: "限制交友",
       roles: {
         active: {
@@ -3352,6 +3625,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意孤立風險、現實人際影響與權力濫用"
     },
     {
+      detailId: 'detail-behavior_restriction-1jxhizx',
       label: "限制說話",
       roles: {
         active: {
@@ -3364,6 +3638,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意溝通需求、心理壓力與求助方式"
     },
     {
+      detailId: 'detail-behavior_restriction-1st1nqk',
       label: "限制洗澡",
       roles: {
         active: {
@@ -3378,6 +3653,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
   ],
   other: [
     {
+      detailId: 'detail-other-cx35l0',
       label: "掐脖子的呼吸控制",
       roles: {
         active: {
@@ -3390,6 +3666,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意窒息、昏厥、頸部傷害與停止方式"
     },
     {
+      detailId: 'detail-other-81imh3',
       label: "埋進胸部的呼吸控制",
       roles: {
         active: {
@@ -3402,6 +3679,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意窒息、恐慌反應、姿勢壓迫與停止方式"
     },
     {
+      detailId: 'detail-other-12ak8nk',
       label: "真空袋短暫窒息",
       roles: {
         active: {
@@ -3414,6 +3692,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意窒息、恐慌、昏厥與緊急解放方式"
     },
     {
+      detailId: 'detail-other-11372gg',
       label: "水刑",
       roles: {
         active: {
@@ -3426,6 +3705,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意嗆水、窒息、恐慌與創傷觸發"
     },
     {
+      detailId: 'detail-other-1weofdn',
       label: "催眠",
       roles: {
         active: {
@@ -3438,6 +3718,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意心理界線、暗示內容、撤回同意與事後回復"
     },
     {
+      detailId: 'detail-other-67684a',
       label: "玩食物",
       roles: {
         active: {
@@ -3450,6 +3731,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-other-6t50x3',
       label: "刺青",
       roles: {
         active: {
@@ -3462,6 +3744,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意永久身體改變、感染、職場生活影響與後悔風險"
     },
     {
+      detailId: 'detail-other-1k7dzxy',
       label: "烙印",
       roles: {
         active: {
@@ -3474,6 +3757,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意燙傷、感染、疤痕、永久痕跡與醫療風險"
     },
     {
+      detailId: 'detail-other-cpl0rm',
       label: "指定服裝穿著",
       roles: {
         active: {
@@ -3486,6 +3770,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-other-967tbj',
       label: "決定對方的食物",
       roles: {
         active: {
@@ -3498,6 +3783,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意過敏、營養、飲食限制與控制界線"
     },
     {
+      detailId: 'detail-other-9c5xzq',
       label: "舔腳",
       roles: {
         active: {
@@ -3510,6 +3796,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意足部衛生、口腔傷口、感染風險與心理界線"
     },
     {
+      detailId: 'detail-other-1x8oaxq',
       label: "舔鞋",
       roles: {
         active: {
@@ -3522,6 +3809,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意髒污、化學殘留、口腔傷口與感染風險"
     },
     {
+      detailId: 'detail-other-yswhyo',
       label: "踩踏身體",
       roles: {
         active: {
@@ -3534,6 +3822,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-other-1cs7dja',
       label: "踩踏臉部",
       roles: {
         active: {
@@ -3546,6 +3835,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-other-1pwrugh',
       label: "灌食器使用",
       roles: {
         active: {
@@ -3558,6 +3848,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意嗆咳、誤吸、噎到、衛生與身體不適"
     },
     {
+      detailId: 'detail-other-suxt6v',
       label: "種草莓",
       roles: {
         active: {
@@ -3570,6 +3861,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: null
     },
     {
+      detailId: 'detail-other-17kwb61',
       label: "摔角",
       roles: {
         active: {
@@ -3582,6 +3874,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意跌倒、扭傷、撞擊、體型差與場地安全"
     },
     {
+      detailId: 'detail-other-g75mw6',
       label: "打架",
       roles: {
         active: {
@@ -3594,6 +3887,7 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
       warning: "注意受傷風險、失控、保護部位與停止方式"
     },
     {
+      detailId: 'detail-other-1q0idds',
       label: "綁架情境",
       roles: {
         active: {
@@ -3609,12 +3903,12 @@ const categoryDetailItems: Record<string, readonly QuestionBankDetailItem[]> = {
 };
 
 export const questionBank: QuestionBank = {
-  bankVersion: '2026-07-09',
+  bankVersion: '2026-07-11',
   schemaVersion: 1,
   source: {
     fileId: '1shrEavMkoumIpe07vL3DXp0uj7tcHzqgPV6qzU6jvAE',
     kind: 'google-sheet',
-    modifiedTime: '2026-07-09T07:33:31.469Z',
+    modifiedTime: '2026-07-11T06:14:45.603Z',
     title: 'BDSM boundary test items',
   },
   categories: [
@@ -3636,7 +3930,7 @@ export const questionBank: QuestionBank = {
     category('exposure', '暴露類項目', '讓對方在各種情境下裸露身體的項目', '讓自己在各種情境下裸露身體的項目', 10),
     category('image_recording', '影像類項目', '拍攝、保存、傳送、公開或分享對方影像的項目', '自己被拍攝、保存、傳送、公開或分享影像的項目', 9),
     category('piercing_cutting', '穿刺/割類項目', '對對方或要求對方身體某處進行穿刺或刀割相關的項目', '在自己身體某處接受穿刺或刀割相關的項目', 11),
-    category('excretion', '排泄類項目', '與排泄物相關的項目', '與排泄物相關的項目', 10),
+    category('excretion', '排泄類項目', '與排泄物相關的項目', '與排泄物相關的項目', 9),
     category('behavior_restriction', '行為限制類項目', '在合意下，限制對方的需求或偏好的項目', '在合意下，被限制自身需求或偏好的項目', 9),
     category('other', '其他', '如呼吸控制、催眠、玩弄食物等無法被分類的項目', '如呼吸控制、催眠、玩弄食物等無法被分類的項目', 19, false),
   ],

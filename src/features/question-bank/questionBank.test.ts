@@ -5,6 +5,7 @@ import {
   getQuestionBankCounts,
   questionBank,
 } from './questionBank';
+import { localizeQuestionBank } from './locales';
 
 describe('first-phase question bank', () => {
   it('keeps the live spreadsheet totals and places other last', () => {
@@ -16,11 +17,11 @@ describe('first-phase question bank', () => {
     });
     expect(getQuestionBankCounts('activeOnly')).toEqual({
       categoryCount: 20,
-      detailQuestionCount: 295,
+      detailQuestionCount: 294,
     });
     expect(getQuestionBankCounts('all')).toEqual({
       categoryCount: 40,
-      detailQuestionCount: 590,
+      detailQuestionCount: 588,
     });
   });
 
@@ -32,5 +33,38 @@ describe('first-phase question bank', () => {
     expect(getCategoryQuestionsForScope('all').slice(0, 20).every((question) => question.role === 'active')).toBe(true);
     expect(getCategoryQuestionsForScope('all').slice(20).every((question) => question.role === 'passive')).toBe(true);
     expect(allCategoryQuestionDefinitions.some((question) => question.id.includes('other'))).toBe(false);
+  });
+
+  it('uses unique stable ASCII detail IDs instead of source-language labels', () => {
+    const detailIds = questionBank.categories.flatMap((category) =>
+      category.detailItems.map((item) => item.detailId),
+    );
+
+    expect(detailIds).toHaveLength(294);
+    expect(new Set(detailIds).size).toBe(294);
+    expect(detailIds.every((detailId) => /^detail-[a-z_]+-[a-z0-9]+$/.test(detailId))).toBe(true);
+  });
+});
+
+describe('question-bank translations', () => {
+  it.each(['zh-Hans', 'ja', 'en'] as const)('covers every effective source row in %s', (locale) => {
+    const localized = localizeQuestionBank(questionBank, locale);
+
+    expect(localized.categories).toHaveLength(questionBank.categories.length);
+    expect(localized.categories.reduce((total, category) => total + category.detailItems.length, 0)).toBe(294);
+
+    localized.categories.forEach((category, categoryIndex) => {
+      const sourceCategory = questionBank.categories[categoryIndex];
+      expect(category.detailItems).toHaveLength(sourceCategory?.detailItems.length ?? -1);
+      expect(category.name.trim()).not.toBe('');
+      expect(category.roles.active.description.trim()).not.toBe('');
+      expect(category.roles.passive.description.trim()).not.toBe('');
+
+      category.detailItems.forEach((item) => {
+        expect(item.label.trim()).not.toBe('');
+        expect(item.roles.active.description.trim()).not.toBe('');
+        expect(item.roles.passive.description.trim()).not.toBe('');
+      });
+    });
   });
 });

@@ -1,0 +1,62 @@
+import type { LocalizedDetailCopy, TranslatedQuestionBankLocale } from '../types';
+
+function detail(label: string, active: string, passive: string, warning: string | null = null): LocalizedDetailCopy {
+  return { label, roles: { active: { description: active }, passive: { description: passive } }, warning };
+}
+
+export const petPlayDetails: Record<TranslatedQuestionBankLocale, Record<string, LocalizedDetailCopy>> = {
+  "zh-Hans": {
+    'detail-pet_play-1jsyyjh': detail("帮宠物洗澡／梳毛", "为扮演宠物的对方洗澡或梳毛", "在宠物角色中接受对方洗澡或梳毛"),
+    'detail-pet_play-a609w4': detail("玩宠物玩具", "拿宠物玩具与扮演宠物的对方互动", "在宠物角色中与对方玩宠物玩具"),
+    'detail-pet_play-x5vjdy': detail("四肢爬行", "要求对方以四肢爬行的方式扮演动物或宠物", "以四肢爬行的方式扮演动物或宠物"),
+    'detail-pet_play-nv1pij': detail("发出动物／宠物叫声", "要求对方发出动物或宠物叫声", "发出动物或宠物叫声来扮演动物或宠物"),
+    'detail-pet_play-rvrxgu': detail("用宠物碗喂食人类食物", "用宠物碗喂对方人类食物", "用宠物碗进食人类食物"),
+    'detail-pet_play-4bs8mo': detail("用宠物碗喂食宠物湿粮", "用宠物碗喂对方宠物湿粮", "用宠物碗进食宠物湿粮", "注意食品安全、肠胃不适、过敏与卫生"),
+    'detail-pet_play-1hw29un': detail("用宠物碗喂食宠物干粮", "用宠物碗喂对方宠物干粮", "用宠物碗进食宠物干粮", "注意食品安全、噎到、肠胃不适与卫生"),
+    'detail-pet_play-etd5x1': detail("宠物技能训练", "训练对方完成宠物角色中的指定技能", "接受对方训练并完成宠物角色中的指定技能"),
+    'detail-pet_play-52x52j': detail("给予／拥有宠物项圈", "给予对方宠物项圈或象征", "接受对方给予的宠物项圈或象征"),
+    'detail-pet_play-ljh0h7': detail("私人空间牵绳牵引", "在私人空间用牵绳牵引扮演宠物的对方", "在私人空间被对方用牵绳牵引"),
+    'detail-pet_play-1efmrop': detail("公开空间牵绳牵引", "在公开空间用牵绳牵引扮演宠物的对方", "在公开空间被对方用牵绳牵引", "注意身份暴露、他人同意、公共场合界线与安全风险"),
+    'detail-pet_play-iua2gj': detail("关进宠物笼", "将扮演宠物的对方关进或限制在宠物笼内", "在宠物角色中被关进或限制在宠物笼内", "注意姿势压迫、恐慌反应、通风与紧急释放方式"),
+    'detail-pet_play-1hdeo81': detail("佩戴宠物发饰／尾巴", "要求对方佩戴宠物发饰或尾巴", "佩戴宠物发饰或尾巴扮演宠物"),
+    'detail-pet_play-jkh6sm': detail("短暂动物化／宠物化", "让对方短暂进入动物或宠物角色", "短暂进入动物或宠物角色"),
+    'detail-pet_play-1o3a8sg': detail("长期动物化／宠物化", "让对方长期维持动物或宠物角色", "长期维持动物或宠物角色", "注意现实生活影响、身份界线、同意更新与退出方式"),
+    'detail-pet_play-7xqowr': detail("永久动物化／宠物化", "让对方进入永久动物化或宠物化的关系设定", "进入永久动物化或宠物化的关系设定", "注意长期心理影响、现实法律限制、同意更新与退出方式"),
+  },
+  "ja": {
+    'detail-pet_play-1jsyyjh': detail("ペットを洗う／毛をとかす", "ペット役の相手を洗ったり、毛をとかしたりする", "ペット役として相手に洗ってもらったり、毛をとかしてもらったりする"),
+    'detail-pet_play-a609w4': detail("ペット用のおもちゃで遊ぶ", "ペット役の相手とペット用のおもちゃで遊ぶ", "ペット役として相手とペット用のおもちゃで遊ぶ"),
+    'detail-pet_play-x5vjdy': detail("四つんばいで歩く", "動物やペット役として四つんばいで歩くよう相手に求める", "動物やペット役として四つんばいで歩く"),
+    'detail-pet_play-nv1pij': detail("動物／ペットの鳴き声を出す", "動物やペットの鳴き声を出すよう相手に求める", "動物やペット役として鳴き声を出す"),
+    'detail-pet_play-rvrxgu': detail("ペット用の器で人間用の食べ物を与える", "ペット用の器で相手に人間用の食べ物を与える", "ペット用の器で人間用の食べ物を食べる"),
+    'detail-pet_play-4bs8mo': detail("ペット用の器でペット用ウェットフードを与える", "ペット用の器で相手にペット用ウェットフードを与える", "ペット用の器でペット用ウェットフードを食べる", "食品の安全、胃腸の不調、アレルギー、衛生に注意する"),
+    'detail-pet_play-1hw29un': detail("ペット用の器でペット用ドライフードを与える", "ペット用の器で相手にペット用ドライフードを与える", "ペット用の器でペット用ドライフードを食べる", "食品の安全、窒息、胃腸の不調、衛生に注意する"),
+    'detail-pet_play-etd5x1': detail("ペットの技能トレーニング", "ペット役で指定した技能を行えるよう相手を訓練する", "相手から訓練を受け、ペット役で指定された技能を行う"),
+    'detail-pet_play-52x52j': detail("ペット用首輪を与える／持つ", "相手にペット用の首輪や象徴を与える", "相手からペット用の首輪や象徴を受け取る"),
+    'detail-pet_play-ljh0h7': detail("私的な場所でリードを付ける", "私的な場所でペット役の相手をリードで導く", "私的な場所で相手にリードを付けられて導かれる"),
+    'detail-pet_play-1efmrop': detail("公共の場でリードを付ける", "公共の場でペット役の相手をリードで導く", "公共の場で相手にリードを付けられて導かれる", "身元の露出、周囲の人の同意、公共の場の境界、安全上のリスクに注意する"),
+    'detail-pet_play-iua2gj': detail("ペット用ケージに入れる", "ペット役の相手をケージに入れたり、ケージ内に制限したりする", "ペット役としてケージに入れられたり、ケージ内に制限されたりする", "姿勢による圧迫、パニック反応、換気、緊急時の解放方法に注意する"),
+    'detail-pet_play-1hdeo81': detail("ペット風の髪飾り／尻尾を着ける", "ペット風の髪飾りや尻尾を着けるよう相手に求める", "ペット役としてペット風の髪飾りや尻尾を着ける"),
+    'detail-pet_play-jkh6sm': detail("短時間のアニマル／ペット化", "相手に短時間、動物やペット役に入ってもらう", "短時間、動物やペット役に入る"),
+    'detail-pet_play-1o3a8sg': detail("長期のアニマル／ペット化", "相手に長期間、動物やペット役を維持してもらう", "長期間、動物やペット役を維持する", "現実生活への影響、アイデンティティの境界、同意の更新、退出方法に注意する"),
+    'detail-pet_play-7xqowr': detail("恒久的なアニマル／ペット化", "相手と恒久的な動物・ペット関係という設定に入る", "恒久的な動物・ペット関係という設定に入る", "長期的な心理への影響、現実の法的制限、同意の更新、退出方法に注意する"),
+  },
+  "en": {
+    'detail-pet_play-1jsyyjh': detail("Bathing or grooming a pet", "Bathe or groom the other person while they play a pet", "Be bathed or groomed by the other person while playing a pet"),
+    'detail-pet_play-a609w4': detail("Playing with pet toys", "Interact with the other person using pet toys while they play a pet", "Play with pet toys with the other person while playing a pet"),
+    'detail-pet_play-x5vjdy': detail("Crawling on all fours", "Require the other person to crawl on all fours while playing an animal or pet", "Crawl on all fours while playing an animal or pet"),
+    'detail-pet_play-nv1pij': detail("Making animal or pet sounds", "Require the other person to make animal or pet sounds", "Make animal or pet sounds while playing an animal or pet"),
+    'detail-pet_play-rvrxgu': detail("Human food in a pet bowl", "Feed the other person human food from a pet bowl", "Eat human food from a pet bowl"),
+    'detail-pet_play-4bs8mo': detail("Wet pet food in a pet bowl", "Feed the other person wet pet food from a pet bowl", "Eat wet pet food from a pet bowl", "Consider food safety, gastrointestinal illness, allergies, and hygiene"),
+    'detail-pet_play-1hw29un': detail("Dry pet food in a pet bowl", "Feed the other person dry pet food from a pet bowl", "Eat dry pet food from a pet bowl", "Consider food safety, choking, gastrointestinal illness, and hygiene"),
+    'detail-pet_play-etd5x1': detail("Pet-skill training", "Train the other person to perform specified skills in a pet role", "Receive training and perform specified skills in a pet role"),
+    'detail-pet_play-52x52j': detail("Giving or wearing a pet collar", "Give the other person a pet collar or symbol", "Receive a pet collar or symbol from the other person"),
+    'detail-pet_play-ljh0h7': detail("Leading by leash in private", "Lead the other person by a leash in private while they play a pet", "Be led by the other person with a leash in private"),
+    'detail-pet_play-1efmrop': detail("Leading by leash in public", "Lead the other person by a leash in public while they play a pet", "Be led by the other person with a leash in public", "Consider exposure of identity, other people’s consent, boundaries in public, and safety risks"),
+    'detail-pet_play-iua2gj': detail("Confinement in a pet cage", "Put the other person in a pet cage or confine them inside it while they play a pet", "Be put in a pet cage or confined inside it while playing a pet", "Watch for pressure from posture, panic responses, ventilation, and an emergency release method"),
+    'detail-pet_play-1hdeo81': detail("Wearing pet ears or a tail", "Require the other person to wear pet-themed hair accessories or a tail", "Wear pet-themed hair accessories or a tail while playing a pet"),
+    'detail-pet_play-jkh6sm': detail("Short-term animal or pet role", "Have the other person enter an animal or pet role briefly", "Enter an animal or pet role briefly"),
+    'detail-pet_play-1o3a8sg': detail("Long-term animal or pet role", "Have the other person remain in an animal or pet role over a longer period", "Remain in an animal or pet role over a longer period", "Consider effects on daily life, identity boundaries, renewed consent, and a way to leave"),
+    'detail-pet_play-7xqowr': detail("Permanent animal or pet role", "Enter a relationship framed as permanent animal or pet play with the other person", "Enter a relationship framed as permanent animal or pet play", "Consider long-term psychological effects, real-world legal limits, renewed consent, and a way to leave"),
+  },
+};

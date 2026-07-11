@@ -1,0 +1,62 @@
+import type { LocalizedDetailCopy, TranslatedQuestionBankLocale } from '../types';
+
+function detail(label: string, active: string, passive: string, warning: string | null = null): LocalizedDetailCopy {
+  return { label, roles: { active: { description: active }, passive: { description: passive } }, warning };
+}
+
+export const ticklingDetails: Record<TranslatedQuestionBankLocale, Record<string, LocalizedDetailCopy>> = {
+  "zh-Hans": {
+    'detail-tickling-hvz7o9': detail("用手", "用手挠痒对方", "被对方用手挠痒"),
+    'detail-tickling-axmdvn': detail("用梳子", "用梳子挠痒对方", "被对方用梳子挠痒"),
+    'detail-tickling-10fu930': detail("用羽毛", "用羽毛挠痒对方", "被对方用羽毛挠痒"),
+    'detail-tickling-1hi631w': detail("用刺轮", "用刺轮挠痒或刺激对方", "被对方用刺轮挠痒或刺激"),
+    'detail-tickling-1a2ptfb': detail("用震动情趣用品", "用震动情趣用品挠痒或刺激对方", "被对方用震动情趣用品挠痒或刺激"),
+    'detail-tickling-1uurnpt': detail("轻挠", "轻微挠痒对方", "被对方轻微挠痒"),
+    'detail-tickling-dhntqh': detail("重挠", "用较强烈的方式挠痒对方", "被对方用较强烈的方式挠痒"),
+    'detail-tickling-j94l9q': detail("束缚状态下挠痒", "在对方被束缚时挠痒对方", "在被束缚时被对方挠痒", "注意恐慌反应、呼吸与无法躲避造成的压力"),
+    'detail-tickling-1krfcvz': detail("裸身挠痒", "在对方裸身时挠痒对方", "在裸身时被对方挠痒"),
+    'detail-tickling-1nouw8a': detail("仅穿内衣裤时挠痒", "在对方仅穿内衣裤时挠痒对方", "在仅穿内衣裤时被对方挠痒"),
+    'detail-tickling-uttpwj': detail("穿着衣服挠痒", "隔着衣服挠痒对方", "隔着衣服被对方挠痒"),
+    'detail-tickling-ni7x64': detail("挠脖子", "挠痒对方的脖子", "脖子被对方挠痒"),
+    'detail-tickling-11gglre': detail("挠耳朵", "挠痒对方的耳朵", "耳朵被对方挠痒"),
+    'detail-tickling-ayd8dk': detail("挠腋下", "挠痒对方的腋下", "腋下被对方挠痒"),
+    'detail-tickling-s5eumi': detail("挠脚底", "挠痒对方的脚底", "脚底被对方挠痒"),
+    'detail-tickling-cypicd': detail("挠肋骨间隙", "挠痒对方的肋骨间隙", "肋骨间隙被对方挠痒"),
+  },
+  "ja": {
+    'detail-tickling-hvz7o9': detail("手を使う", "手で相手をくすぐる", "相手の手でくすぐられる"),
+    'detail-tickling-axmdvn': detail("櫛を使う", "櫛で相手をくすぐる", "相手の櫛でくすぐられる"),
+    'detail-tickling-10fu930': detail("羽根を使う", "羽根で相手をくすぐる", "相手の羽根でくすぐられる"),
+    'detail-tickling-1hi631w': detail("ピンホイールを使う", "ピンホイールで相手をくすぐったり刺激したりする", "相手のピンホイールでくすぐられたり刺激されたりする"),
+    'detail-tickling-1a2ptfb': detail("振動するプレイ用品を使う", "振動するプレイ用品で相手をくすぐったり刺激したりする", "振動するプレイ用品でくすぐられたり刺激されたりする"),
+    'detail-tickling-1uurnpt': detail("軽くくすぐる", "相手を軽くくすぐる", "相手に軽くくすぐられる"),
+    'detail-tickling-dhntqh': detail("強くくすぐる", "相手を強めにくすぐる", "相手に強めにくすぐられる"),
+    'detail-tickling-j94l9q': detail("拘束した状態でくすぐる", "拘束されている相手をくすぐる", "拘束された状態で相手にくすぐられる", "パニック反応、呼吸、逃げられないことによる負担に注意する"),
+    'detail-tickling-1krfcvz': detail("裸でくすぐる", "裸の相手をくすぐる", "裸の状態で相手にくすぐられる"),
+    'detail-tickling-1nouw8a': detail("下着だけでくすぐる", "下着だけを着けた相手をくすぐる", "下着だけの状態で相手にくすぐられる"),
+    'detail-tickling-uttpwj': detail("服の上からくすぐる", "服の上から相手をくすぐる", "服の上から相手にくすぐられる"),
+    'detail-tickling-ni7x64': detail("首をくすぐる", "相手の首をくすぐる", "首を相手にくすぐられる"),
+    'detail-tickling-11gglre': detail("耳をくすぐる", "相手の耳をくすぐる", "耳を相手にくすぐられる"),
+    'detail-tickling-ayd8dk': detail("脇の下をくすぐる", "相手の脇の下をくすぐる", "脇の下を相手にくすぐられる"),
+    'detail-tickling-s5eumi': detail("足の裏をくすぐる", "相手の足の裏をくすぐる", "足の裏を相手にくすぐられる"),
+    'detail-tickling-cypicd': detail("肋骨の間をくすぐる", "相手の肋骨の間をくすぐる", "肋骨の間を相手にくすぐられる"),
+  },
+  "en": {
+    'detail-tickling-hvz7o9': detail("With hands", "Tickle the other person with your hands", "Be tickled by the other person’s hands"),
+    'detail-tickling-axmdvn': detail("With a comb", "Tickle the other person with a comb", "Be tickled with a comb"),
+    'detail-tickling-10fu930': detail("With a feather", "Tickle the other person with a feather", "Be tickled with a feather"),
+    'detail-tickling-1hi631w': detail("With a pinwheel", "Tickle or stimulate the other person with a pinwheel", "Be tickled or stimulated with a pinwheel"),
+    'detail-tickling-1a2ptfb': detail("With a vibrating toy", "Tickle or stimulate the other person with a vibrating toy", "Be tickled or stimulated with a vibrating toy"),
+    'detail-tickling-1uurnpt': detail("Light tickling", "Tickle the other person lightly", "Be tickled lightly by the other person"),
+    'detail-tickling-dhntqh': detail("Intense tickling", "Tickle the other person more intensely", "Be tickled more intensely by the other person"),
+    'detail-tickling-j94l9q': detail("Tickling while restrained", "Tickle the other person while they are restrained", "Be tickled by the other person while restrained", "Watch for panic responses, breathing difficulty, and distress from being unable to move away"),
+    'detail-tickling-1krfcvz': detail("Tickling while naked", "Tickle the other person while they are naked", "Be tickled while naked"),
+    'detail-tickling-1nouw8a': detail("Tickling in underwear", "Tickle the other person while they are wearing only underwear", "Be tickled while wearing only underwear"),
+    'detail-tickling-uttpwj': detail("Tickling through clothing", "Tickle the other person through their clothing", "Be tickled through your clothing"),
+    'detail-tickling-ni7x64': detail("Tickle the neck", "Tickle the other person’s neck", "Have your neck tickled"),
+    'detail-tickling-11gglre': detail("Tickle the ears", "Tickle the other person’s ears", "Have your ears tickled"),
+    'detail-tickling-ayd8dk': detail("Tickle the armpits", "Tickle the other person’s armpits", "Have your armpits tickled"),
+    'detail-tickling-s5eumi': detail("Tickle the soles", "Tickle the soles of the other person’s feet", "Have the soles of your feet tickled"),
+    'detail-tickling-cypicd': detail("Tickle between the ribs", "Tickle the spaces between the other person’s ribs", "Be tickled between the ribs"),
+  },
+};
