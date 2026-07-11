@@ -84,6 +84,10 @@ const currentAnswer = computed(() =>
     ? secretFile.value.answers[currentQuestion.value.id]
     : null,
 );
+const isResultViewRequested = computed(() => route.query.view === 'results');
+const shouldShowResults = computed(
+  () => secretFile.value !== null && (isResultViewRequested.value || currentQuestion.value === null),
+);
 const canGoBack = computed(() => currentQuestionIndex.value > 0);
 const storageWarning = computed(() => store.storageStatus.mode === 'memory');
 
@@ -221,7 +225,7 @@ onMounted(() => {
     @start="startQuestionnaire"
   />
 
-  <div v-if="secretFile && currentQuestion" class="questionnaire-question-transition">
+  <div v-if="secretFile && currentQuestion && !isResultViewRequested" class="questionnaire-question-transition">
     <Transition :name="questionTransition" mode="out-in">
       <CategoryQuestionStep
         :key="currentQuestion.id"
@@ -242,7 +246,7 @@ onMounted(() => {
   </div>
 
   <QuestionnaireResults
-    v-if="secretFile && !currentQuestion"
+    v-if="shouldShowResults && secretFile"
     :back-home="appMessages.common.backHome"
     :question-bank="localizedQuestionBank"
     :messages="messages"

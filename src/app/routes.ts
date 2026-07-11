@@ -51,8 +51,8 @@ export const appRoutes = [
   {
     id: 'files',
     path: '/files',
-    state: 'planned',
-    component: () => import('../views/PlannedRouteView.vue'),
+    state: 'ready',
+    component: () => import('../views/FilesView.vue'),
   },
   {
     id: 'timeMachine',

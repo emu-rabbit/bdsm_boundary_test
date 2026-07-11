@@ -133,6 +133,7 @@
   .planned-route,
   .about-route,
   .settings-route,
+  .files-route,
   .questionnaire-route {
     min-height: 100svh;
     height: auto;
@@ -639,6 +640,24 @@
   .settings-copy > .quiet-action {
     order: 6;
     width: min(calc(100vw - 2rem), 34rem);
+  }
+
+  .files-stage {
+    width: min(calc(100% - 2rem), 42rem);
+    padding-top: max(1.5rem, env(safe-area-inset-top, 0px));
+  }
+
+  .file-list-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .file-list-item__actions {
+    justify-content: stretch;
+  }
+
+  .file-list-item__actions button {
+    flex: 1 1 8rem;
   }
 
   .questionnaire-intro-panel .dialogue-copy {

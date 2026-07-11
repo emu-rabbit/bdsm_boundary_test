@@ -12,6 +12,7 @@
 .planned-route,
 .about-route,
 .settings-route,
+.files-route,
 .questionnaire-route {
   position: relative;
   isolate: isolate;
@@ -23,6 +24,7 @@
 .planned-route::before,
 .about-route::before,
 .settings-route::before,
+.files-route::before,
 .questionnaire-route::before {
   position: fixed;
   inset: -1.25rem;
@@ -73,6 +75,7 @@
 .planned-route::after,
 .about-route::after,
 .settings-route::after,
+.files-route::after,
 .questionnaire-route::after {
   position: fixed;
   inset: 0;
