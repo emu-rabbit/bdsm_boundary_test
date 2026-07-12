@@ -218,6 +218,16 @@ function saveQuestionAnswer(answer: AnswerQuestionInput): void {
   );
 }
 
+function updateSpotlight(questionIds: string[]): void {
+  if (!secretFile.value) return;
+
+  store.persist({
+    ...secretFile.value,
+    spotlight: { selectedQuestionIds: questionIds },
+    updatedAt: new Date().toISOString(),
+  });
+}
+
 function advanceQuestion(): void {
   if (!currentQuestion.value) {
     return;
@@ -374,5 +384,6 @@ onMounted(() => {
     :storage-warning="storageWarning"
     @edit-category="startDetailSession"
     @home="goHome"
+    @update-spotlight="updateSpotlight"
   />
 </template>

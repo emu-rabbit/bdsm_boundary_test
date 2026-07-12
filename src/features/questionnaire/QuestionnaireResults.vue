@@ -29,6 +29,7 @@ const emit = defineEmits<{
   home: [];
   preview: [];
   upload: [];
+  updateSpotlight: [questionIds: string[]];
 }>();
 
 const selectedRole = ref<QuestionRole>(
@@ -36,6 +37,120 @@ const selectedRole = ref<QuestionRole>(
 );
 const detailStartDialog = ref<HTMLDialogElement | null>(null);
 const pendingCategory = ref<QuestionBankCategory | null>(null);
+const spotlightDialog = ref<HTMLDialogElement | null>(null);
+const activeSpotlightIndex = ref<number | null>(null);
+
+interface SpotlightCandidate {
+  categoryId: string;
+  categoryName: string;
+  description: string;
+  label: string;
+  questionId: string;
+  role: QuestionRole;
+  preference: 'like' | 'love';
+}
+
+const spotlightCandidates = computed<readonly SpotlightCandidate[]>(() => {
+  const candidates: SpotlightCandidate[] = [];
+
+  for (const category of props.questionBank.categories) {
+    for (const role of availableRoles.value) {
+      const categoryQuestionId = getCategoryQuestionId(category.categoryId, role);
+      const categoryAnswer = props.secretFile.answers[categoryQuestionId];
+
+      if (category.includeInCategoryRound && categoryAnswer?.state === 'answered' && (categoryAnswer.preference === 'like' || categoryAnswer.preference === 'love')) {
+        candidates.push({
+          categoryId: category.categoryId,
+          categoryName: category.name,
+          description: category.roles[role].description,
+          label: category.name,
+          questionId: categoryQuestionId,
+          role,
+          preference: categoryAnswer.preference,
+        });
+      }
+
+      for (const detail of category.detailItems) {
+        const questionId = `detail.${category.categoryId}.${detail.detailId}.${role}`;
+        const answer = props.secretFile.answers[questionId];
+
+        if (answer?.state === 'answered' && (answer.preference === 'like' || answer.preference === 'love')) {
+          candidates.push({
+            categoryId: category.categoryId,
+            categoryName: category.name,
+            description: detail.roles[role].description,
+            label: detail.label,
+            questionId,
+            role,
+            preference: answer.preference,
+          });
+        }
+      }
+    }
+  }
+
+  return candidates;
+});
+
+const candidatePreferenceGroups = computed(() => {
+  const selected = new Set(props.secretFile.spotlight.selectedQuestionIds);
+  const currentId = activeSpotlightIndex.value === null
+    ? null
+    : props.secretFile.spotlight.selectedQuestionIds[activeSpotlightIndex.value] ?? null;
+  const groups = (['love', 'like'] as const).map((preference) => ({
+    categories: new Map<string, { categoryId: string; categoryName: string; items: SpotlightCandidate[] }>(),
+    preference,
+  }));
+
+  for (const candidate of spotlightCandidates.value) {
+    if (selected.has(candidate.questionId) && candidate.questionId !== currentId) continue;
+    const preferenceGroup = groups.find((group) => group.preference === candidate.preference)!;
+    const category = preferenceGroup.categories.get(candidate.categoryId) ?? {
+      categoryId: candidate.categoryId,
+      categoryName: candidate.categoryName,
+      items: [],
+    };
+    category.items.push(candidate);
+    preferenceGroup.categories.set(candidate.categoryId, category);
+  }
+
+  return groups
+    .map((group) => ({
+      categories: [...group.categories.values()],
+      preference: group.preference,
+    }))
+    .filter((group) => group.categories.length > 0);
+});
+
+function getSpotlightCandidate(questionId: string): SpotlightCandidate | null {
+  return spotlightCandidates.value.find((candidate) => candidate.questionId === questionId) ?? null;
+}
+
+function openSpotlight(index: number): void {
+  if (index > props.secretFile.spotlight.selectedQuestionIds.length) return;
+  activeSpotlightIndex.value = index;
+  void nextTick(() => spotlightDialog.value?.showModal());
+}
+
+function selectSpotlight(questionId: string): void {
+  if (activeSpotlightIndex.value === null) return;
+  const next = [...props.secretFile.spotlight.selectedQuestionIds];
+  next[activeSpotlightIndex.value] = questionId;
+  emit('updateSpotlight', next);
+  spotlightDialog.value?.close();
+}
+
+function deleteSpotlight(): void {
+  if (activeSpotlightIndex.value === null) return;
+  const next = [...props.secretFile.spotlight.selectedQuestionIds];
+  next.splice(activeSpotlightIndex.value, 1);
+  emit('updateSpotlight', next);
+  spotlightDialog.value?.close();
+}
+
+function closeSpotlightDialog(): void {
+  activeSpotlightIndex.value = null;
+}
 const availableRoles = computed<readonly QuestionRole[]>(() => {
   if (props.secretFile.scope === 'all') {
     return ['active', 'passive'];
@@ -215,14 +330,23 @@ const overallProgress = computed(() => {
               <p>{{ messages.results.spotlightCount(secretFile.spotlight.selectedQuestionIds.length, 5) }}</p>
             </div>
           </div>
-          <div class="results-spotlight__slots" aria-hidden="true">
-            <span
+          <div class="results-spotlight__slots">
+            <button
               v-for="slot in 5"
               :key="slot"
+              type="button"
               :class="{ 'is-filled': slot <= secretFile.spotlight.selectedQuestionIds.length }"
+              :disabled="slot - 1 > secretFile.spotlight.selectedQuestionIds.length"
+              :aria-label="messages.results.spotlightSlotAria(slot, getSpotlightCandidate(secretFile.spotlight.selectedQuestionIds[slot - 1] ?? '')?.label ?? null)"
+              @click="openSpotlight(slot - 1)"
             >
-              {{ slot <= secretFile.spotlight.selectedQuestionIds.length ? '★' : slot }}
-            </span>
+              <img
+                v-if="getSpotlightCandidate(secretFile.spotlight.selectedQuestionIds[slot - 1] ?? '')"
+                :src="getCategoryVisualUrl(getSpotlightCandidate(secretFile.spotlight.selectedQuestionIds[slot - 1] ?? '')!.categoryId)"
+                alt=""
+              />
+              <span v-else>{{ slot }}</span>
+            </button>
           </div>
           <p>{{ messages.results.spotlightHelp }}</p>
         </section>
@@ -384,6 +508,45 @@ const overallProgress = computed(() => {
           {{ messages.results.detailStartCancel }}
         </button>
       </div>
+    </dialog>
+
+    <dialog ref="spotlightDialog" class="spotlight-dialog" @close="closeSpotlightDialog">
+      <div class="spotlight-dialog__heading">
+        <h2>{{ messages.results.spotlightDialogTitle }}</h2>
+        <button type="button" :aria-label="messages.results.detailStartCancel" @click="spotlightDialog?.close()">×</button>
+      </div>
+      <p v-if="candidatePreferenceGroups.length === 0" class="spotlight-dialog__empty">{{ messages.results.spotlightEmpty }}</p>
+      <div v-else class="spotlight-dialog__groups">
+        <section v-for="preferenceGroup in candidatePreferenceGroups" :key="preferenceGroup.preference" class="spotlight-dialog__preference-group">
+          <h3>{{ messages.preferenceLabels[preferenceGroup.preference] }}</h3>
+          <div v-for="group in preferenceGroup.categories" :key="group.categoryId" class="spotlight-dialog__category-group">
+            <div class="spotlight-dialog__category">
+              <img :src="getCategoryVisualUrl(group.categoryId)" alt="" />
+              <h4>{{ group.categoryName }}</h4>
+            </div>
+            <button
+              v-for="candidate in group.items"
+              :key="candidate.questionId"
+              type="button"
+              :class="{ 'is-selected': secretFile.spotlight.selectedQuestionIds[activeSpotlightIndex ?? -1] === candidate.questionId }"
+              :aria-label="`${messages.results.spotlightSelect}：${candidate.label}`"
+              @click="selectSpotlight(candidate.questionId)"
+            >
+              <span class="spotlight-dialog__item-copy">
+                <strong>{{ candidate.label }}</strong>
+                <small>{{ candidate.description }}</small>
+              </span>
+              <small>{{ messages.roleLabels[candidate.role] }}</small>
+            </button>
+          </div>
+        </section>
+      </div>
+      <button
+        v-if="activeSpotlightIndex !== null && activeSpotlightIndex < secretFile.spotlight.selectedQuestionIds.length"
+        class="spotlight-dialog__delete"
+        type="button"
+        @click="deleteSpotlight"
+      >{{ messages.results.spotlightDelete }}</button>
     </dialog>
   </section>
 </template>

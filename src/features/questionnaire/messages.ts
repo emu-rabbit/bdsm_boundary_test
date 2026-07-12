@@ -68,7 +68,12 @@ export interface QuestionnaireMessages {
     sectionKicker: (roleLabel: string) => string;
     seeDetailsSummary: string;
     spotlightCount: (selected: number, limit: number) => string;
+    spotlightDelete: string;
+    spotlightDialogTitle: string;
+    spotlightEmpty: string;
     spotlightHelp: string;
+    spotlightSelect: string;
+    spotlightSlotAria: (slot: number, item: string | null) => string;
     spotlightTitle: string;
     title: string;
     unansweredSummary: string;
@@ -182,8 +187,13 @@ const zhHant: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `目前顯示・${roleLabel}`,
     seeDetailsSummary: '參考細項',
     spotlightCount: (selected, limit) => `已選 ${selected} / ${limit}`,
+    spotlightDelete: '刪除這個焦點喜好',
+    spotlightDialogTitle: '選擇焦點喜好',
+    spotlightEmpty: '目前還沒有填寫「喜歡」或「很喜歡」的項目。',
     spotlightHelp: '挑出最想先讓人看見的分類或項目。',
-    spotlightTitle: '我的焦點喜好',
+    spotlightSelect: '選擇這個項目',
+    spotlightSlotAria: (slot, item) => item ? `編輯第 ${slot} 個焦點喜好：${item}` : `新增第 ${slot} 個焦點喜好`,
+    spotlightTitle: '你的焦點喜好',
     title: '整理你的祕密檔案',
     unansweredSummary: '分類感受尚未填寫',
     upload: '上傳至雲端',
@@ -293,8 +303,13 @@ const zhHans: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `当前显示・${roleLabel}`,
     seeDetailsSummary: '参考细项',
     spotlightCount: (selected, limit) => `已选 ${selected} / ${limit}`,
+    spotlightDelete: '删除这个焦点喜好',
+    spotlightDialogTitle: '选择焦点喜好',
+    spotlightEmpty: '目前还没有填写“喜欢”或“很喜欢”的项目。',
     spotlightHelp: '挑出最想先让人看见的分类或项目。',
-    spotlightTitle: '我的焦点喜好',
+    spotlightSelect: '选择这个项目',
+    spotlightSlotAria: (slot, item) => item ? `编辑第 ${slot} 个焦点喜好：${item}` : `新增第 ${slot} 个焦点喜好`,
+    spotlightTitle: '你的焦点喜好',
     title: '整理你的秘密档案',
     unansweredSummary: '分类感受尚未填写',
     upload: '上传至云端',
@@ -397,8 +412,13 @@ const ja: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `表示中・${roleLabel}`,
     seeDetailsSummary: '詳細を参照',
     spotlightCount: (selected, limit) => `${selected} / ${limit} 選択済み`,
+    spotlightDelete: 'この注目ポイントを削除',
+    spotlightDialogTitle: '注目ポイントを選ぶ',
+    spotlightEmpty: '「好き」または「大好き」と回答した項目はまだありません。',
     spotlightHelp: '最初に見てほしいカテゴリーや項目を選びます。',
-    spotlightTitle: '私の注目ポイント',
+    spotlightSelect: 'この項目を選ぶ',
+    spotlightSlotAria: (slot, item) => item ? `${slot} 番目の注目ポイントを編集：${item}` : `${slot} 番目の注目ポイントを追加`,
+    spotlightTitle: 'あなたの注目ポイント',
     title: '秘密ファイルを整理する',
     unansweredSummary: 'カテゴリー回答は未入力',
     upload: 'クラウドへアップロード',
@@ -505,8 +525,13 @@ const en: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `Showing · ${roleLabel}`,
     seeDetailsSummary: 'See details',
     spotlightCount: (selected, limit) => `${selected} of ${limit} selected`,
+    spotlightDelete: 'Remove this highlight',
+    spotlightDialogTitle: 'Choose a highlight',
+    spotlightEmpty: 'You have not answered Like or Love for any items yet.',
     spotlightHelp: 'Choose the categories or items you most want people to notice first.',
-    spotlightTitle: 'My highlights',
+    spotlightSelect: 'Choose this item',
+    spotlightSlotAria: (slot, item) => item ? `Edit highlight ${slot}: ${item}` : `Add highlight ${slot}`,
+    spotlightTitle: 'Your highlights',
     title: 'Organize your secret file',
     unansweredSummary: 'Category answer not filled in',
     upload: 'Upload to cloud',
