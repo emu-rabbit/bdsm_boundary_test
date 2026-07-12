@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
 import { getFileManagerMessages } from '../features/secret-file/fileManagerMessages';
@@ -9,8 +9,11 @@ const router = useRouter();
 const store = useSecretFileStore();
 const { locale, navigate } = useAppShell();
 const messages = computed(() => getFileManagerMessages(locale.value));
+const importJson = ref('');
+const importFeedback = ref('');
+const importFeedbackKind = ref<'error' | 'success' | null>(null);
 
-function formatCreatedAt(value: string): string {
+function formatDateTime(value: string): string {
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {
@@ -33,6 +36,37 @@ function deleteFile(fileId: string, profileName: string): void {
   }
 }
 
+function submitImport(): void {
+  importFeedback.value = '';
+  importFeedbackKind.value = null;
+
+  try {
+    const candidate = store.validateImportJson(importJson.value);
+    const existingFile = store.files.find((file) => file.fileId === candidate.fileId);
+
+    if (
+      existingFile &&
+      !window.confirm(
+        messages.value.overwriteConfirmation(
+          candidate.profileName,
+          formatDateTime(existingFile.updatedAt),
+          formatDateTime(candidate.updatedAt),
+        ),
+      )
+    ) {
+      return;
+    }
+
+    const secretFile = store.importFile(candidate);
+    importFeedback.value = messages.value.importSuccess(secretFile.profileName);
+    importFeedbackKind.value = 'success';
+    void router.push({ name: 'create', query: { file: secretFile.fileId, view: 'results' } });
+  } catch (error) {
+    importFeedback.value = error instanceof Error ? error.message : String(error);
+    importFeedbackKind.value = 'error';
+  }
+}
+
 onMounted(() => {
   store.refresh();
   window.scrollTo({ left: 0, top: 0 });
@@ -47,11 +81,35 @@ onMounted(() => {
         <h1>{{ messages.title }}</h1>
       </header>
 
+      <form class="file-import-panel" @submit.prevent="submitImport">
+        <label for="secret-file-json">{{ messages.importLabel }}</label>
+        <p>{{ messages.importDescription }}</p>
+        <textarea
+          id="secret-file-json"
+          v-model="importJson"
+          :placeholder="messages.importPlaceholder"
+          rows="7"
+          spellcheck="false"
+        />
+        <button class="quiet-action" type="submit" :disabled="!importJson.trim()">
+          {{ messages.importJson }}
+        </button>
+        <p
+          v-if="importFeedback"
+          class="file-import-feedback"
+          :class="`file-import-feedback--${importFeedbackKind}`"
+          role="status"
+          aria-live="polite"
+        >
+          {{ importFeedback }}
+        </p>
+      </form>
+
       <div v-if="store.files.length" class="file-list">
         <article v-for="file in store.files" :key="file.fileId" class="file-list-item">
           <div class="file-list-item__copy">
             <h2>{{ file.profileName }}</h2>
-            <p>{{ messages.createdAt(formatCreatedAt(file.createdAt)) }}</p>
+            <p>{{ messages.createdAt(formatDateTime(file.createdAt)) }}</p>
             <small>{{ messages.progress(file.answered, file.total) }}</small>
           </div>
           <div class="file-list-item__actions">

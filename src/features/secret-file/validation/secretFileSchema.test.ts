@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { createSecretFile } from '../domain/secretFile';
 import type { QuestionDefinition, SecretFile } from '../domain/types';
-import { parseSecretFile, SecretFileValidationError } from './secretFileSchema';
+import {
+  InvalidSecretFileJsonError,
+  parseSecretFile,
+  parseSecretFileJson,
+  SecretFileValidationError,
+} from './secretFileSchema';
 
 const questions: readonly QuestionDefinition[] = [
   { id: 'detail.impact.hand.active', level: 'detail', role: 'active' },
@@ -58,5 +63,13 @@ describe('secret-file runtime validation', () => {
     const futureSecretFile = { ...createValidSecretFile(), schemaVersion: 2 };
 
     expect(() => parseSecretFile(futureSecretFile)).toThrow('schemaVersion (2)');
+  });
+
+  it('parses a JSON string through the same runtime validation boundary', () => {
+    const secretFile = createValidSecretFile();
+
+    expect(parseSecretFileJson(JSON.stringify(secretFile))).toEqual(secretFile);
+    expect(() => parseSecretFileJson('{ invalid')).toThrow(InvalidSecretFileJsonError);
+    expect(() => parseSecretFileJson('{"schemaVersion":1}')).toThrow(SecretFileValidationError);
   });
 });

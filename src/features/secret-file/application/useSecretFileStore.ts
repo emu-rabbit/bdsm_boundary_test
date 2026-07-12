@@ -6,7 +6,7 @@ import {
   type SecretFileStorageStatus,
   type SecretFileSummary,
 } from '../storage/browserSecretFileRepository';
-import { parseSecretFile } from '../validation/secretFileSchema';
+import { parseSecretFile, parseSecretFileJson } from '../validation/secretFileSchema';
 
 const repository = new BrowserSecretFileRepository();
 
@@ -38,6 +38,14 @@ export const useSecretFileStore = defineStore('secret-file', () => {
     return secretFile;
   }
 
+  function importJson(input: string): SecretFile {
+    return importFile(validateImportJson(input));
+  }
+
+  function validateImportJson(input: string): SecretFile {
+    return parseSecretFileJson(input);
+  }
+
   function open(fileId: string): SecretFile | null {
     const secretFile = repository.read(fileId);
     activeSecretFile.value = secretFile;
@@ -66,9 +74,11 @@ export const useSecretFileStore = defineStore('secret-file', () => {
     files,
     hasActiveSecretFile,
     importFile,
+    importJson,
     open,
     persist,
     refresh,
     storageStatus,
+    validateImportJson,
   };
 });

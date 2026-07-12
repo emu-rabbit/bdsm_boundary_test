@@ -80,6 +80,13 @@ export class UnsupportedSecretFileSchemaError extends Error {
   }
 }
 
+export class InvalidSecretFileJsonError extends Error {
+  constructor() {
+    super('貼上的內容不是有效的 JSON。');
+    this.name = 'InvalidSecretFileJsonError';
+  }
+}
+
 function getSchemaVersion(value: unknown): unknown {
   if (typeof value !== 'object' || value === null || !('schemaVersion' in value)) {
     return undefined;
@@ -102,4 +109,16 @@ export function parseSecretFile(input: unknown): SecretFile {
   }
 
   return parsed.data;
+}
+
+export function parseSecretFileJson(input: string): SecretFile {
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(input);
+  } catch {
+    throw new InvalidSecretFileJsonError();
+  }
+
+  return parseSecretFile(parsed);
 }

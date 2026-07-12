@@ -26,6 +26,8 @@ export {
 } from './domain/types';
 export {
   parseSecretFile,
+  parseSecretFileJson,
+  InvalidSecretFileJsonError,
   secretFileNoteSchema,
   SecretFileValidationError,
   UnsupportedSecretFileSchemaError,

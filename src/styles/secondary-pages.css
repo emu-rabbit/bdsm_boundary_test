@@ -288,9 +288,51 @@
 }
 
 .file-list,
-.files-empty-state {
+.files-empty-state,
+.file-import-panel {
   display: grid;
   gap: 0.8rem;
+}
+
+.file-import-panel {
+  padding: 1.1rem;
+  border: 1px dashed rgba(236, 198, 187, 0.24);
+  border-radius: 1rem;
+  background: rgba(28, 14, 23, 0.62);
+}
+
+.file-import-panel label {
+  color: #f8ded3;
+  font-size: 1.05rem;
+}
+
+.file-import-panel p {
+  margin: 0;
+  color: var(--ink-muted);
+  line-height: 1.55;
+}
+
+.file-import-panel textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid rgba(236, 198, 187, 0.22);
+  border-radius: 0.75rem;
+  background: rgba(14, 7, 12, 0.72);
+  color: #f6e8df;
+  padding: 0.8rem;
+  font: 0.84rem/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.file-import-panel .quiet-action {
+  justify-self: start;
+}
+
+.file-import-panel .file-import-feedback--error {
+  color: #f3b7bd;
+}
+
+.file-import-panel .file-import-feedback--success {
+  color: #cfe7d5;
 }
 
 .file-list-item,
