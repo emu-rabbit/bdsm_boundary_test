@@ -177,7 +177,7 @@
   color: rgba(219, 201, 154, 0.92);
   font-size: 0.82rem;
   pointer-events: none;
-  animation: settings-name-saved 720ms ease both;
+  animation: settings-name-saved 3000ms ease both;
 }
 
 .settings-name-field__saved > span {
@@ -196,7 +196,12 @@
     transform: translateY(0.2rem) scale(0.88);
   }
 
-  42% {
+  12% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.04);
+  }
+
+  88% {
     opacity: 1;
     transform: translateY(-1px) scale(1.04);
   }
