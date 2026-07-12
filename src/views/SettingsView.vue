@@ -21,7 +21,6 @@ const profileSaveFeedbackKey = ref(0);
 let profileSaveFeedbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
 
 const isProfileNameSaved = computed(() => profileNameDraft.value === profileName.value);
-const profileSaveButtonShowsSaved = computed(() => profileSaveFeedbackVisible.value || isProfileNameSaved.value);
 
 function saveProfileName(): void {
   if (isProfileNameSaved.value) {
@@ -39,7 +38,7 @@ function saveProfileName(): void {
   profileSaveFeedbackTimeout = window.setTimeout(() => {
     profileSaveFeedbackVisible.value = false;
     profileSaveFeedbackTimeout = null;
-  }, 1800);
+  }, 3000);
 }
 
 watch(profileName, (name) => {
@@ -91,24 +90,19 @@ onBeforeUnmount(() => {
               autocomplete="nickname"
               :maxlength="profileNameMaxLength"
               type="text"
+              @blur="saveProfileName"
             />
-          </label>
-          <button
-            class="primary-action settings-save-action"
-            :class="{
-              'settings-save-action--saved': profileSaveButtonShowsSaved,
-              'settings-save-action--feedback': profileSaveFeedbackVisible,
-            }"
-            type="submit"
-            :disabled="isProfileNameSaved"
-            :aria-label="profileSaveButtonShowsSaved ? messages.settings.profileSaved : messages.settings.saveProfile"
-            aria-live="polite"
-          >
-            <span :key="profileSaveFeedbackKey" class="settings-save-action__content">
-              <span v-if="profileSaveButtonShowsSaved" aria-hidden="true">✓</span>
-              {{ profileSaveButtonShowsSaved ? messages.settings.profileSaved : messages.settings.saveProfile }}
+            <span
+              v-if="profileSaveFeedbackVisible"
+              :key="profileSaveFeedbackKey"
+              class="settings-name-field__saved"
+              role="status"
+              aria-live="polite"
+            >
+              <span aria-hidden="true">✓</span>
+              {{ messages.settings.profileSaved }}
             </span>
-          </button>
+          </label>
         </form>
 
         <section class="settings-panel" :aria-label="messages.settings.languageLabel">

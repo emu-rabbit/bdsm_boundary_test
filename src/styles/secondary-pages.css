@@ -141,6 +141,7 @@
 }
 
 .settings-name-field {
+  position: relative;
   display: grid;
   gap: 0.48rem;
 }
@@ -158,89 +159,57 @@
   background: rgba(18, 10, 15, 0.72);
   color: var(--ink);
   font-size: 1.16rem;
-  padding: 0 0.95rem;
+  padding: 0 7.5rem 0 0.95rem;
 }
 
 .settings-name-field input::placeholder {
   color: rgba(246, 232, 223, 0.34);
 }
 
-.settings-save-action {
-  position: relative;
-  display: inline-grid;
-  min-width: 8.75rem;
-  overflow: hidden;
-  place-items: center;
-}
-
-.settings-save-action--saved {
-  border-color: rgba(219, 176, 118, 0.62);
-  background: rgba(138, 78, 84, 0.94);
-}
-
-.settings-save-action--feedback {
-  animation: settings-save-pulse 720ms ease both;
-}
-
-.settings-save-action:disabled {
-  cursor: default;
-}
-
-.settings-save-action--saved:disabled {
-  border-color: rgba(236, 198, 187, 0.14);
-  background: rgba(70, 58, 64, 0.72);
-  color: rgba(246, 232, 223, 0.58);
-  animation: none;
-}
-
-.settings-save-action--saved:disabled:hover {
-  border-color: rgba(236, 198, 187, 0.14);
-  background: rgba(70, 58, 64, 0.72);
-}
-
-.settings-save-action--feedback:disabled {
-  animation: settings-save-pulse 720ms ease both;
-}
-
-.settings-save-action__content {
+.settings-name-field .settings-name-field__saved {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.95rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.36rem;
-  animation: settings-save-content-in 360ms ease both;
+  color: rgba(219, 201, 154, 0.92);
+  font-size: 0.82rem;
+  pointer-events: none;
+  animation: settings-name-saved 720ms ease both;
 }
 
-.settings-save-action__content span {
-  color: currentColor;
-  font-size: 0.78rem;
+.settings-name-field__saved > span {
+  display: inline-grid;
+  width: 1.05rem;
+  height: 1.05rem;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.7rem;
 }
 
-@keyframes settings-save-pulse {
+@keyframes settings-name-saved {
   0% {
-    box-shadow: 0 0 0 0 rgba(219, 176, 118, 0.28);
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(0.2rem) scale(0.88);
   }
 
   42% {
-    box-shadow: 0 0 0 0.28rem rgba(219, 176, 118, 0.08);
-    transform: translateY(-1px);
+    opacity: 1;
+    transform: translateY(-1px) scale(1.04);
   }
 
   100% {
-    box-shadow: none;
+    opacity: 0;
     transform: translateY(0);
   }
 }
 
-@keyframes settings-save-content-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.32rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (prefers-reduced-motion: reduce) {
+  .settings-name-field__saved {
+    animation: none;
   }
 }
 
