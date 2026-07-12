@@ -1091,6 +1091,8 @@
 .spotlight-dialog__heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .spotlight-dialog__heading h2 { margin: 0; font-size: 1.15rem; }
 .spotlight-dialog__heading button { border: 0; background: transparent; color: var(--ink-muted); font-size: 1.6rem; cursor: pointer; }
+.spotlight-dialog__current { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-top: 0.8rem; padding: 0.72rem 0.78rem; border: 1px solid rgba(229, 183, 132, 0.32); border-radius: 0.7rem; background: rgba(142, 89, 62, 0.18); }
+.spotlight-dialog__current .spotlight-dialog__item-copy > small:first-child { color: #efc998; font-size: 0.72rem; }
 .spotlight-dialog__groups { display: grid; gap: 1rem; margin-top: 1rem; }
 .spotlight-dialog__preference-group { display: grid; gap: 0.7rem; }
 .spotlight-dialog__preference-group + .spotlight-dialog__preference-group { padding-top: 1rem; border-top: 1px solid rgba(236, 198, 187, 0.14); }
@@ -1106,7 +1108,7 @@
 .spotlight-dialog__item-copy strong { font-size: 0.88rem; font-weight: 500; }
 .spotlight-dialog__item-copy small { line-height: 1.45; white-space: normal; }
 .spotlight-dialog__empty { color: var(--ink-muted); }
-.spotlight-dialog__delete { width: 100%; margin-top: 1rem; padding: 0.75rem; border: 1px solid rgba(217, 125, 125, 0.28); border-radius: 0.7rem; background: transparent; color: #e3aaa4; cursor: pointer; }
+.spotlight-dialog__delete { flex: none; padding: 0.55rem 0.68rem; border: 1px solid rgba(217, 125, 125, 0.28); border-radius: 0.55rem; background: transparent; color: #e3aaa4; cursor: pointer; font: inherit; font-size: 0.78rem; }
 
 .results-progress-track {
   display: block;

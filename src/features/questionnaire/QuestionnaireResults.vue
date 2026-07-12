@@ -126,6 +126,12 @@ function getSpotlightCandidate(questionId: string): SpotlightCandidate | null {
   return spotlightCandidates.value.find((candidate) => candidate.questionId === questionId) ?? null;
 }
 
+const activeSpotlightCandidate = computed<SpotlightCandidate | null>(() => {
+  if (activeSpotlightIndex.value === null) return null;
+
+  return getSpotlightCandidate(props.secretFile.spotlight.selectedQuestionIds[activeSpotlightIndex.value] ?? '');
+});
+
 function openSpotlight(index: number): void {
   if (index > props.secretFile.spotlight.selectedQuestionIds.length) return;
   activeSpotlightIndex.value = index;
@@ -515,6 +521,16 @@ const overallProgress = computed(() => {
         <h2>{{ messages.results.spotlightDialogTitle }}</h2>
         <button type="button" :aria-label="messages.results.detailStartCancel" @click="spotlightDialog?.close()">×</button>
       </div>
+      <div v-if="activeSpotlightCandidate" class="spotlight-dialog__current">
+        <div class="spotlight-dialog__item-copy">
+          <small>{{ messages.results.spotlightCurrent }}</small>
+          <strong>{{ activeSpotlightCandidate.label }}</strong>
+          <small>{{ activeSpotlightCandidate.categoryName }}・{{ messages.roleLabels[activeSpotlightCandidate.role] }}</small>
+        </div>
+        <button class="spotlight-dialog__delete" type="button" @click="deleteSpotlight">
+          {{ messages.results.spotlightDelete }}
+        </button>
+      </div>
       <p v-if="candidatePreferenceGroups.length === 0" class="spotlight-dialog__empty">{{ messages.results.spotlightEmpty }}</p>
       <div v-else class="spotlight-dialog__groups">
         <section v-for="preferenceGroup in candidatePreferenceGroups" :key="preferenceGroup.preference" class="spotlight-dialog__preference-group">
@@ -541,12 +557,6 @@ const overallProgress = computed(() => {
           </div>
         </section>
       </div>
-      <button
-        v-if="activeSpotlightIndex !== null && activeSpotlightIndex < secretFile.spotlight.selectedQuestionIds.length"
-        class="spotlight-dialog__delete"
-        type="button"
-        @click="deleteSpotlight"
-      >{{ messages.results.spotlightDelete }}</button>
     </dialog>
   </section>
 </template>

@@ -68,6 +68,7 @@ export interface QuestionnaireMessages {
     sectionKicker: (roleLabel: string) => string;
     seeDetailsSummary: string;
     spotlightCount: (selected: number, limit: number) => string;
+    spotlightCurrent: string;
     spotlightDelete: string;
     spotlightDialogTitle: string;
     spotlightEmpty: string;
@@ -187,6 +188,7 @@ const zhHant: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `目前顯示・${roleLabel}`,
     seeDetailsSummary: '參考細項',
     spotlightCount: (selected, limit) => `已選 ${selected} / ${limit}`,
+    spotlightCurrent: '目前選擇',
     spotlightDelete: '刪除這個焦點喜好',
     spotlightDialogTitle: '選擇焦點喜好',
     spotlightEmpty: '目前還沒有填寫「喜歡」或「很喜歡」的項目。',
@@ -303,6 +305,7 @@ const zhHans: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `当前显示・${roleLabel}`,
     seeDetailsSummary: '参考细项',
     spotlightCount: (selected, limit) => `已选 ${selected} / ${limit}`,
+    spotlightCurrent: '当前选择',
     spotlightDelete: '删除这个焦点喜好',
     spotlightDialogTitle: '选择焦点喜好',
     spotlightEmpty: '目前还没有填写“喜欢”或“很喜欢”的项目。',
@@ -412,6 +415,7 @@ const ja: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `表示中・${roleLabel}`,
     seeDetailsSummary: '詳細を参照',
     spotlightCount: (selected, limit) => `${selected} / ${limit} 選択済み`,
+    spotlightCurrent: '現在の選択',
     spotlightDelete: 'この注目ポイントを削除',
     spotlightDialogTitle: '注目ポイントを選ぶ',
     spotlightEmpty: '「好き」または「大好き」と回答した項目はまだありません。',
@@ -525,6 +529,7 @@ const en: QuestionnaireMessages = {
     sectionKicker: (roleLabel) => `Showing · ${roleLabel}`,
     seeDetailsSummary: 'See details',
     spotlightCount: (selected, limit) => `${selected} of ${limit} selected`,
+    spotlightCurrent: 'Current selection',
     spotlightDelete: 'Remove this highlight',
     spotlightDialogTitle: 'Choose a highlight',
     spotlightEmpty: 'You have not answered Like or Love for any items yet.',
