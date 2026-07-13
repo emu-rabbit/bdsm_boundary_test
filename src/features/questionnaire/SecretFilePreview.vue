@@ -187,6 +187,17 @@ function changeLocale(event: Event): void {
       class="questionnaire-page-shell questionnaire-results-shell secret-file-preview-shell"
       :class="{ 'is-detail-view': activeCategory }"
     >
+      <div v-if="!activeCategory" class="preview-overview-tools preview-overview-tools--mobile">
+        <label class="preview-locale-switch is-utility">
+          <span>{{ messages.languageLabel }}</span>
+          <select :value="locale" @change="changeLocale">
+            <option v-for="option in localeOptions" :key="option.id" :value="option.id">
+              {{ option.label }}
+            </option>
+          </select>
+        </label>
+      </div>
+
       <aside v-if="!activeCategory" class="results-sidebar preview-sidebar">
         <div class="results-sidebar__intro preview-sidebar__identity">
           <p class="questionnaire-kicker">{{ messages.previewKicker }}</p>
@@ -233,7 +244,7 @@ function changeLocale(event: Event): void {
       </aside>
 
       <main v-if="!activeCategory" class="results-content preview-content">
-        <div class="preview-overview-tools">
+        <div class="preview-overview-tools preview-overview-tools--desktop">
           <label class="preview-locale-switch is-utility">
             <span>{{ messages.languageLabel }}</span>
             <select :value="locale" @change="changeLocale">
@@ -291,6 +302,24 @@ function changeLocale(event: Event): void {
             >
               <span aria-hidden="true">⊘</span>
               {{ messages.hardNoButton(hardNoItems.length) }}
+            </button>
+          </div>
+
+          <div
+            v-if="availableRoles.length > 1"
+            class="result-role-switch preview-role-switch preview-role-switch--content"
+            role="group"
+            :aria-label="messages.roleSwitchLabel"
+          >
+            <button
+              v-for="role in availableRoles"
+              :key="role"
+              type="button"
+              :class="{ 'is-selected': selectedRole === role }"
+              :aria-pressed="selectedRole === role"
+              @click="selectedRole = role"
+            >
+              {{ questionnaireMessages.roleLabels[role] }}
             </button>
           </div>
 

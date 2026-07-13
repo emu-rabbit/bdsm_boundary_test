@@ -574,23 +574,31 @@
 .result-role-switch {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.2rem;
   width: min(100%, 24rem);
+  padding: 0.25rem;
+  border: 1px solid rgba(236, 198, 187, 0.14);
+  border-radius: 999px;
+  background: rgba(24, 12, 19, 0.72);
 }
 
 .result-role-switch button {
-  min-height: 3.15rem;
-  border: 1px solid rgba(236, 198, 187, 0.12);
-  border-radius: 0.82rem;
-  background: rgba(42, 21, 33, 0.78);
+  min-height: 2.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
   color: var(--ink-soft);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .result-role-switch button:hover,
 .result-role-switch button.is-selected {
-  border-color: rgba(217, 154, 154, 0.42);
-  background: rgba(123, 63, 81, 0.66);
+  background: linear-gradient(135deg, rgba(157, 78, 101, 0.96), rgba(111, 55, 75, 0.96));
   color: #fff1e9;
+  box-shadow: 0 0.38rem 0.9rem rgba(35, 13, 25, 0.28);
 }
 
 .category-role-chip {
@@ -987,31 +995,37 @@
 
 .results-spotlight {
   display: grid;
-  gap: 0.72rem;
-  padding: 0.95rem;
-  border: 1px solid rgba(222, 169, 125, 0.2);
-  border-radius: 1rem;
+  gap: 0.9rem;
+  padding: clamp(0.9rem, 2vw, 1.35rem);
+  overflow: hidden;
+  border: 1px solid rgba(229, 183, 132, 0.24);
+  border-radius: 1.35rem;
   background:
-    radial-gradient(circle at 100% 0, rgba(209, 146, 105, 0.13), transparent 48%),
-    rgba(31, 16, 23, 0.5);
+    radial-gradient(circle at 50% -20%, rgba(215, 151, 105, 0.28), transparent 42%),
+    radial-gradient(circle at 10% 85%, rgba(151, 65, 91, 0.22), transparent 36%),
+    linear-gradient(150deg, rgba(62, 31, 42, 0.95), rgba(23, 11, 18, 0.98));
+  box-shadow: 0 1.4rem 3.5rem rgba(5, 2, 4, 0.24);
 }
 
 .results-spotlight__heading {
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .results-spotlight__mark {
   display: grid;
-  width: 2rem;
-  height: 2rem;
+  width: 2.7rem;
+  height: 2.7rem;
   flex: none;
   place-items: center;
   border: 1px solid rgba(229, 183, 132, 0.3);
   border-radius: 999px;
   background: rgba(142, 89, 62, 0.25);
   color: #efc998;
+  font-size: 1.35rem;
+  filter: drop-shadow(0 0 0.8rem rgba(226, 174, 112, 0.32));
 }
 
 .results-spotlight__heading > div {
@@ -1027,8 +1041,9 @@
 
 .results-spotlight h2 {
   color: var(--ink);
-  font-size: 0.98rem;
+  font-size: clamp(1.45rem, 2.8vw, 2.1rem);
   font-weight: 500;
+  line-height: 1.2;
 }
 
 .results-spotlight__heading p,
@@ -1040,29 +1055,62 @@
 
 .results-spotlight__slots {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.36rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(6.25rem, auto));
+  gap: 0.7rem;
 }
 
 .results-spotlight__slots button {
-  display: grid;
+  position: relative;
+  display: block;
   padding: 0;
-  aspect-ratio: 1;
-  place-items: center;
+  min-height: 0;
+  aspect-ratio: auto;
   border: 1px dashed rgba(236, 198, 187, 0.18);
-  border-radius: 0.58rem;
-  background: rgba(12, 6, 10, 0.25);
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(132, 62, 83, 0.18), transparent 58%),
+    rgba(12, 6, 10, 0.34);
   color: rgba(246, 232, 223, 0.34);
-  font-size: 0.72rem;
   overflow: hidden;
   cursor: pointer;
+}
+
+.results-spotlight__slots button:first-child {
+  grid-column: 4 / 10;
+  grid-row: 1 / 3;
+}
+
+.results-spotlight__slots button:nth-child(2) {
+  grid-column: 1 / 4;
+  grid-row: 1;
+}
+
+.results-spotlight__slots button:nth-child(3) {
+  grid-column: 10 / 13;
+  grid-row: 1;
+}
+
+.results-spotlight__slots button:nth-child(4) {
+  grid-column: 1 / 4;
+  grid-row: 2;
+}
+
+.results-spotlight__slots button:nth-child(5) {
+  grid-column: 10 / 13;
+  grid-row: 2;
 }
 
 .results-spotlight__slots button.is-filled {
   border-style: solid;
   border-color: rgba(229, 183, 132, 0.34);
-  background: rgba(142, 89, 62, 0.28);
+  background: rgba(20, 9, 15, 0.64);
   color: #efc998;
+}
+
+.results-spotlight__slots button:not(:disabled):not(.is-filled) {
+  border-color: rgba(229, 183, 132, 0.44);
+  background: rgba(142, 89, 62, 0.16);
 }
 
 .results-spotlight__slots button:disabled {
@@ -1071,9 +1119,59 @@
 }
 
 .results-spotlight__slots img {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: 0.45rem;
+  object-fit: contain;
+  opacity: 0.92;
+}
+
+.results-spotlight__slot-number {
+  position: absolute;
+  top: 0.45rem;
+  left: 0.45rem;
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border: 1px solid rgba(255, 237, 213, 0.28);
+  border-radius: 50%;
+  background: rgba(28, 12, 19, 0.8);
+  color: #efc995;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.results-spotlight__slot-copy {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  gap: 0.12rem;
+  padding: 1.55rem 0.55rem 0.55rem;
+  background: linear-gradient(transparent, rgba(15, 7, 11, 0.94));
+  color: var(--ink);
+  text-align: left;
+}
+
+.results-spotlight__slot-copy small {
+  overflow: hidden;
+  color: var(--ink-muted);
+  font-size: 0.62rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.results-spotlight__slot-copy strong {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .spotlight-dialog {
@@ -1509,12 +1607,30 @@
   }
 
   .results-spotlight {
-    padding: 0.82rem;
+    padding: 0.88rem;
+    border-radius: 1.05rem;
   }
 
-  .results-spotlight__slots button {
-    aspect-ratio: auto;
-    min-height: 2rem;
+  .results-spotlight__slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+  }
+
+  .results-spotlight__slots[class*='has-'] button:nth-child(n + 2) {
+    grid-column: auto;
+    grid-row: auto;
+    width: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .results-spotlight__slots[class*='has-'] button:first-child {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 16 / 7;
+  }
+
+  .results-spotlight__slot-copy strong {
+    font-size: 0.82rem;
   }
 
   .results-sidebar > .result-role-switch,
@@ -1547,9 +1663,7 @@
     top: max(0.5rem, env(safe-area-inset-top, 0px));
     z-index: 3;
     display: grid;
-    padding: 0.3rem;
-    border: 1px solid rgba(236, 198, 187, 0.12);
-    border-radius: 0.9rem;
+    padding: 0.25rem;
     background: rgba(28, 13, 22, 0.92);
     box-shadow: 0 0.65rem 1.5rem rgba(5, 2, 4, 0.24);
     backdrop-filter: blur(0.8rem);

@@ -126,6 +126,16 @@ function getSpotlightCandidate(questionId: string): SpotlightCandidate | null {
   return spotlightCandidates.value.find((candidate) => candidate.questionId === questionId) ?? null;
 }
 
+const spotlightSlots = computed(() => {
+  const slotCount = Math.min(props.secretFile.spotlight.selectedQuestionIds.length + 1, 5);
+
+  return Array.from({ length: slotCount }, (_, index) => ({
+    candidate: getSpotlightCandidate(props.secretFile.spotlight.selectedQuestionIds[index] ?? ''),
+    index,
+    slot: index + 1,
+  }));
+});
+
 const activeSpotlightCandidate = computed<SpotlightCandidate | null>(() => {
   if (activeSpotlightIndex.value === null) return null;
 
@@ -303,7 +313,6 @@ const overallProgress = computed(() => {
         <div class="results-sidebar__intro">
           <p class="questionnaire-kicker">{{ messages.results.editing }}</p>
           <h1>{{ messages.results.title(secretFile.profileName) }}</h1>
-          <p>{{ messages.results.firstPhaseComplete }}</p>
           <p class="results-last-edited">{{ messages.results.lastEdited(secretFile.updatedAt) }}</p>
         </div>
 
@@ -321,35 +330,6 @@ const overallProgress = computed(() => {
           </div>
           <small>{{ messages.results.detailProgress(overallProgress.answered, overallProgress.total) }}</small>
         </div>
-
-        <section class="results-spotlight" :aria-label="messages.results.spotlightTitle">
-          <div class="results-spotlight__heading">
-            <span class="results-spotlight__mark" aria-hidden="true">✦</span>
-            <div>
-              <h2>{{ messages.results.spotlightTitle }}</h2>
-              <p>{{ messages.results.spotlightCount(secretFile.spotlight.selectedQuestionIds.length, 5) }}</p>
-            </div>
-          </div>
-          <div class="results-spotlight__slots">
-            <button
-              v-for="slot in 5"
-              :key="slot"
-              type="button"
-              :class="{ 'is-filled': slot <= secretFile.spotlight.selectedQuestionIds.length }"
-              :disabled="slot - 1 > secretFile.spotlight.selectedQuestionIds.length"
-              :aria-label="messages.results.spotlightSlotAria(slot, getSpotlightCandidate(secretFile.spotlight.selectedQuestionIds[slot - 1] ?? '')?.label ?? null)"
-              @click="openSpotlight(slot - 1)"
-            >
-              <img
-                v-if="getSpotlightCandidate(secretFile.spotlight.selectedQuestionIds[slot - 1] ?? '')"
-                :src="getCategoryVisualUrl(getSpotlightCandidate(secretFile.spotlight.selectedQuestionIds[slot - 1] ?? '')!.categoryId)"
-                alt=""
-              />
-              <span v-else>{{ slot }}</span>
-            </button>
-          </div>
-          <p>{{ messages.results.spotlightHelp }}</p>
-        </section>
 
         <div v-if="availableRoles.length > 1" class="result-role-switch" role="group" :aria-label="messages.results.roleSwitchLabel">
           <button
@@ -386,6 +366,43 @@ const overallProgress = computed(() => {
       </aside>
 
       <main class="results-content">
+        <section
+          v-if="spotlightCandidates.length > 0"
+          class="results-spotlight results-spotlight--editor"
+          :aria-label="messages.results.spotlightTitle"
+        >
+          <div class="results-spotlight__heading">
+            <div>
+              <h2>{{ messages.results.spotlightTitle }}</h2>
+              <p>{{ messages.results.spotlightCount(secretFile.spotlight.selectedQuestionIds.length, 5) }}</p>
+            </div>
+            <span class="results-spotlight__mark" aria-hidden="true">✦</span>
+          </div>
+          <div class="results-spotlight__slots" :class="`has-${spotlightSlots.length}-items`">
+            <button
+              v-for="item in spotlightSlots"
+              :key="item.slot"
+              type="button"
+              :class="{ 'is-filled': item.candidate }"
+              :disabled="item.index > secretFile.spotlight.selectedQuestionIds.length"
+              :aria-label="messages.results.spotlightSlotAria(item.slot, item.candidate?.label ?? null)"
+              @click="openSpotlight(item.index)"
+            >
+              <img
+                v-if="item.candidate"
+                :src="getCategoryVisualUrl(item.candidate.categoryId)"
+                alt=""
+              />
+              <span class="results-spotlight__slot-number">{{ item.slot }}</span>
+              <span v-if="item.candidate" class="results-spotlight__slot-copy">
+                <small>{{ item.candidate.categoryName }}・{{ messages.roleLabels[item.candidate.role] }}</small>
+                <strong>{{ item.candidate.label }}</strong>
+              </span>
+            </button>
+          </div>
+          <p>{{ messages.results.spotlightHelp }}</p>
+        </section>
+
         <div class="results-content__heading">
           <div>
             <p>{{ messages.results.sectionKicker(messages.roleLabels[selectedRole]) }}</p>

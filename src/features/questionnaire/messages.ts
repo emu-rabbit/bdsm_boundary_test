@@ -60,7 +60,6 @@ export interface QuestionnaireMessages {
     editHint: string;
     editing: string;
     fileActionsLabel: string;
-    firstPhaseComplete: string;
     lastEdited: (date: string) => string;
     otherSummary: string;
     overallProgress: string;
@@ -182,7 +181,6 @@ const zhHant: QuestionnaireMessages = {
     editHint: '點選任何分類，就能繼續編輯裡面的細項',
     editing: '正在編輯',
     fileActionsLabel: '檔案操作',
-    firstPhaseComplete: '分類感受已經收好了。接下來，可以從你最在意的分類慢慢補上細項。',
     lastEdited: (date) => `最後編輯於 ${formatTimestamp('zh-Hant', date)}`,
     otherSummary: '從細項開始整理',
     overallProgress: '整份細項進度',
@@ -301,7 +299,6 @@ const zhHans: QuestionnaireMessages = {
     editHint: '点选任何分类，就能继续编辑里面的细项',
     editing: '正在编辑',
     fileActionsLabel: '文件操作',
-    firstPhaseComplete: '分类感受已经收好了。接下来，可以从你最在意的分类慢慢补上细项。',
     lastEdited: (date) => `最后编辑于 ${formatTimestamp('zh-Hans', date)}`,
     otherSummary: '从细项开始整理',
     overallProgress: '整份细项进度',
@@ -413,7 +410,6 @@ const ja: QuestionnaireMessages = {
     editHint: 'カテゴリーを選ぶと、その中の詳細を編集できます',
     editing: '編集中',
     fileActionsLabel: 'ファイル操作',
-    firstPhaseComplete: 'カテゴリーへの回答を保存しました。気になるカテゴリーから、詳細を少しずつ整理できます。',
     lastEdited: (date) => `${formatTimestamp('ja', date)} に最終編集`,
     otherSummary: '詳細から整理する',
     overallProgress: '詳細全体の進捗',
@@ -529,7 +525,6 @@ const en: QuestionnaireMessages = {
     editHint: 'Choose any category to continue editing its details',
     editing: 'Editing',
     fileActionsLabel: 'File actions',
-    firstPhaseComplete: 'Your category answers are saved. Continue with the details in whichever category matters most to you.',
     lastEdited: (date) => `Last edited ${formatTimestamp('en', date)}`,
     otherSummary: 'Start with the details',
     overallProgress: 'Overall detail progress',
