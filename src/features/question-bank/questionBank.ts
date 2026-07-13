@@ -1779,10 +1779,10 @@ const categoryDetailItemSource: Record<string, readonly QuestionBankDetailItemSo
       label: "手交",
       roles: {
         active: {
-          description: "用手刺激對方生殖器"
+          description: "在手交中擔任主導側"
         },
         passive: {
-          description: "接受對方用手刺激生殖器"
+          description: "在手交中擔任配合側"
         }
       },
       warning: null
@@ -1792,10 +1792,10 @@ const categoryDetailItemSource: Record<string, readonly QuestionBankDetailItemSo
       label: "拳交",
       roles: {
         active: {
-          description: "對對方進行拳交"
+          description: "在拳交中擔任主導側"
         },
         passive: {
-          description: "接受對方拳交"
+          description: "在拳交中擔任配合側"
         }
       },
       warning: "注意撕裂傷、出血、感染風險與身體不適"
@@ -2907,10 +2907,10 @@ const categoryDetailItemSource: Record<string, readonly QuestionBankDetailItemSo
       label: "塗鴉遊戲",
       roles: {
         active: {
-          description: "在對方身體或物品上塗鴉"
+          description: "在小孩子塗鴉玩樂的情境中擔任主導側"
         },
         passive: {
-          description: "讓對方在自己身體或物品上塗鴉"
+          description: "在小孩子塗鴉玩樂的情境中擔任配合側"
         }
       },
       warning: null
@@ -3766,10 +3766,10 @@ const categoryDetailItemSource: Record<string, readonly QuestionBankDetailItemSo
       label: "玩食物",
       roles: {
         active: {
-          description: "用食物與對方進行情境互動"
+          description: "在把食物當作性互動或調教道具玩弄的情境中擔任主導側"
         },
         passive: {
-          description: "被對方用食物進行情境互動"
+          description: "在把食物當作性互動或調教道具玩弄的情境中擔任配合側"
         }
       },
       warning: null

@@ -19,7 +19,7 @@ export const rolePlayDetails: Record<TranslatedQuestionBankLocale, Record<string
     'detail-role_play-1virdb': detail("扮演父母／儿女", "在父母与儿女的情境中担任主导侧", "在父母与儿女的情境中担任配合侧"),
     'detail-role_play-18ycvwm': detail("扮演兄弟姐妹", "在兄弟姐妹的情境中担任主导侧", "在兄弟姐妹的情境中担任配合侧"),
     'detail-role_play-pyo1lh': detail("包尿布", "让对方包尿布", "在对方面前包尿布"),
-    'detail-role_play-u5m4ic': detail("涂鸦游戏", "在对方身体或物品上涂鸦", "让对方在自己身体或物品上涂鸦"),
+    'detail-role_play-u5m4ic': detail("涂鸦游戏", "在小孩子涂鸦玩乐的情境中担任主导侧", "在小孩子涂鸦玩乐的情境中担任配合侧"),
   },
   "ja": {
     'detail-role_play-j6rqh7': detail("赤ちゃん役", "相手に赤ちゃん役を演じてもらう", "相手の前で赤ちゃん役を演じる"),
@@ -35,7 +35,7 @@ export const rolePlayDetails: Record<TranslatedQuestionBankLocale, Record<string
     'detail-role_play-1virdb': detail("親／子ども役", "親と子どもの場面でリード側を担う", "親と子どもの場面でフォロー側を担う"),
     'detail-role_play-18ycvwm': detail("きょうだい役", "きょうだいの場面でリード側を担う", "きょうだいの場面でフォロー側を担う"),
     'detail-role_play-pyo1lh': detail("おむつを着ける", "相手におむつを着けてもらう", "相手の前でおむつを着ける"),
-    'detail-role_play-u5m4ic': detail("落書きプレイ", "相手の身体や持ち物に落書きする", "自分の身体や持ち物に相手から落書きされる"),
+    'detail-role_play-u5m4ic': detail("落書きプレイ", "子どものように落書きを楽しむ場面でリード側を担う", "子どものように落書きを楽しむ場面でフォロー側を担う"),
   },
   "en": {
     'detail-role_play-j6rqh7': detail("Playing a baby", "Have the other person play a baby", "Play a baby in front of the other person"),
@@ -51,6 +51,6 @@ export const rolePlayDetails: Record<TranslatedQuestionBankLocale, Record<string
     'detail-role_play-1virdb': detail("Parent and child roles", "Take the leading role in a parent-and-child scenario", "Take the following role in a parent-and-child scenario"),
     'detail-role_play-18ycvwm': detail("Sibling roles", "Take the leading role in a sibling scenario", "Take the following role in a sibling scenario"),
     'detail-role_play-pyo1lh': detail("Wearing a diaper", "Have the other person wear a diaper", "Wear a diaper in front of the other person"),
-    'detail-role_play-u5m4ic': detail("Doodling play", "Draw or write on the other person’s body or belongings", "Have the other person draw or write on your body or belongings"),
+    'detail-role_play-u5m4ic': detail("Doodling play", "Take the leading role in a childlike doodling-play scenario", "Take the following role in a childlike doodling-play scenario"),
   },
 };

@@ -84,6 +84,31 @@ describe('first-phase question bank', () => {
     expect(flogging?.roles.active.title).toBe('用散鞭');
     expect(flogging?.roles.passive.title).toBe('用散鞭');
   });
+
+  it('keeps ambiguous role descriptions neutral and the requested titles direction-free', () => {
+    const sexualInteraction = questionBank.categories.find(
+      (category) => category.categoryId === 'sexual_interaction',
+    );
+    const handInteraction = sexualInteraction?.detailItems.find(
+      (item) => item.detailId === 'detail-sexual_interaction-1k4ddkr',
+    );
+    const fistInteraction = sexualInteraction?.detailItems.find(
+      (item) => item.detailId === 'detail-sexual_interaction-1g5pujn',
+    );
+    const multiPartyInteraction = questionBank.categories.find(
+      (category) => category.categoryId === 'multi_party_interaction',
+    );
+    const oneLeaderManyFollowers = multiPartyInteraction?.detailItems.find(
+      (item) => item.detailId === 'detail-multi_party_interaction-jy04v5',
+    );
+
+    expect(handInteraction?.roles.active.description).toBe('在手交中擔任主導側');
+    expect(handInteraction?.roles.passive.description).toBe('在手交中擔任配合側');
+    expect(fistInteraction?.roles.active.description).toBe('在拳交中擔任主導側');
+    expect(fistInteraction?.roles.passive.description).toBe('在拳交中擔任配合側');
+    expect(oneLeaderManyFollowers?.roles.active.title).toBe('一主多奴/寵');
+    expect(oneLeaderManyFollowers?.roles.passive.title).toBe('一主多奴/寵');
+  });
 });
 
 describe('question-bank translations', () => {

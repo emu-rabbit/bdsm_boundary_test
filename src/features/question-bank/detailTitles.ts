@@ -48,8 +48,6 @@ const overrides: Partial<Record<AppLocale, Readonly<Record<string, DetailTitle>>
     'detail-anal_interaction-gwnjaf': paired('接受舔肛服務', '提供舔肛服務'),
 
     // 多人、奴隸與寵物情境
-    'detail-multi_party_interaction-jy04v5': paired('一主多奴／寵・主', '一主多奴／寵・奴／寵'),
-    'detail-multi_party_interaction-1retpvp': paired('多主一奴／寵・主', '多主一奴／寵・奴／寵'),
     'detail-multi_party_interaction-1p23a5n': paired('短期交予第三人', '短期被交予第三人'),
     'detail-multi_party_interaction-18qgi5': paired('長期交予第三人', '長期被交予第三人'),
     'detail-multi_party_interaction-8rm4og': paired('特定情況交予第三人', '特定情況被交予第三人'),
@@ -176,8 +174,6 @@ const overrides: Partial<Record<AppLocale, Readonly<Record<string, DetailTitle>>
     'detail-anal_interaction-12ghyy9': paired('为对方灌肠', '接受灌肠'),
     'detail-anal_interaction-gwnjaf': paired('接受舔肛服务', '提供舔肛服务'),
 
-    'detail-multi_party_interaction-jy04v5': paired('一主多奴／宠・主', '一主多奴／宠・奴／宠'),
-    'detail-multi_party_interaction-1retpvp': paired('多主一奴／宠・主', '多主一奴／宠・奴／宠'),
     'detail-multi_party_interaction-1p23a5n': paired('短期交给第三人', '短期被交给第三人'),
     'detail-multi_party_interaction-18qgi5': paired('长期交给第三人', '长期被交给第三人'),
     'detail-multi_party_interaction-8rm4og': paired('特定情况交给第三人', '特定情况被交给第三人'),
@@ -300,8 +296,6 @@ const overrides: Partial<Record<AppLocale, Readonly<Record<string, DetailTitle>>
     'detail-anal_interaction-12ghyy9': paired('相手に浣腸する', '浣腸を受ける'),
     'detail-anal_interaction-gwnjaf': paired('アナル舐めを受ける', 'アナル舐めをする'),
 
-    'detail-multi_party_interaction-jy04v5': paired('一主多従・主', '一主多従・従'),
-    'detail-multi_party_interaction-1retpvp': paired('多主一従・主', '多主一従・従'),
     'detail-multi_party_interaction-1p23a5n': paired('第三者に短期間預ける', '第三者に短期間預けられる'),
     'detail-multi_party_interaction-18qgi5': paired('第三者に長期間預ける', '第三者に長期間預けられる'),
     'detail-multi_party_interaction-8rm4og': paired('第三者に条件付きで預ける', '第三者に条件付きで預けられる'),
@@ -424,8 +418,6 @@ const overrides: Partial<Record<AppLocale, Readonly<Record<string, DetailTitle>>
     'detail-anal_interaction-12ghyy9': paired('Give an enema', 'Receive an enema'),
     'detail-anal_interaction-gwnjaf': paired('Receive anal oral service', 'Provide anal oral service'),
 
-    'detail-multi_party_interaction-jy04v5': paired('One master, many submissives — master', 'One master, many submissives — submissive'),
-    'detail-multi_party_interaction-1retpvp': paired('Many masters, one submissive — master', 'Many masters, one submissive — submissive'),
     'detail-multi_party_interaction-1p23a5n': paired('Place them with a third person short term', 'Be placed with a third person short term'),
     'detail-multi_party_interaction-18qgi5': paired('Place them with a third person long term', 'Be placed with a third person long term'),
     'detail-multi_party_interaction-8rm4og': paired('Place them with a third person conditionally', 'Be placed with a third person conditionally'),
