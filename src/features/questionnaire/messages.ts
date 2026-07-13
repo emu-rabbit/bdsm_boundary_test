@@ -9,7 +9,7 @@ import type {
 
 export interface QuestionnaireMessages {
   answerRequired: string;
-  autoAdvance: string;
+  autoAdvance: (seconds: number) => string;
   autoAdvanceAction: string;
   backQuestion: string;
   categoryVisualAlt: (categoryName: string) => string;
@@ -101,7 +101,7 @@ function formatTimestamp(locale: AppLocale, value: string): string {
 
 const zhHant: QuestionnaireMessages = {
   answerRequired: '請先選擇經驗程度與喜好程度。',
-  autoAdvance: '答案已存好，3 秒後會自動前往下一題。',
+  autoAdvance: (seconds) => `答案已存好，${seconds} 秒後會自動前往下一題。`,
   autoAdvanceAction: '自動進入中',
   backQuestion: '上一題',
   categoryVisualAlt: (categoryName) => `${categoryName}的分類示意圖`,
@@ -214,7 +214,7 @@ const zhHant: QuestionnaireMessages = {
 const zhHans: QuestionnaireMessages = {
   ...zhHant,
   answerRequired: '请先选择经验程度与喜好程度。',
-  autoAdvance: '答案已保存，3 秒后会自动前往下一题。',
+  autoAdvance: (seconds) => `答案已保存，${seconds} 秒后会自动前往下一题。`,
   autoAdvanceAction: '自动进入中',
   backQuestion: '上一题',
   categoryVisualAlt: (categoryName) => `${categoryName}的分类示意图`,
@@ -328,7 +328,7 @@ const zhHans: QuestionnaireMessages = {
 const ja: QuestionnaireMessages = {
   ...zhHant,
   answerRequired: '経験と興味の両方を選んでください。',
-  autoAdvance: '回答を保存しました。3 秒後に次の質問へ進みます。',
+  autoAdvance: (seconds) => `回答を保存しました。${seconds} 秒後に次の質問へ進みます。`,
   autoAdvanceAction: '自動で次へ',
   backQuestion: '前の質問',
   categoryVisualAlt: (categoryName) => `${categoryName}のカテゴリーイメージ`,
@@ -443,7 +443,7 @@ const ja: QuestionnaireMessages = {
 const en: QuestionnaireMessages = {
   ...zhHant,
   answerRequired: 'Choose both an experience level and a preference level.',
-  autoAdvance: 'Your answer is saved. The next question opens in 3 seconds.',
+  autoAdvance: (seconds) => `Your answer is saved. The next question opens in ${seconds} seconds.`,
   autoAdvanceAction: 'Opening automatically',
   backQuestion: 'Previous question',
   categoryVisualAlt: (categoryName) => `${categoryName} category illustration`,

@@ -19,6 +19,7 @@ import type { QuestionnaireMessages } from './messages';
 
 const props = defineProps<{
   canGoBack: boolean;
+  autoAdvanceDelay: number;
   completed: number;
   current: number;
   initialAnswer: AnsweredSecretFileAnswer | null;
@@ -32,6 +33,7 @@ const emit = defineEmits<{
   advance: [];
   back: [];
   fileStatus: [];
+  noteOpened: [];
   save: [answer: AnswerQuestionInput];
 }>();
 
@@ -108,6 +110,7 @@ const questionWarning = computed(() =>
   props.question.level === 'detail' ? props.question.detail.warning : null,
 );
 const canAdvance = computed(() => Boolean(experience.value && preference.value));
+const autoAdvanceDuration = computed(() => `${props.autoAdvanceDelay}ms`);
 
 function clearAutoAdvance(): void {
   if (autoAdvanceTimer) {
@@ -156,7 +159,7 @@ function scheduleAutoAdvance(): void {
   autoAdvanceTimer = setTimeout(() => {
     autoAdvancePending.value = false;
     emit('advance');
-  }, 3000);
+  }, props.autoAdvanceDelay);
 }
 
 function chooseExperience(value: ExperienceAnswer): void {
@@ -175,8 +178,12 @@ function saveNote(): void {
   }
 }
 
-function openNote(): void {
+function handleNoteToggle(event: Event): void {
   clearAutoAdvance();
+
+  if ((event.currentTarget as HTMLDetailsElement).open) {
+    emit('noteOpened');
+  }
 }
 
 function advanceImmediately(): void {
@@ -332,7 +339,7 @@ onBeforeUnmount(() => {
           </fieldset>
         </div>
 
-        <details class="category-note-field" @toggle="openNote">
+        <details class="category-note-field" @toggle="handleNoteToggle">
           <summary>{{ messages.noteLabel }}</summary>
           <label>
             <span class="sr-only">{{ messages.noteLabel }}</span>
@@ -364,7 +371,13 @@ onBeforeUnmount(() => {
           </button>
           <button class="questionnaire-next-action" :disabled="!canAdvance" type="submit">
             <template v-if="autoAdvancePending">
-              <svg :key="countdownKey" class="next-action-countdown-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <svg
+                :key="countdownKey"
+                class="next-action-countdown-ring"
+                :style="{ '--auto-advance-duration': autoAdvanceDuration }"
+                viewBox="0 0 120 120"
+                aria-hidden="true"
+              >
                 <circle class="next-action-countdown-ring-track" cx="60" cy="60" r="54" />
                 <circle class="next-action-countdown-ring-progress" cx="60" cy="60" r="54" />
               </svg>
@@ -376,7 +389,7 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
-        <p v-if="autoAdvancePending" class="sr-only" role="status">{{ messages.autoAdvance }}</p>
+        <p v-if="autoAdvancePending" class="sr-only" role="status">{{ messages.autoAdvance(props.autoAdvanceDelay / 1000) }}</p>
         <p v-if="errorMessage" class="questionnaire-form-error" role="alert">{{ errorMessage }}</p>
       </form>
     </div>

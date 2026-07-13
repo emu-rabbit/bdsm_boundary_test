@@ -11,6 +11,7 @@ import type { SecretFileTitleParts } from './useSecretFileTitle';
 
 export interface AppShellContext {
   appTitle: ComputedRef<string>;
+  autoAdvanceDelay: ComputedRef<number>;
   completeStory: () => void;
   documentTitle: ComputedRef<string>;
   locale: Ref<AppLocale>;
@@ -20,6 +21,8 @@ export interface AppShellContext {
   messages: ComputedRef<LocaleMessages>;
   navigate: (routeId: AppRouteId) => void;
   profileName: Ref<string>;
+  recordAutoAdvance: () => void;
+  resetAutoAdvance: () => void;
   setLocale: (locale: AppLocale) => void;
   titleParts: ComputedRef<SecretFileTitleParts>;
   updateProfileName: (name: string) => void;

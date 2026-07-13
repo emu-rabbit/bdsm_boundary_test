@@ -34,10 +34,13 @@ const router = useRouter();
 const store = useSecretFileStore();
 const {
   appTitle,
+  autoAdvanceDelay,
   locale,
   messages: appMessages,
   navigate,
   profileName,
+  recordAutoAdvance,
+  resetAutoAdvance,
 } = useAppShell();
 
 const creationError = ref('');
@@ -241,6 +244,7 @@ function advanceQuestion(): void {
     return;
   }
 
+  recordAutoAdvance();
   questionTransition.value = 'question-slide-next';
   if (detailSession.value) {
     if (currentDetailQuestionIndex.value + 1 >= detailQuestions.value.length) {
@@ -262,6 +266,7 @@ function goToPreviousQuestion(): void {
     return;
   }
 
+  resetAutoAdvance();
   questionTransition.value = 'question-slide-back';
   if (detailSession.value) {
     detailCursor.value = currentDetailQuestionIndex.value - 1;
@@ -376,6 +381,7 @@ onMounted(() => {
     <Transition :name="questionTransition" mode="out-in">
       <CategoryQuestionStep
         :key="currentQuestion.id"
+        :auto-advance-delay="autoAdvanceDelay"
         :can-go-back="canGoBack"
         :completed="completedQuestionCount"
         :current="currentPosition"
@@ -387,6 +393,7 @@ onMounted(() => {
         @advance="advanceQuestion"
         @back="goToPreviousQuestion"
         @file-status="goToFileStatus"
+        @note-opened="resetAutoAdvance"
         @save="saveQuestionAnswer"
       />
     </Transition>

@@ -13,8 +13,10 @@ const props = defineProps<{
 
 const router = useRouter();
 const profileName = ref(props.initialProfileName);
+const uninterruptedAutoAdvanceCount = ref(0);
 const { locale, localeOptions, messages, setLocale } = useI18n();
 const { appTitle, documentTitle, titleParts } = useSecretFileTitle(profileName, messages);
+const autoAdvanceDelay = computed(() => (uninterruptedAutoAdvanceCount.value >= 3 ? 1500 : 3000));
 const localizedRoutes = computed(() => localizeRoutes(messages.value));
 const localizedRouteById = computed(
   () => new Map(localizedRoutes.value.map((route) => [route.id, route])),
@@ -49,8 +51,17 @@ function updateProfileName(name: string): void {
   profileName.value = saveStoredProfileName(name, messages.value.title.defaultProfileName);
 }
 
+function recordAutoAdvance(): void {
+  uninterruptedAutoAdvanceCount.value += 1;
+}
+
+function resetAutoAdvance(): void {
+  uninterruptedAutoAdvanceCount.value = 0;
+}
+
 provideAppShell({
   appTitle,
+  autoAdvanceDelay,
   completeStory,
   documentTitle,
   locale,
@@ -60,6 +71,8 @@ provideAppShell({
   messages,
   navigate,
   profileName,
+  recordAutoAdvance,
+  resetAutoAdvance,
   setLocale,
   titleParts,
   updateProfileName,

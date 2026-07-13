@@ -1895,7 +1895,7 @@
   stroke-dasharray: 339.3;
   stroke-dashoffset: 339.3;
   stroke-linecap: round;
-  animation: next-action-countdown 3s linear forwards;
+  animation: next-action-countdown var(--auto-advance-duration, 3s) linear forwards;
 }
 
 @keyframes next-action-countdown {
