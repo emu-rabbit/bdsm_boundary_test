@@ -210,13 +210,16 @@
 }
 
 .files-viewer-panel {
+  --files-panel-min-height: clamp(14.5rem, 34vw, 20.5rem);
   grid-area: panel;
   min-width: 0;
 }
 
 .file-list {
   display: grid;
+  align-content: start;
   gap: 0.72rem;
+  min-height: var(--files-panel-min-height);
 }
 
 .file-list-item {
@@ -343,6 +346,7 @@
   display: grid;
   justify-items: center;
   gap: 1rem;
+  min-height: var(--files-panel-min-height);
   border: 1px solid rgba(236, 198, 187, 0.15);
   border-radius: 1.1rem;
   background: linear-gradient(145deg, rgba(61, 29, 44, 0.82), rgba(26, 13, 21, 0.88));
@@ -379,7 +383,7 @@
   line-height: 1.7;
 }
 
-.files-empty-state--cloud > div:not(.files-empty-state__mark) {
+.files-empty-state__copy {
   display: grid;
   justify-items: center;
   gap: 0.55rem;

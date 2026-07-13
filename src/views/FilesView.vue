@@ -137,16 +137,6 @@ function submitLocalImport(): void {
     importFeedback.value = messages.value.importSuccess(secretFile.profileName);
     importFeedbackKind.value = 'success';
     importJson.value = '';
-
-    const previewWindow = window.open(
-      previewHref(secretFile.fileId),
-      '_blank',
-      'noopener,noreferrer',
-    );
-
-    if (previewWindow) {
-      previewWindow.opener = null;
-    }
   } catch (error) {
     importFeedback.value = error instanceof Error ? error.message : String(error);
     importFeedbackKind.value = 'error';
@@ -325,10 +315,10 @@ onMounted(() => {
               <path d="M8.5 14h7" />
             </svg>
           </div>
-          <p>{{ messages.empty }}</p>
-          <button class="quiet-action" type="button" @click="navigate('create')">
-            {{ messages.emptyAction }}
-          </button>
+          <div class="files-empty-state__copy">
+            <h2>{{ messages.emptyTitle }}</h2>
+            <p>{{ messages.emptyBody }}</p>
+          </div>
         </div>
       </section>
 
@@ -339,13 +329,13 @@ onMounted(() => {
         role="tabpanel"
         aria-labelledby="cloud-files-tab"
       >
-        <div class="files-empty-state files-empty-state--cloud">
+        <div class="files-empty-state">
           <div class="files-empty-state__mark" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <path d="M7.3 18.5h10.1a4 4 0 0 0 .6-7.9A6.2 6.2 0 0 0 6.3 9.2a4.7 4.7 0 0 0 1 9.3Z" />
             </svg>
           </div>
-          <div>
+          <div class="files-empty-state__copy">
             <h2>{{ messages.cloudEmptyTitle }}</h2>
             <p>{{ messages.cloudEmptyBody }}</p>
           </div>
