@@ -1,100 +1,208 @@
 import type { AppLocale } from '../../app/i18n';
+import type { SecretFileScope } from './domain/types';
 
 export interface FileManagerMessages {
   backHome: string;
-  createdAt: (date: string) => string;
+  cloudEmptyBody: string;
+  cloudEmptyTitle: string;
+  cloudImportDescription: string;
+  cloudImportLabel: string;
+  cloudImportPending: string;
+  cloudImportPlaceholder: string;
+  cloudImportSubmit: string;
+  cloudTab: string;
+  close: string;
+  copyError: string;
+  copyJson: string;
+  copySuccess: string;
   delete: string;
   deleteConfirmation: (name: string) => string;
   edit: string;
   empty: string;
   emptyAction: string;
-  importDescription: string;
+  importAction: string;
   importJson: string;
-  importLabel: string;
-  importPlaceholder: string;
+  importJsonDescription: string;
+  importJsonLabel: string;
+  importJsonPlaceholder: string;
   importSuccess: (name: string) => string;
+  importTitle: string;
+  intro: string;
+  invalidCloudUrl: string;
+  kicker: string;
+  localTab: string;
   overwriteConfirmation: (name: string, existingUpdatedAt: string, importedUpdatedAt: string) => string;
   progress: (answered: number, total: number) => string;
+  rabbitAlt: string;
+  scope: (scope: SecretFileScope) => string;
   title: string;
+  updatedAt: (date: string) => string;
   view: string;
 }
 
+const scopeLabels: Record<AppLocale, Record<SecretFileScope, string>> = {
+  'zh-Hant': { activeOnly: '僅主導側', passiveOnly: '僅配合側', all: '主導側與配合側' },
+  'zh-Hans': { activeOnly: '仅主导侧', passiveOnly: '仅配合侧', all: '主导侧与配合侧' },
+  ja: { activeOnly: 'リード側のみ', passiveOnly: 'フォロー側のみ', all: 'リード側とフォロー側' },
+  en: { activeOnly: 'Leading only', passiveOnly: 'Following only', all: 'Leading and following' },
+};
+
 const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
   'zh-Hant': {
-    backHome: '\u56de\u5230\u4e3b\u9801',
-    createdAt: (date) => `\u5efa\u7acb\u65bc ${date}`,
-    delete: '\u522a\u9664',
-    deleteConfirmation: (name) => `\u8981\u522a\u9664\u300c${name}\u300d\u55ce\uff1f\u9019\u53ea\u6703\u522a\u9664\u9019\u53f0\u88dd\u7f6e\u4e0a\u7684\u672c\u6a5f\u6a94\u6848\uff0c\u7121\u6cd5\u5fa9\u539f\u3002`,
-    edit: '\u7de8\u8f2f\u7d50\u679c',
-    empty: '\u9019\u88e1\u9084\u6c92\u6709\u5132\u5b58\u7684\u6a94\u6848\u3002\u5efa\u7acb\u4e00\u4efd\u65b0\u7684\u79d8\u5bc6\u6a94\u6848\u5f8c\uff0c\u5c31\u80fd\u5f9e\u9019\u88e1\u7e7c\u7e8c\u67e5\u770b\u6216\u7de8\u8f2f\u3002',
-    emptyAction: '\u5275\u5efa\u65b0\u6a94\u6848',
-    importDescription: '\u958b\u767c\u671f\u5de5\u5177\uff1a\u8cbc\u4e0a\u5b8c\u6574\u7684\u79d8\u5bc6\u6a94\u6848 JSON\uff0c\u9a57\u8b49\u5f8c\u5b58\u5165\u9019\u53f0\u88dd\u7f6e\u3002',
-    importJson: '\u9a57\u8b49\u4e26\u532f\u5165',
-    importLabel: '\u532f\u5165 JSON \u5b57\u4e32',
-    importPlaceholder: '{ "schemaVersion": 1, ... }',
-    importSuccess: (name) => `\u5df2\u532f\u5165\u300c${name}\u300d\uff0c\u6b63\u5728\u958b\u555f\u6aa2\u8996\u9801\u3002`,
+    backHome: '回到主頁',
+    cloudEmptyBody: '雲端檔案的匯入與檢視功能仍在準備中。',
+    cloudEmptyTitle: '雲端檔案列表尚未開放',
+    cloudImportDescription: '貼上秘密檔案的分享網址。雲端功能尚未開放，目前不會匯入檔案。',
+    cloudImportLabel: '雲端檔案網址',
+    cloudImportPending: '網址格式正確。雲端讀取功能尚未接上，因此這次不會保存連結。',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
+    cloudImportSubmit: '檢查網址',
+    cloudTab: '雲端檔案',
+    close: '關閉',
+    copyError: '無法複製 JSON，請確認瀏覽器已允許剪貼簿存取。',
+    copyJson: '複製 JSON',
+    copySuccess: '已將完整 JSON 複製到剪貼簿。',
+    delete: '刪除本地檔案',
+    deleteConfirmation: (name) => `要刪除「${name}」嗎？這只會刪除這台裝置上的本地檔案，且無法復原。`,
+    edit: '編輯檔案',
+    empty: '這台裝置還沒有保存的檔案。建立新檔案後，就能從這裡繼續填答或檢視。',
+    emptyAction: '創建新檔案',
+    importAction: '匯入檔案',
+    importJson: '驗證並匯入',
+    importJsonDescription: '貼上完整的秘密檔案 JSON。內容會先通過正式 schema 驗證，再保存到這台裝置。',
+    importJsonLabel: '秘密檔案 JSON',
+    importJsonPlaceholder: '{ "schemaVersion": 2, ... }',
+    importSuccess: (name) => `已匯入「${name}」，並在新視窗開啟檢視頁。`,
+    importTitle: '匯入舊檔案',
+    intro: '在這裡整理保存在本地或與雲端連結的檔案。',
+    invalidCloudUrl: '這不是可辨識的網址，請貼上完整的分享連結。',
+    kicker: '秘密檔案櫃',
+    localTab: '本地檔案',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
-      `\u300c${name}\u300d\u7684 fileId \u5df2\u5b58\u5728\uff0c\u7e7c\u7e8c\u532f\u5165\u6703\u76f4\u63a5\u8986\u84cb\u672c\u6a5f\u6a94\u6848\u3002\n\n\u672c\u6a5f\u820a\u6a94\u6700\u5f8c\u7de8\u8f2f\uff1a${existingUpdatedAt}\n\u532f\u5165\u65b0\u6a94\u6700\u5f8c\u7de8\u8f2f\uff1a${importedUpdatedAt}\n\n\u8981\u7e7c\u7e8c\u8986\u84cb\u55ce\uff1f`,
-    progress: (answered, total) => `\u5df2\u586b\u7b54 ${answered} / ${total}`,
-    title: '\u67e5\u770b\u820a\u6a94\u6848',
-    view: '\u6aa2\u8996\u7d50\u679c',
+      `「${name}」的 fileId 已存在，繼續匯入會直接覆蓋本地檔案。\n\n本地舊檔最後編輯：${existingUpdatedAt}\n匯入新檔最後編輯：${importedUpdatedAt}\n\n要繼續覆蓋嗎？`,
+    progress: (answered, total) => `已填答 ${answered} / ${total}`,
+    rabbitAlt: '白色守密兔抱著一份上鎖的秘密檔案。',
+    scope: (scope) => scopeLabels['zh-Hant'][scope],
+    title: '查看舊檔案',
+    updatedAt: (date) => `最後編輯 ${date}`,
+    view: '檢視檔案',
   },
   'zh-Hans': {
-    backHome: '\u8fd4\u56de\u4e3b\u9875',
-    createdAt: (date) => `\u521b\u5efa\u4e8e ${date}`,
-    delete: '\u5220\u9664',
-    deleteConfirmation: (name) => `\u8981\u5220\u9664\u201c${name}\u201d\u5417\uff1f\u8fd9\u53ea\u4f1a\u5220\u9664\u8fd9\u53f0\u8bbe\u5907\u4e0a\u7684\u672c\u5730\u6587\u4ef6\uff0c\u4e14\u65e0\u6cd5\u6062\u590d\u3002`,
-    edit: '\u7f16\u8f91\u7ed3\u679c',
-    empty: '\u8fd9\u91cc\u8fd8\u6ca1\u6709\u5df2\u4fdd\u5b58\u7684\u6587\u4ef6\u3002\u521b\u5efa\u4e00\u4efd\u65b0\u7684\u79d8\u5bc6\u6587\u4ef6\u540e\uff0c\u5c31\u80fd\u4ece\u8fd9\u91cc\u7ee7\u7eed\u67e5\u770b\u6216\u7f16\u8f91\u3002',
-    emptyAction: '\u521b\u5efa\u65b0\u6587\u4ef6',
-    importDescription: '\u5f00\u53d1\u671f\u5de5\u5177\uff1a\u7c98\u8d34\u5b8c\u6574\u7684\u79d8\u6587\u4ef6 JSON\uff0c\u9a8c\u8bc1\u540e\u4fdd\u5b58\u5230\u6b64\u8bbe\u5907\u3002',
-    importJson: '\u9a8c\u8bc1\u5e76\u5bfc\u5165',
-    importLabel: '\u5bfc\u5165 JSON \u5b57\u7b26\u4e32',
-    importPlaceholder: '{ "schemaVersion": 1, ... }',
-    importSuccess: (name) => `\u5df2\u5bfc\u5165\u201c${name}\u201d\uff0c\u6b63\u5728\u6253\u5f00\u67e5\u770b\u9875\u3002`,
+    backHome: '返回主页',
+    cloudEmptyBody: '云端文件的导入与查看功能仍在准备中。',
+    cloudEmptyTitle: '云端文件列表尚未开放',
+    cloudImportDescription: '粘贴秘密文件的分享网址。云端功能尚未开放，目前不会导入文件。',
+    cloudImportLabel: '云端文件网址',
+    cloudImportPending: '网址格式正确。云端读取功能尚未接入，因此这次不会保存链接。',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
+    cloudImportSubmit: '检查网址',
+    cloudTab: '云端文件',
+    close: '关闭',
+    copyError: '无法复制 JSON，请确认浏览器已允许访问剪贴板。',
+    copyJson: '复制 JSON',
+    copySuccess: '已将完整 JSON 复制到剪贴板。',
+    delete: '删除本地文件',
+    deleteConfirmation: (name) => `要删除“${name}”吗？这只会删除此设备上的本地文件，且无法恢复。`,
+    edit: '编辑文件',
+    empty: '此设备还没有保存的文件。创建新文件后，就能从这里继续填写或查看。',
+    emptyAction: '创建新文件',
+    importAction: '导入文件',
+    importJson: '验证并导入',
+    importJsonDescription: '粘贴完整的秘密文件 JSON。内容会先通过正式 schema 验证，再保存到此设备。',
+    importJsonLabel: '秘密文件 JSON',
+    importJsonPlaceholder: '{ "schemaVersion": 2, ... }',
+    importSuccess: (name) => `已导入“${name}”，并在新窗口打开查看页。`,
+    importTitle: '导入旧文件',
+    intro: '在这里整理保存在本地或与云端连接的文件。',
+    invalidCloudUrl: '这不是可识别的网址，请粘贴完整的分享链接。',
+    kicker: '秘密文件柜',
+    localTab: '本地文件',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
-      `\u201c${name}\u201d\u7684 fileId \u5df2\u5b58\u5728\uff0c\u7ee7\u7eed\u5bfc\u5165\u4f1a\u76f4\u63a5\u8986\u76d6\u672c\u5730\u6587\u4ef6\u3002\n\n\u672c\u5730\u65e7\u6587\u4ef6\u6700\u540e\u7f16\u8f91\uff1a${existingUpdatedAt}\n\u5bfc\u5165\u65b0\u6587\u4ef6\u6700\u540e\u7f16\u8f91\uff1a${importedUpdatedAt}\n\n\u8981\u7ee7\u7eed\u8986\u76d6\u5417\uff1f`,
-    progress: (answered, total) => `\u5df2\u586b\u5199 ${answered} / ${total}`,
-    title: '\u67e5\u770b\u65e7\u6587\u4ef6',
-    view: '\u67e5\u770b\u7ed3\u679c',
+      `“${name}”的 fileId 已存在，继续导入会直接覆盖本地文件。\n\n本地旧文件最后编辑：${existingUpdatedAt}\n导入新文件最后编辑：${importedUpdatedAt}\n\n要继续覆盖吗？`,
+    progress: (answered, total) => `已填写 ${answered} / ${total}`,
+    rabbitAlt: '白色守密兔抱着一份上锁的秘密文件。',
+    scope: (scope) => scopeLabels['zh-Hans'][scope],
+    title: '查看旧文件',
+    updatedAt: (date) => `最后编辑 ${date}`,
+    view: '查看文件',
   },
   ja: {
-    backHome: '\u30db\u30fc\u30e0\u3078\u623b\u308b',
-    createdAt: (date) => `${date} \u306b\u4f5c\u6210`,
-    delete: '\u524a\u9664',
-    deleteConfirmation: (name) => `\u300c${name}\u300d\u3092\u524a\u9664\u3057\u307e\u3059\u304b\uff1f\u3053\u306e\u7aef\u672b\u306e\u30ed\u30fc\u30ab\u30eb\u30d5\u30a1\u30a4\u30eb\u3060\u3051\u304c\u524a\u9664\u3055\u308c\u3001\u5143\u306b\u623b\u305b\u307e\u305b\u3093\u3002`,
-    edit: '\u7d50\u679c\u3092\u7de8\u96c6',
-    empty: '\u4fdd\u5b58\u3055\u308c\u305f\u30d5\u30a1\u30a4\u30eb\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093\u3002\u65b0\u3057\u3044\u79d8\u5bc6\u30d5\u30a1\u30a4\u30eb\u3092\u4f5c\u308b\u3068\u3001\u3053\u3053\u304b\u3089\u78ba\u8a8d\u3084\u7de8\u96c6\u3092\u7d9a\u3051\u3089\u308c\u307e\u3059\u3002',
-    emptyAction: '\u65b0\u3057\u3044\u30d5\u30a1\u30a4\u30eb\u3092\u4f5c\u308b',
-    importDescription: '\u958b\u767a\u7528\u30c4\u30fc\u30eb\uff1a\u79d8\u5bc6\u30d5\u30a1\u30a4\u30eb\u306e JSON \u5168\u4f53\u3092\u8cbc\u308a\u4ed8\u3051\u3001\u691c\u8a3c\u5f8c\u306b\u3053\u306e\u7aef\u672b\u3078\u4fdd\u5b58\u3057\u307e\u3059\u3002',
-    importJson: '\u691c\u8a3c\u3057\u3066\u30a4\u30f3\u30dd\u30fc\u30c8',
-    importLabel: 'JSON \u6587\u5b57\u5217\u3092\u30a4\u30f3\u30dd\u30fc\u30c8',
-    importPlaceholder: '{ "schemaVersion": 1, ... }',
-    importSuccess: (name) => `\u300c${name}\u300d\u3092\u30a4\u30f3\u30dd\u30fc\u30c8\u3057\u307e\u3057\u305f\u3002\u95b2\u89a7\u30da\u30fc\u30b8\u3092\u958b\u3044\u3066\u3044\u307e\u3059\u3002`,
+    backHome: 'ホームへ戻る',
+    cloudEmptyBody: 'クラウドファイルの取り込みと閲覧機能は準備中です。',
+    cloudEmptyTitle: 'クラウドファイル一覧は準備中です',
+    cloudImportDescription: '秘密ファイルの共有 URL を貼り付けます。クラウド機能は未公開のため、現在は取り込みません。',
+    cloudImportLabel: 'クラウドファイル URL',
+    cloudImportPending: 'URL 形式を確認しました。クラウド読み込みは未接続のため、今回はリンクを保存しません。',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
+    cloudImportSubmit: 'URL を確認',
+    cloudTab: 'クラウド',
+    close: '閉じる',
+    copyError: 'JSON をコピーできませんでした。ブラウザのクリップボード権限を確認してください。',
+    copyJson: 'JSON をコピー',
+    copySuccess: '完全な JSON をクリップボードにコピーしました。',
+    delete: '端末から削除',
+    deleteConfirmation: (name) => `「${name}」を削除しますか？この端末のローカルファイルだけが削除され、元に戻せません。`,
+    edit: 'ファイルを編集',
+    empty: 'この端末に保存されたファイルはまだありません。新しいファイルを作ると、ここから回答や確認を続けられます。',
+    emptyAction: '新しいファイルを作る',
+    importAction: 'ファイルを取り込む',
+    importJson: '検証して取り込む',
+    importJsonDescription: '秘密ファイルの完全な JSON を貼り付けます。正式な schema で検証してから、この端末へ保存します。',
+    importJsonLabel: '秘密ファイル JSON',
+    importJsonPlaceholder: '{ "schemaVersion": 2, ... }',
+    importSuccess: (name) => `「${name}」を取り込み、新しいウィンドウで閲覧ページを開きました。`,
+    importTitle: '以前のファイルを取り込む',
+    intro: 'ローカルに保存したファイルや、クラウドにリンクしたファイルをここで整理できます。',
+    invalidCloudUrl: '認識できる URL ではありません。完全な共有リンクを貼り付けてください。',
+    kicker: '秘密ファイル棚',
+    localTab: 'ローカル',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
-      `\u300c${name}\u300d\u3068\u540c\u3058 fileId \u304c\u5b58\u5728\u3057\u307e\u3059\u3002\u7d9a\u884c\u3059\u308b\u3068\u7aef\u672b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u76f4\u63a5\u4e0a\u66f8\u304d\u3057\u307e\u3059\u3002\n\n\u7aef\u672b\u306e\u65e7\u30d5\u30a1\u30a4\u30eb\u306e\u6700\u7d42\u7de8\u96c6\uff1a${existingUpdatedAt}\n\u30a4\u30f3\u30dd\u30fc\u30c8\u3059\u308b\u65b0\u30d5\u30a1\u30a4\u30eb\u306e\u6700\u7d42\u7de8\u96c6\uff1a${importedUpdatedAt}\n\n\u4e0a\u66f8\u304d\u3057\u307e\u3059\u304b\uff1f`,
-    progress: (answered, total) => `${answered} / ${total} \u56de\u7b54\u6e08\u307f`,
-    title: '\u4ee5\u524d\u306e\u30d5\u30a1\u30a4\u30eb',
-    view: '\u7d50\u679c\u3092\u898b\u308b',
+      `「${name}」と同じ fileId が存在します。続行するとローカルファイルを上書きします。\n\n既存ファイルの最終編集：${existingUpdatedAt}\n取り込むファイルの最終編集：${importedUpdatedAt}\n\n上書きしますか？`,
+    progress: (answered, total) => `${answered} / ${total} 回答済み`,
+    rabbitAlt: '白い守秘うさぎが鍵付きの秘密ファイルを抱えている。',
+    scope: (scope) => scopeLabels.ja[scope],
+    title: '以前のファイル',
+    updatedAt: (date) => `最終編集 ${date}`,
+    view: 'ファイルを見る',
   },
   en: {
     backHome: 'Home',
-    createdAt: (date) => `Created ${date}`,
-    delete: 'Delete',
-    deleteConfirmation: (name) => `Delete "${name}"? This only removes the local file on this device and cannot be undone.`,
-    edit: 'Edit results',
-    empty: 'There are no saved files yet. Create a new secret file, then return here to review or edit it.',
+    cloudEmptyBody: 'Cloud file imports and viewing are still being prepared.',
+    cloudEmptyTitle: 'Cloud file lists are not available yet',
+    cloudImportDescription: 'Paste a secret-file share URL. Cloud features are not available yet, so no file will be imported.',
+    cloudImportLabel: 'Cloud file URL',
+    cloudImportPending: 'The URL format is valid. Cloud loading is not connected yet, so this link was not saved.',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
+    cloudImportSubmit: 'Check URL',
+    cloudTab: 'Cloud files',
+    close: 'Close',
+    copyError: 'Could not copy the JSON. Check that clipboard access is allowed in this browser.',
+    copyJson: 'Copy JSON',
+    copySuccess: 'The complete JSON was copied to the clipboard.',
+    delete: 'Delete local file',
+    deleteConfirmation: (name) => `Delete “${name}”? This only removes the local file on this device and cannot be undone.`,
+    edit: 'Edit file',
+    empty: 'There are no files saved on this device yet. Create one to continue answering or review it here.',
     emptyAction: 'Create a new file',
-    importDescription: 'Development tool: paste a complete secret-file JSON document to validate and save it on this device.',
+    importAction: 'Import file',
     importJson: 'Validate and import',
-    importLabel: 'Import JSON string',
-    importPlaceholder: '{ "schemaVersion": 1, ... }',
-    importSuccess: (name) => `Imported "${name}". Opening the preview.`,
+    importJsonDescription: 'Paste a complete secret-file JSON document. It is validated against the production schema before being saved on this device.',
+    importJsonLabel: 'Secret-file JSON',
+    importJsonPlaceholder: '{ "schemaVersion": 2, ... }',
+    importSuccess: (name) => `Imported “${name}” and opened its preview in a new window.`,
+    importTitle: 'Import an old file',
+    intro: 'Manage files saved locally or linked from the cloud.',
+    invalidCloudUrl: 'This is not a recognizable URL. Paste the complete share link.',
+    kicker: 'Secret-file cabinet',
+    localTab: 'Local files',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
-      `A file with the same fileId as "${name}" already exists. Continuing will overwrite the local file.\n\nExisting file last edited: ${existingUpdatedAt}\nImported file last edited: ${importedUpdatedAt}\n\nContinue and overwrite it?`,
+      `A file with the same fileId as “${name}” already exists. Continuing will overwrite the local file.\n\nExisting file last edited: ${existingUpdatedAt}\nImported file last edited: ${importedUpdatedAt}\n\nContinue and overwrite it?`,
     progress: (answered, total) => `${answered} / ${total} answered`,
+    rabbitAlt: 'The white keeper bunny holds a locked secret file.',
+    scope: (scope) => scopeLabels.en[scope],
     title: 'Old Files',
-    view: 'View results',
+    updatedAt: (date) => `Last edited ${date}`,
+    view: 'View file',
   },
 };
 

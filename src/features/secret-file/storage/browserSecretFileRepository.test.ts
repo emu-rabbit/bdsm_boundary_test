@@ -105,6 +105,24 @@ describe('BrowserSecretFileRepository', () => {
     expect(repository.getStatus()).toEqual({ mode: 'memory', reason: 'writeFailed' });
   });
 
+  it('sorts summaries by the latest edit first', () => {
+    const repository = new BrowserSecretFileRepository(createMemoryStorage());
+    const older = createTestSecretFile();
+    const newer = {
+      ...createTestSecretFile(),
+      fileId: 'local_test-file-newer',
+      updatedAt: '2026-07-12T06:00:00.000Z',
+    };
+
+    repository.save(older);
+    repository.save(newer);
+
+    expect(repository.list().map((file) => file.fileId)).toEqual([
+      newer.fileId,
+      older.fileId,
+    ]);
+  });
+
   it('blocks a new file after the confirmed local limit but still permits updates', () => {
     const repository = new BrowserSecretFileRepository(createMemoryStorage());
 

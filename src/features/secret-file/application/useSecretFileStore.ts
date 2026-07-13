@@ -42,6 +42,12 @@ export const useSecretFileStore = defineStore('secret-file', () => {
     return importFile(validateImportJson(input));
   }
 
+  function exportJson(fileId: string): string | null {
+    const secretFile = repository.read(fileId);
+
+    return secretFile ? JSON.stringify(secretFile, null, 2) : null;
+  }
+
   function validateImportJson(input: string): SecretFile {
     return parseSecretFileJson(input);
   }
@@ -71,6 +77,7 @@ export const useSecretFileStore = defineStore('secret-file', () => {
     activeSecretFile,
     close,
     deleteFile,
+    exportJson,
     files,
     hasActiveSecretFile,
     importFile,
