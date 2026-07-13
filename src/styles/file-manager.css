@@ -213,6 +213,7 @@
   --files-panel-min-height: clamp(14.5rem, 34vw, 20.5rem);
   grid-area: panel;
   min-width: 0;
+  width: 100%;
 }
 
 .file-list {
