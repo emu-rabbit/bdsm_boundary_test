@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Browser clients never talk to Firestore directly. Public share reads and
+    // anonymous uploads go through App Check-protected callable functions.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

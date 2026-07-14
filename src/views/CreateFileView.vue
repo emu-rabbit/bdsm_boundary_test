@@ -3,6 +3,11 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
 import {
+  CloudSharingError,
+  createCloudSecretFile,
+  linkCloudShare,
+} from '../features/cloud-sharing';
+import {
   allQuestionDefinitions,
   getDetailQuestionsForCategory,
   getLocalizedCategoryQuestionsForScope,
@@ -44,6 +49,12 @@ const {
 } = useAppShell();
 
 const creationError = ref('');
+const cloudUploadDialog = ref<HTMLDialogElement | null>(null);
+const cloudUploadState = ref<'confirm' | 'error' | 'success' | 'uploading'>('confirm');
+const cloudUploadError = ref('');
+const cloudUploadHref = ref('');
+const cloudUploadLocalSaveFailed = ref(false);
+const cloudUploadPopupBlocked = ref(false);
 const questionCursor = ref<number | null>(null);
 const detailCursor = ref<number | null>(null);
 const detailSession = ref<{
@@ -326,6 +337,100 @@ function goHome(): void {
   navigate('home');
 }
 
+function openCloudUploadDialog(): void {
+  cloudUploadState.value = 'confirm';
+  cloudUploadError.value = '';
+  cloudUploadHref.value = '';
+  cloudUploadLocalSaveFailed.value = false;
+  cloudUploadPopupBlocked.value = false;
+  void nextTick(() => cloudUploadDialog.value?.showModal());
+}
+
+function closeCloudUploadDialog(): void {
+  if (cloudUploadState.value === 'uploading') return;
+  cloudUploadDialog.value?.close();
+}
+
+function handleCloudUploadCancel(event: Event): void {
+  if (cloudUploadState.value === 'uploading') {
+    event.preventDefault();
+  }
+}
+
+function getCloudUploadErrorMessage(error: unknown): string {
+  if (!(error instanceof CloudSharingError)) {
+    return messages.value.results.uploadFailed;
+  }
+
+  if (error.code === 'configuration') {
+    return messages.value.results.uploadConfigurationError;
+  }
+
+  if (error.code === 'rateLimited') {
+    return messages.value.results.uploadRateLimited;
+  }
+
+  if (error.code === 'siteBusy') {
+    return messages.value.results.uploadSiteBusy;
+  }
+
+  return messages.value.results.uploadFailed;
+}
+
+async function confirmCloudUpload(): Promise<void> {
+  const fileToUpload = secretFile.value;
+
+  if (!fileToUpload || cloudUploadState.value === 'uploading') return;
+
+  const previewWindow = window.open('about:blank', '_blank');
+
+  if (previewWindow) {
+    previewWindow.opener = null;
+  }
+
+  cloudUploadState.value = 'uploading';
+  cloudUploadError.value = '';
+  cloudUploadLocalSaveFailed.value = false;
+  cloudUploadPopupBlocked.value = false;
+
+  try {
+    const createdShare = await createCloudSecretFile(fileToUpload);
+    const href = router.resolve({
+      name: 'preview',
+      query: { file: createdShare.shareId, source: 'cloud' },
+    }).href;
+    const absoluteHref = new URL(href, window.location.href).href;
+
+    cloudUploadHref.value = href;
+
+    try {
+      linkCloudShare({
+        createdAt: createdShare.createdAt,
+        profileName: fileToUpload.profileName,
+        scope: fileToUpload.scope,
+        shareId: createdShare.shareId,
+      });
+    } catch {
+      cloudUploadLocalSaveFailed.value = true;
+    }
+
+    cloudUploadState.value = 'success';
+
+    if (previewWindow && !previewWindow.closed) {
+      previewWindow.location.replace(absoluteHref);
+    } else {
+      cloudUploadPopupBlocked.value = true;
+    }
+  } catch (error) {
+    if (previewWindow && !previewWindow.closed) {
+      previewWindow.close();
+    }
+
+    cloudUploadError.value = getCloudUploadErrorMessage(error);
+    cloudUploadState.value = 'error';
+  }
+}
+
 watch(
   currentQuestionIndex,
   (questionIndex) => {
@@ -412,6 +517,56 @@ onMounted(() => {
     :storage-warning="storageWarning"
     @edit-category="startDetailSession"
     @home="goHome"
+    @upload="openCloudUploadDialog"
     @update-spotlight="updateSpotlight"
   />
+
+  <dialog
+    ref="cloudUploadDialog"
+    class="cloud-upload-dialog"
+    @cancel="handleCloudUploadCancel"
+  >
+    <template v-if="cloudUploadState === 'confirm' || cloudUploadState === 'error'">
+      <h2>{{ messages.results.uploadConfirmTitle }}</h2>
+      <p>{{ messages.results.uploadConfirmBody }}</p>
+      <p v-if="cloudUploadError" class="cloud-upload-dialog__feedback" role="alert">
+        {{ cloudUploadError }}
+      </p>
+      <div class="cloud-upload-dialog__actions">
+        <button class="cloud-upload-dialog__confirm" type="button" @click="confirmCloudUpload">
+          {{ messages.results.uploadConfirm }}
+        </button>
+        <button type="button" @click="closeCloudUploadDialog">
+          {{ messages.results.uploadCancel }}
+        </button>
+      </div>
+    </template>
+
+    <template v-else-if="cloudUploadState === 'uploading'">
+      <div class="cloud-upload-dialog__progress" role="status" aria-live="polite">
+        <span aria-hidden="true" />
+        <p>{{ messages.results.uploading }}</p>
+      </div>
+    </template>
+
+    <template v-else>
+      <h2>{{ messages.results.uploadSuccessTitle }}</h2>
+      <p>
+        {{ cloudUploadLocalSaveFailed
+          ? messages.results.uploadSuccessBodyUnlinked
+          : messages.results.uploadSuccessBody }}
+      </p>
+      <p v-if="cloudUploadPopupBlocked" class="cloud-upload-dialog__feedback" role="status">
+        {{ messages.results.uploadPopupBlocked }}
+      </p>
+      <div class="cloud-upload-dialog__actions">
+        <a :href="cloudUploadHref" target="_blank" rel="noopener noreferrer">
+          {{ messages.results.uploadOpenFile }}
+        </a>
+        <button type="button" @click="closeCloudUploadDialog">
+          {{ messages.results.uploadClose }}
+        </button>
+      </div>
+    </template>
+  </dialog>
 </template>

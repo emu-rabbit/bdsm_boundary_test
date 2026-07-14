@@ -7,10 +7,18 @@ export interface FileManagerMessages {
   cloudEmptyTitle: string;
   cloudImportDescription: string;
   cloudImportLabel: string;
-  cloudImportPending: string;
   cloudImportPlaceholder: string;
+  cloudImportSuccess: (name: string) => string;
   cloudImportSubmit: string;
+  cloudLinkStorageFailed: string;
+  cloudLoadFailed: string;
+  cloudLoading: string;
   cloudTab: string;
+  cloudUploadedAt: (date: string) => string;
+  cloudUnlink: string;
+  cloudUnlinkConfirmation: (name: string) => string;
+  cloudUnavailable: string;
+  cloudConfigurationError: string;
   close: string;
   copyError: string;
   copyJson: string;
@@ -50,14 +58,22 @@ const scopeLabels: Record<AppLocale, Record<SecretFileScope, string>> = {
 const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
   'zh-Hant': {
     backHome: '回到主頁',
-    cloudEmptyBody: '雲端檔案的匯入與檢視功能仍在準備中。',
-    cloudEmptyTitle: '雲端檔案列表尚未開放',
-    cloudImportDescription: '貼上秘密檔案的分享網址。雲端功能尚未開放，目前不會匯入檔案。',
-    cloudImportLabel: '雲端檔案網址',
-    cloudImportPending: '網址格式正確。雲端讀取功能尚未接上，因此這次不會保存連結。',
-    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
-    cloudImportSubmit: '檢查網址',
+    cloudEmptyBody: '上傳檔案或匯入分享連結後，就能從這台裝置快速回到雲端快照。',
+    cloudEmptyTitle: '這台裝置還沒有連結雲端檔案',
+    cloudImportDescription: '貼上 Boundary Notes 的雲端檔案分享網址或 share ID。這裡只會保存連結，不會建立可編輯的副本。',
+    cloudImportLabel: '雲端檔案網址或 share ID',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?source=cloud&file=…',
+    cloudImportSuccess: (name) => `已將「${name}」連結到這台裝置。`,
+    cloudImportSubmit: '匯入雲端檔案',
+    cloudLinkStorageFailed: '無法把雲端檔案連結保存到這台裝置，請檢查瀏覽器儲存空間後再試。',
+    cloudLoadFailed: '目前無法讀取這份雲端檔案。',
+    cloudLoading: '正在讀取這份雲端檔案…',
     cloudTab: '雲端檔案',
+    cloudUploadedAt: (date) => `上傳於 ${date}`,
+    cloudUnlink: '從這台裝置移除連結',
+    cloudUnlinkConfirmation: (name) => `要從這台裝置移除「${name}」的雲端連結嗎？這不會刪除網路上的檔案。`,
+    cloudUnavailable: '已連結的雲端檔案',
+    cloudConfigurationError: '雲端分享尚未完成設定，請稍後再試。',
     close: '關閉',
     copyError: '無法複製 JSON，請確認瀏覽器已允許剪貼簿存取。',
     copyJson: '複製 JSON',
@@ -75,7 +91,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     importSuccess: (name) => `已匯入「${name}」，檔案已保存到這台裝置。`,
     importTitle: '匯入舊檔案',
     intro: '在這裡整理保存在本地或與雲端連結的檔案。',
-    invalidCloudUrl: '這不是可辨識的網址，請貼上完整的分享連結。',
+    invalidCloudUrl: '無法辨識這個雲端分享網址或 share ID。',
     kicker: '秘密檔案櫃',
     localTab: '本地檔案',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
@@ -89,14 +105,22 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
   },
   'zh-Hans': {
     backHome: '返回主页',
-    cloudEmptyBody: '云端文件的导入与查看功能仍在准备中。',
-    cloudEmptyTitle: '云端文件列表尚未开放',
-    cloudImportDescription: '粘贴秘密文件的分享网址。云端功能尚未开放，目前不会导入文件。',
-    cloudImportLabel: '云端文件网址',
-    cloudImportPending: '网址格式正确。云端读取功能尚未接入，因此这次不会保存链接。',
-    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
-    cloudImportSubmit: '检查网址',
+    cloudEmptyBody: '上传文件或导入分享链接后，就能从此设备快速返回云端快照。',
+    cloudEmptyTitle: '此设备尚未连接云端文件',
+    cloudImportDescription: '粘贴 Boundary Notes 的云端文件分享网址或 share ID。这里只保存链接，不会建立可编辑副本。',
+    cloudImportLabel: '云端文件网址或 share ID',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?source=cloud&file=…',
+    cloudImportSuccess: (name) => `已将“${name}”连接到此设备。`,
+    cloudImportSubmit: '导入云端文件',
+    cloudLinkStorageFailed: '无法将云端文件链接保存到此设备，请检查浏览器存储空间后重试。',
+    cloudLoadFailed: '目前无法读取此云端文件。',
+    cloudLoading: '正在读取此云端文件…',
     cloudTab: '云端文件',
+    cloudUploadedAt: (date) => `上传于 ${date}`,
+    cloudUnlink: '从此设备移除链接',
+    cloudUnlinkConfirmation: (name) => `要从此设备移除“${name}”的云端链接吗？这不会删除网络上的文件。`,
+    cloudUnavailable: '已连接的云端文件',
+    cloudConfigurationError: '云端分享尚未完成设置，请稍后再试。',
     close: '关闭',
     copyError: '无法复制 JSON，请确认浏览器已允许访问剪贴板。',
     copyJson: '复制 JSON',
@@ -114,7 +138,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     importSuccess: (name) => `已导入“${name}”，文件已保存到此设备。`,
     importTitle: '导入旧文件',
     intro: '在这里整理保存在本地或与云端连接的文件。',
-    invalidCloudUrl: '这不是可识别的网址，请粘贴完整的分享链接。',
+    invalidCloudUrl: '无法识别此云端分享网址或 share ID。',
     kicker: '秘密文件柜',
     localTab: '本地文件',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
@@ -128,14 +152,22 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
   },
   ja: {
     backHome: 'ホームへ戻る',
-    cloudEmptyBody: 'クラウドファイルの取り込みと閲覧機能は準備中です。',
-    cloudEmptyTitle: 'クラウドファイル一覧は準備中です',
-    cloudImportDescription: '秘密ファイルの共有 URL を貼り付けます。クラウド機能は未公開のため、現在は取り込みません。',
-    cloudImportLabel: 'クラウドファイル URL',
-    cloudImportPending: 'URL 形式を確認しました。クラウド読み込みは未接続のため、今回はリンクを保存しません。',
-    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
-    cloudImportSubmit: 'URL を確認',
+    cloudEmptyBody: 'ファイルをアップロードするか共有リンクを取り込むと、この端末からクラウドスナップショットへ戻れます。',
+    cloudEmptyTitle: 'この端末にリンクしたクラウドファイルはありません',
+    cloudImportDescription: 'Boundary Notes のクラウド共有 URL または share ID を貼り付けます。編集用のコピーは作らず、リンクだけを保存します。',
+    cloudImportLabel: 'クラウドファイル URL または share ID',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?source=cloud&file=…',
+    cloudImportSuccess: (name) => `「${name}」をこの端末にリンクしました。`,
+    cloudImportSubmit: 'クラウドファイルを取り込む',
+    cloudLinkStorageFailed: 'クラウドファイルのリンクをこの端末に保存できません。ブラウザの保存領域を確認して、もう一度お試しください。',
+    cloudLoadFailed: 'このクラウドファイルは現在読み込めません。',
+    cloudLoading: 'このクラウドファイルを読み込んでいます…',
     cloudTab: 'クラウド',
+    cloudUploadedAt: (date) => `アップロード ${date}`,
+    cloudUnlink: 'この端末からリンクを削除',
+    cloudUnlinkConfirmation: (name) => `「${name}」のクラウドリンクをこの端末から削除しますか？インターネット上のファイルは削除されません。`,
+    cloudUnavailable: 'リンク済みのクラウドファイル',
+    cloudConfigurationError: 'クラウド共有の設定がまだ完了していません。しばらくしてからお試しください。',
     close: '閉じる',
     copyError: 'JSON をコピーできませんでした。ブラウザのクリップボード権限を確認してください。',
     copyJson: 'JSON をコピー',
@@ -153,7 +185,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     importSuccess: (name) => `「${name}」を取り込み、この端末へ保存しました。`,
     importTitle: '以前のファイルを取り込む',
     intro: 'ローカルに保存したファイルや、クラウドにリンクしたファイルをここで整理できます。',
-    invalidCloudUrl: '認識できる URL ではありません。完全な共有リンクを貼り付けてください。',
+    invalidCloudUrl: 'クラウド共有 URL または share ID を認識できません。',
     kicker: '秘密ファイル棚',
     localTab: 'ローカル',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>
@@ -167,14 +199,22 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
   },
   en: {
     backHome: 'Home',
-    cloudEmptyBody: 'Cloud file imports and viewing are still being prepared.',
-    cloudEmptyTitle: 'Cloud file lists are not available yet',
-    cloudImportDescription: 'Paste a secret-file share URL. Cloud features are not available yet, so no file will be imported.',
-    cloudImportLabel: 'Cloud file URL',
-    cloudImportPending: 'The URL format is valid. Cloud loading is not connected yet, so this link was not saved.',
-    cloudImportPlaceholder: 'https://boundarynotes.com/preview?file=…',
-    cloudImportSubmit: 'Check URL',
+    cloudEmptyBody: 'Upload a file or import a share link to return to cloud snapshots from this device.',
+    cloudEmptyTitle: 'No cloud files are linked on this device',
+    cloudImportDescription: 'Paste a Boundary Notes cloud share URL or share ID. This saves only the link and does not create an editable copy.',
+    cloudImportLabel: 'Cloud file URL or share ID',
+    cloudImportPlaceholder: 'https://boundarynotes.com/preview?source=cloud&file=…',
+    cloudImportSuccess: (name) => `Linked “${name}” on this device.`,
+    cloudImportSubmit: 'Import cloud file',
+    cloudLinkStorageFailed: 'The cloud file link could not be saved on this device. Check browser storage and try again.',
+    cloudLoadFailed: 'This cloud file cannot be loaded right now.',
+    cloudLoading: 'Loading this cloud file…',
     cloudTab: 'Cloud files',
+    cloudUploadedAt: (date) => `Uploaded ${date}`,
+    cloudUnlink: 'Remove link from this device',
+    cloudUnlinkConfirmation: (name) => `Remove the cloud link for “${name}” from this device? This will not delete the file from the internet.`,
+    cloudUnavailable: 'Linked cloud file',
+    cloudConfigurationError: 'Cloud sharing has not been configured yet. Please try again later.',
     close: 'Close',
     copyError: 'Could not copy the JSON. Check that clipboard access is allowed in this browser.',
     copyJson: 'Copy JSON',
@@ -192,7 +232,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     importSuccess: (name) => `Imported “${name}” and saved it on this device.`,
     importTitle: 'Import an old file',
     intro: 'Manage files saved locally or linked from the cloud.',
-    invalidCloudUrl: 'This is not a recognizable URL. Paste the complete share link.',
+    invalidCloudUrl: 'This cloud share URL or share ID is not recognized.',
     kicker: 'Secret-file cabinet',
     localTab: 'Local files',
     overwriteConfirmation: (name, existingUpdatedAt, importedUpdatedAt) =>

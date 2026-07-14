@@ -6,11 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:functions": "npm --prefix functions run build",
     "test": "vitest run",
+    "test:all": "npm run test && npm --prefix functions run test",
+    "test:functions": "npm --prefix functions run test",
     "test:watch": "vitest",
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "12.16.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.17",
     "vue-router": "^4.6.4",

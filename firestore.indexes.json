@@ -1,0 +1,37 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "sharedSecretFiles",
+      "fieldPath": "*",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "sharedSecretFileMetadata",
+      "fieldPath": "*",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "uploadRateLimits",
+      "fieldPath": "*",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "uploadRateLimits",
+      "fieldPath": "expiresAt",
+      "ttl": true,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "uploadGlobalRateLimits",
+      "fieldPath": "*",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "uploadGlobalRateLimits",
+      "fieldPath": "expiresAt",
+      "ttl": true,
+      "indexes": []
+    }
+  ]
+}

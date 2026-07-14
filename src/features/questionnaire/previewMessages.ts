@@ -13,7 +13,10 @@ export interface PreviewMessages {
   hardNoDialogTitle: string;
   languageLabel: string;
   lastEdited: (date: string) => string;
-  loadError: string;
+  cloudLoadError: string;
+  cloudUnavailable: string;
+  localLoadError: string;
+  loading: string;
   note: string;
   otherSummary: string;
   preference: string;
@@ -26,7 +29,6 @@ export interface PreviewMessages {
   spotlightTitle: (name: string) => string;
   title: (name: string) => string;
   unanswered: string;
-  unsupportedSource: string;
   viewCategory: (categoryName: string) => string;
   viewDetails: string;
   warning: (name: string) => string;
@@ -54,7 +56,10 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: '絕對禁止項目',
     languageLabel: '閱覽語言',
     lastEdited: (date) => `最後編輯於 ${formatDate('zh-Hant', date)}`,
-    loadError: '找不到要檢視的檔案，或檔案已不在這台裝置上。',
+    cloudLoadError: '找不到這份雲端檔案。若它曾經存在，只會因法律要求由網站管理員移除。',
+    cloudUnavailable: '目前無法連線讀取這份雲端檔案，請稍後再試。',
+    localLoadError: '找不到要檢視的本地檔案。它可能已從這台裝置刪除，或不在這個瀏覽器的儲存空間中。',
+    loading: '正在安全地讀取檔案…',
     note: '備註',
     preference: '喜好',
     previewActionsLabel: '檔案操作',
@@ -67,7 +72,6 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     otherSummary: '這個分類從細項開始呈現結果',
     title: (name) => `${name}的祕密檔案`,
     unanswered: '未作答',
-    unsupportedSource: '這個檔案來源尚未開放檢視。',
     viewCategory: (categoryName) => `查看${categoryName}的完整結果`,
     viewDetails: '查看完整結果',
     warning: (name) => `這份測驗結果僅供參考，並無法完整的描述${name}的喜好或特質，也請勿用來替代任何必要的溝通。`,
@@ -85,7 +89,10 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: '绝对禁止项目',
     languageLabel: '查看语言',
     lastEdited: (date) => `最后编辑于 ${formatDate('zh-Hans', date)}`,
-    loadError: '找不到要查看的档案，或档案已不在此设备上。',
+    cloudLoadError: '找不到此云端文件。如果它曾经存在，只会因法律要求由网站管理员移除。',
+    cloudUnavailable: '目前无法连接并读取此云端文件，请稍后再试。',
+    localLoadError: '找不到要查看的本地文件。它可能已从此设备删除，或不在此浏览器的存储空间中。',
+    loading: '正在安全地读取文件…',
     note: '备注',
     preference: '喜好',
     previewActionsLabel: '档案操作',
@@ -98,7 +105,6 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     otherSummary: '这个分类从细项开始呈现结果',
     title: (name) => `${name}的秘密档案`,
     unanswered: '未作答',
-    unsupportedSource: '这个档案来源尚未开放查看。',
     viewCategory: (categoryName) => `查看${categoryName}的完整结果`,
     viewDetails: '查看完整结果',
     warning: (name) => `这份测试结果仅供参考，无法完整描述${name}的喜好或特质，也请勿用它代替任何必要的沟通。`,
@@ -116,7 +122,10 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: '絶対に不可の項目',
     languageLabel: '表示言語',
     lastEdited: (date) => `最終編集 ${formatDate('ja', date)}`,
-    loadError: '表示するファイルが見つからないか、この端末にはもうありません。',
+    cloudLoadError: 'このクラウドファイルは見つかりません。以前存在していた場合、法的要請によりサイト管理者が削除した場合に限られます。',
+    cloudUnavailable: '現在このクラウドファイルに接続して読み込めません。しばらくしてからお試しください。',
+    localLoadError: '表示するローカルファイルが見つかりません。この端末から削除されたか、このブラウザの保存領域にない可能性があります。',
+    loading: 'ファイルを安全に読み込んでいます…',
     note: 'メモ',
     preference: '好み',
     previewActionsLabel: 'ファイル操作',
@@ -129,7 +138,6 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     otherSummary: 'このカテゴリーは細目から結果を表示します',
     title: (name) => `${name}の秘密ファイル`,
     unanswered: '未回答',
-    unsupportedSource: 'このファイルの取得元はまだ表示に対応していません。',
     viewCategory: (categoryName) => `${categoryName}の詳しい結果を見る`,
     viewDetails: '詳しい結果を見る',
     warning: (name) => `この結果は参考情報にすぎず、${name}の好みや特性を完全に表すものではありません。必要な対話の代わりにはしないでください。`,
@@ -147,7 +155,10 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: 'Absolutely prohibited items',
     languageLabel: 'Viewing language',
     lastEdited: (date) => `Last edited ${formatDate('en', date)}`,
-    loadError: 'The file to preview could not be found or is no longer stored on this device.',
+    cloudLoadError: 'This cloud file could not be found. If it previously existed, it can only have been removed by the site administrator for legal reasons.',
+    cloudUnavailable: 'This cloud file cannot be reached right now. Please try again later.',
+    localLoadError: 'The local file could not be found. It may have been deleted from this device or may not exist in this browser storage.',
+    loading: 'Securely loading the file…',
     note: 'Note',
     preference: 'Preference',
     previewActionsLabel: 'File actions',
@@ -160,7 +171,6 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     otherSummary: 'This category presents results through its individual items',
     title: (name) => `${name}'s Secret File`,
     unanswered: 'Unanswered',
-    unsupportedSource: 'Previewing this file source is not available yet.',
     viewCategory: (categoryName) => `View the full ${categoryName} result`,
     viewDetails: 'View full result',
     warning: (name) => `This test result is only a reference. It cannot fully describe ${name}'s preferences or traits and must not replace any necessary communication.`,

@@ -275,6 +275,12 @@
   line-height: 1.45;
 }
 
+.cloud-file-error {
+  color: #efb5bb;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
 /* Progress bar styles removed – cards show name, scope badge, and last-updated only. */
 
 .file-list-item__actions {
@@ -670,6 +676,11 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.4rem;
+  }
+
+  .file-list-item__actions--cloud {
+    grid-template-columns: 1fr;
+    padding-right: 3.2rem;
   }
 
   .file-card-action {

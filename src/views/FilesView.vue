@@ -2,6 +2,16 @@
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
+import {
+  CloudShareLinkStorageError,
+  CloudSharingError,
+  linkCloudShare,
+  listLinkedCloudShares,
+  loadCloudSecretFile,
+  parseCloudShareId,
+  unlinkCloudShare,
+  type LinkedCloudShare,
+} from '../features/cloud-sharing';
 import { filesRabbitUrl } from '../features/story/rabbitAssets';
 import { useSecretFileStore } from '../features/secret-file/application/useSecretFileStore';
 import { getFileManagerMessages } from '../features/secret-file/fileManagerMessages';
@@ -21,9 +31,12 @@ const importJson = ref('');
 const cloudImportUrl = ref('');
 const importFeedback = ref('');
 const importFeedbackKind = ref<'error' | 'info' | 'success' | null>(null);
+const cloudImportBusy = ref(false);
+const cloudShares = ref<LinkedCloudShare[]>([]);
+const cloudListFeedback = ref('');
 const copyFeedbackFileId = ref<string | null>(null);
 const copyFeedbackKind = ref<'error' | 'success' | null>(null);
-const cloudFileCount = 0;
+const cloudFileCount = computed(() => cloudShares.value.length);
 
 function formatDateTime(value: string): string {
   const date = new Date(value);
@@ -45,7 +58,12 @@ function previewHref(fileId: string): string {
   }).href;
 }
 
-
+function cloudPreviewHref(shareId: string): string {
+  return router.resolve({
+    name: 'preview',
+    query: { file: shareId, source: 'cloud' },
+  }).href;
+}
 
 function selectViewer(source: FileViewerSource): void {
   activeViewer.value = source;
@@ -143,28 +161,77 @@ function submitLocalImport(): void {
   }
 }
 
-function submitCloudImport(): void {
+function getCloudErrorMessage(error: unknown): string {
+  if (error instanceof CloudShareLinkStorageError) {
+    return messages.value.cloudLinkStorageFailed;
+  }
+
+  if (error instanceof CloudSharingError && error.code === 'configuration') {
+    return messages.value.cloudConfigurationError;
+  }
+
+  return messages.value.cloudLoadFailed;
+}
+
+async function submitCloudImport(): Promise<void> {
   importFeedback.value = '';
   importFeedbackKind.value = null;
+  const shareId = parseCloudShareId(cloudImportUrl.value, window.location.href);
 
-  try {
-    const url = new URL(cloudImportUrl.value);
-
-    if (url.protocol !== 'https:' && url.protocol !== 'http:') {
-      throw new Error('Unsupported URL protocol.');
-    }
-
-    importFeedback.value = messages.value.cloudImportPending;
-    importFeedbackKind.value = 'info';
-  } catch {
+  if (!shareId) {
     importFeedback.value = messages.value.invalidCloudUrl;
     importFeedbackKind.value = 'error';
+    return;
+  }
+
+  const previewWindow = window.open('about:blank', '_blank');
+
+  if (previewWindow) {
+    previewWindow.opener = null;
+  }
+
+  cloudImportBusy.value = true;
+
+  try {
+    const snapshot = await loadCloudSecretFile(shareId);
+    cloudShares.value = linkCloudShare({
+      createdAt: snapshot.createdAt,
+      profileName: snapshot.secretFile.profileName,
+      scope: snapshot.secretFile.scope,
+      shareId,
+    });
+    cloudListFeedback.value = '';
+    importFeedback.value = messages.value.cloudImportSuccess(snapshot.secretFile.profileName);
+    importFeedbackKind.value = 'success';
+    cloudImportUrl.value = '';
+
+    if (previewWindow && !previewWindow.closed) {
+      previewWindow.location.replace(new URL(cloudPreviewHref(shareId), window.location.href).href);
+    }
+  } catch (error) {
+    if (previewWindow && !previewWindow.closed) previewWindow.close();
+    importFeedback.value = getCloudErrorMessage(error);
+    importFeedbackKind.value = 'error';
+  } finally {
+    cloudImportBusy.value = false;
+  }
+}
+
+function unlinkCloudFile(shareId: string, name: string): void {
+  if (!window.confirm(messages.value.cloudUnlinkConfirmation(name))) return;
+
+  try {
+    cloudShares.value = unlinkCloudShare(shareId);
+    cloudListFeedback.value = '';
+  } catch {
+    cloudListFeedback.value = messages.value.cloudLinkStorageFailed;
   }
 }
 
 onMounted(() => {
   store.refresh();
-  activeViewer.value = resolveInitialFileViewer(store.files.length, cloudFileCount);
+  cloudShares.value = listLinkedCloudShares();
+  activeViewer.value = resolveInitialFileViewer(store.files.length, cloudFileCount.value);
   window.scrollTo({ left: 0, top: 0 });
 });
 </script>
@@ -330,7 +397,61 @@ onMounted(() => {
         role="tabpanel"
         aria-labelledby="cloud-files-tab"
       >
-        <div class="files-empty-state">
+        <p
+          v-if="cloudListFeedback"
+          class="file-manager-feedback file-manager-feedback--error"
+          role="alert"
+        >
+          {{ cloudListFeedback }}
+        </p>
+
+        <div v-if="cloudShares.length" class="file-list">
+          <article
+            v-for="file in cloudShares"
+            :key="file.shareId"
+            class="file-list-item file-list-item--cloud"
+          >
+            <div class="file-list-item__copy">
+              <div class="file-list-item__identity">
+                <h2>{{ file.profileName ?? messages.cloudUnavailable }}</h2>
+                <span v-if="file.scope">{{ messages.scope(file.scope) }}</span>
+              </div>
+              <time v-if="file.createdAt" :datetime="file.createdAt">
+                {{ messages.cloudUploadedAt(formatDateTime(file.createdAt)) }}
+              </time>
+            </div>
+            <div class="file-list-item__actions file-list-item__actions--cloud">
+              <a
+                class="file-card-action file-card-action--view"
+                :href="cloudPreviewHref(file.shareId)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 12s3.2-5.5 9-5.5S21 12 21 12s-3.2 5.5-9 5.5S3 12 3 12Z" />
+                  <circle cx="12" cy="12" r="2.2" />
+                </svg>
+                {{ messages.view }}
+              </a>
+              <button
+                class="file-card-action file-card-action--delete"
+                type="button"
+                :aria-label="messages.cloudUnlink"
+                :title="messages.cloudUnlink"
+                @click="unlinkCloudFile(
+                  file.shareId,
+                  file.profileName ?? file.shareId,
+                )"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 12h8M5.5 8.5l-2 2a2.1 2.1 0 0 0 0 3l3 3a2.1 2.1 0 0 0 3 0l2-2m1-5 2-2a2.1 2.1 0 0 1 3 0l3 3a2.1 2.1 0 0 1 0 3l-2 2" />
+                </svg>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <div v-else class="files-empty-state">
           <div class="files-empty-state__mark" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <path d="M7.3 18.5h10.1a4 4 0 0 0 .6-7.9A6.2 6.2 0 0 0 6.3 9.2a4.7 4.7 0 0 0 1 9.3Z" />
@@ -380,12 +501,16 @@ onMounted(() => {
         <input
           id="cloud-file-url"
           v-model="cloudImportUrl"
-          type="url"
+          type="text"
           inputmode="url"
           :placeholder="messages.cloudImportPlaceholder"
         />
-        <button class="files-dialog-primary-action" type="submit" :disabled="!cloudImportUrl.trim()">
-          {{ messages.cloudImportSubmit }}
+        <button
+          class="files-dialog-primary-action"
+          type="submit"
+          :disabled="!cloudImportUrl.trim() || cloudImportBusy"
+        >
+          {{ cloudImportBusy ? messages.cloudLoading : messages.cloudImportSubmit }}
         </button>
       </form>
 

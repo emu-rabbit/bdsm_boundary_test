@@ -892,6 +892,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .cloud-upload-dialog__progress > span {
+    animation: none;
+  }
   .answer-countdown-ring-progress {
     animation: none;
     stroke-dashoffset: 0;
@@ -2062,6 +2065,108 @@
 .detail-start-dialog::backdrop {
   background: rgba(7, 3, 6, 0.72);
   backdrop-filter: blur(0.22rem);
+}
+
+.cloud-upload-dialog {
+  width: min(calc(100vw - 2rem), 31rem);
+  padding: 1.4rem;
+  color: var(--ink);
+  background: linear-gradient(155deg, rgba(67, 31, 46, 0.99), rgba(27, 13, 21, 0.99));
+  border: 0.0625rem solid rgba(242, 206, 213, 0.24);
+  border-radius: 1rem;
+  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.55);
+}
+
+.cloud-upload-dialog::backdrop {
+  background: rgba(7, 3, 6, 0.76);
+  backdrop-filter: blur(0.28rem);
+}
+
+.cloud-upload-dialog h2,
+.cloud-upload-dialog p {
+  margin: 0;
+}
+
+.cloud-upload-dialog h2 {
+  color: #f9e4dc;
+  font-size: 1.28rem;
+  font-weight: 500;
+}
+
+.cloud-upload-dialog > p {
+  margin-top: 0.8rem;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.cloud-upload-dialog__feedback {
+  padding: 0.72rem 0.78rem;
+  border: 1px solid rgba(225, 133, 143, 0.24);
+  border-radius: 0.72rem;
+  background: rgba(78, 29, 41, 0.34);
+  color: #efb9bd !important;
+  font-size: 0.88rem;
+}
+
+.cloud-upload-dialog__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.68rem;
+  margin-top: 1.2rem;
+}
+
+.cloud-upload-dialog__actions button,
+.cloud-upload-dialog__actions a {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 0.9rem;
+  color: var(--ink-soft);
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  background: rgba(255, 243, 246, 0.07);
+  border: 0.0625rem solid rgba(242, 206, 213, 0.18);
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+
+.cloud-upload-dialog__actions .cloud-upload-dialog__confirm,
+.cloud-upload-dialog__actions a {
+  color: #fff1e9;
+  background: linear-gradient(135deg, rgba(157, 78, 101, 0.96), rgba(111, 55, 75, 0.96));
+  border-color: rgba(241, 178, 184, 0.4);
+}
+
+.cloud-upload-dialog__actions button:hover,
+.cloud-upload-dialog__actions button:focus-visible,
+.cloud-upload-dialog__actions a:hover,
+.cloud-upload-dialog__actions a:focus-visible {
+  color: #fff1e9;
+  border-color: rgba(250, 202, 213, 0.54);
+}
+
+.cloud-upload-dialog__progress {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  padding: 1.5rem 0.5rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.cloud-upload-dialog__progress > span {
+  width: 2rem;
+  height: 2rem;
+  border: 0.18rem solid rgba(242, 206, 213, 0.2);
+  border-top-color: #e9b2b5;
+  border-radius: 50%;
+  animation: cloud-upload-spin 700ms linear infinite;
+}
+
+@keyframes cloud-upload-spin {
+  to { transform: rotate(1turn); }
 }
 
 .detail-start-dialog h2 {

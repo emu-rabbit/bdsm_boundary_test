@@ -55,10 +55,17 @@ const spotlightSelectionSchema = (role: 'active' | 'passive') => z
   });
 
 const secretFileBaseSchema = z.object({
-  answers: z.record(z.string().min(1), secretFileAnswerSchema),
+  answers: z
+    .record(z.string().min(1), secretFileAnswerSchema)
+    .refine((answers) => Object.keys(answers).length <= 700, '秘密檔案包含過多題目。'),
   createdAt: timestampSchema,
-  fileId: z.string().regex(/^local_[A-Za-z0-9_-]{8,}$/, '檔案 ID 格式不正確。'),
-  profileName: z.string().trim().min(1, '檔案必須保留填寫者名稱。'),
+  fileId: z.string().max(160).regex(/^local_[A-Za-z0-9_-]{8,}$/, '檔案 ID 格式不正確。'),
+  profileName: z
+    .string()
+    .trim()
+    .min(1, '檔案必須保留填寫者名稱。')
+    .refine((name) => Array.from(name).length <= 32, '填寫者名稱最多只能有 32 個字元。')
+    .refine((name) => !/[\u0000-\u001F\u007F]/.test(name), '填寫者名稱不能包含控制字元。'),
   questionBank: z
     .object({
       bankVersion: z.string().min(1),
