@@ -233,7 +233,8 @@ onMounted(() => {
             @click="openImportDialog"
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 4v11m0 0 4-4m-4 4-4-4M5 18.5h14" />
+              <path d="M6.5 3.5h6.3l5.7 5.7v11.3H6.5A1.5 1.5 0 0 1 5 19V5a1.5 1.5 0 0 1 1.5-1.5Z" />
+              <path d="M12.8 3.5v5.7h5.7M12.5 12.5v5M10 15h5" />
             </svg>
             <span class="files-import-action__label">{{ messages.importAction }}</span>
           </button>
