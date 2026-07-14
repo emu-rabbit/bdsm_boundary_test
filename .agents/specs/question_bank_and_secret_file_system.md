@@ -253,14 +253,16 @@
 
 使用者若在本地修改已分享檔案並再次上傳，必須建立新的雲端文件與新的分享 ID，不得覆寫原文件。
 
-舊檔案頁的雲端 viewer 只在本地保存分享 ID，用它連結並讀取 Firestore 的唯讀版本，不保存可編輯的雲端副本。雲端匯入使用分享 URL；從列表移除雲端項目只解除這台裝置與分享 ID 的連結，不得刪除 Firestore 文件。第一階段尚未接入雲端上傳、Firestore 讀取與雲端列表時，UI 可以保留切換、URL 匯入入口與清楚的未啟用狀態，但不得假裝已保存或讀取雲端檔案。
+舊檔案頁的雲端 viewer 在 localStorage key `bdsm-boundary-test-cloud-shares:v2` 保存已驗證分享的顯示 metadata，至少包含 `shareId`、server `createdAt`、`profileName` 與 `scope`，但不保存完整、可編輯的雲端快照。列表只能讀取這份本機 metadata，不得為了渲染列表逐筆呼叫雲端；只有使用者進入 `preview?source=cloud&file={shareId}` 時才讀取 Firestore 唯讀版本。舊的 `bdsm-boundary-test-cloud-share-ids:v1` ID-only 索引可在本機遷移為 metadata 尚缺的相容項目，仍不得在列表背景補查雲端。雲端匯入接受分享 URL 或 share ID；必須先確認遠端檔案可讀，再把讀回的顯示 metadata 連結到這台裝置。從列表移除雲端項目只解除本機連結，不得刪除 Firestore 文件。成功上傳後也必須保存顯示 metadata，並主動以新分頁開啟雲端 preview。若雲端已建立但 localStorage 寫入失敗，UI 必須如實告知使用者快照已建立但未連結，並保留可開啟的分享網址。
 
-已分享版本是長期不可編輯、不可刪除、不可撤回且永不過期的分享快照。例外只限網站管理員因法律、服務規範、濫用或營運安全理由，手動移除或批次處理資料；這不是一般使用者功能。
+已分享版本是長期不可編輯、不可由一般使用者刪除、不可撤回且永不過期的分享快照。唯一例外是網站管理員因法律要求手動移除或批次處理資料；這不是一般使用者功能。
 
 Firestore 建議集合：
 
 - `sharedSecretFiles/{shareId}`：保存可分享的秘密檔案快照。
-- `uploadAttempts/{anonymousSourceHash}/buckets/{bucketId}` 或等價結構：保存匿名來源的上傳節流資料。
+- `sharedSecretFileMetadata/{shareId}`：保存不對一般閱覽者回傳的匿名防濫用 metadata。
+- `uploadRateLimits/{sourceHash}`：保存最近 24 小時的匿名來源上傳時間；以 `expiresAt` TTL 清理。
+- `uploadGlobalRateLimits/project`：保存整個 project 最近 24 小時的成功上傳時間；以 `expiresAt` TTL 清理。
 
 雲端文件應至少包含：
 
@@ -275,9 +277,9 @@ Firestore 建議集合：
 - `clientSummary`
 - `sourceFingerprintHash` 或等價匿名防護欄位
 
-雲端文件可在秘密檔案 JSON 外層保存 `shareId`、server `createdAt`、`clientSummary`、`sourceFingerprintHash` 或等價匿名防護欄位；這些是雲端防濫用與讀取所需 metadata，不是使用者私下轉傳 JSON 的必要內容。`profileName` 必須存在於秘密檔案 JSON 本體；閱覽雲端檔案時，結果頁與必要警語使用雲端檔案紀錄的 `profileName`。
+公開雲端文件可在秘密檔案 JSON 外層保存 `shareId`、server `createdAt` 與 `clientSummary`。`sourceFingerprintHash`、`sourceHash`、`userAgentHash`、App ID 與 payload size 等私有防濫用資料必須放在獨立 metadata 集合，不得由 read function 回傳。這些 server metadata 不是使用者私下轉傳 JSON 的必要內容。`profileName` 必須存在於秘密檔案 JSON 本體；閱覽雲端檔案時，結果頁與必要警語使用雲端檔案紀錄的 `profileName`。
 
-匿名運作不代表完全無防護。上傳限制基準為同一使用者或匿名識別來源 60 分鐘內最多 5 次、1 天內最多 10 次。若純 Firestore security rules 無法可靠實作嚴格節流，Agent 必須先向使用者回報限制並確認是否導入 Cloud Functions、App Check 或其他 Firebase 防護機制；不得假裝前端節流已等同後端防刷。架構設計時優先嘗試不碰 Cloud Functions 的方案，但如果安全取捨需要後端能力，Agent 必須主動詢問使用者決策。
+匿名運作不代表完全無防護。Browser 不直接讀寫 Firestore；所有 client read/write rules 一律拒絕，建立與依 ID 讀取都只能經過強制 App Check 的 callable Functions。同一匿名來源限制為 60 分鐘內最多 5 次、24 小時內最多 10 次；整個 project 另限制 60 分鐘內最多 300 次、24 小時內最多 2000 次成功建立。兩組計數由 Firestore transaction 與 server timestamp 原子檢查並增加；不得把前端節流描述為後端防刷。來源 IP 只取 Google Cloud Load Balancer 附加在 `X-Forwarded-For` 尾端的倒數第二個位址，不信任呼叫端可預填的前綴，再以 HMAC source hash 執行來源限流。create 另使用 limited-use App Check token 與 replay protection，且保留 512 KiB payload、最多 700 answers、`maxInstances` 與 timeout 上限。原始 IP／user agent 不持久化；HMAC key 只存 Secret Manager。
 
 ## 新檔案流程
 

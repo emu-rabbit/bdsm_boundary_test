@@ -27,7 +27,7 @@
 - **正式與 staging 完整隔離**：production 使用 `boundary-notes-prod`，staging 使用 `boundary-notes-staging`，分開 Firestore、Security Rules、IAM、quota 與帳單爆炸半徑。`main` push（包含 PR merge 後的 push）只部署 production live channel；`staging` push 部署 staging live channel；同 repository 的 PR 只部署到 staging project 的七天 preview channel，fork PR 只執行 test/build。不得因 Firebase Hosting 支援同 project preview channels 而把 staging backend 併回 production project。
 - **分階段啟用部署**：production live channel 已完成第一次實際部署驗證；staging 與 preview 尚未建立完成時，repository variables `ENABLE_FIREBASE_STAGING` 與 `ENABLE_FIREBASE_PREVIEW` 維持未設定或非 `true`，對應 jobs 必須安全略過且不得要求尚未建立的 environments。只有在 staging project、獨立 deployers、WIF 與 GitHub environments 全部完成後，才可分別設為 `true`。
 - **短效部署身分**：GitHub Actions 透過 Workload Identity Federation 取得短效 Google Cloud credentials，不保存 service-account JSON key。GitHub 的 `production` environment 使用 production project deployer，`staging` environment 使用 staging live deployer，`preview` environment 使用 staging project 的 PR preview deployer；三者分開 provider/event 條件與最小權限，避免 PR 身分取得 production 或 staging live 部署路徑。第三方 Actions 固定完整 commit SHA。
-- **production review 只能由使用者本人完成**：GitHub `production` Environment 的 required reviewer 是人工授權硬邊界。任何 Agent 遇到等待 review 的 run 都必須停止，只能回報 run URL、狀態與驗證證據；push／deploy／監看授權不包含 review。Agent 不得使用 GitHub UI、App、CLI、API、瀏覽器、使用者 token 或 session 代替 approve、reject 或 bypass，也不得移除、放寬或繞過 protection rule。只有使用者明確表示已親自完成該次特定 run 的 review 後，Agent 才能繼續處理。
+- **production 刻意不設 required reviewer**：GitHub `production` Environment 目前依使用者確認刻意不設 required reviewer；`main` push 通過 workflow 的 test／build 與既有部署條件後可直接部署。Agent 不得自行補上人工 gate，也不得因沒有人工 gate 就擴張未被要求的 push／deploy 權限。若未來 run 出現與本設定不一致的等待 review 狀態，應停止 progression 並請使用者確認 environment protection 是否已改變，不得自行 approve、reject 或 bypass。
 - **Firebase Hosting SPA fallback**：`firebase.json` 將不存在的實體檔案 rewrite 到 `/index.html`，讓 history route 可直接開啟與重新整理；未知 app route 由 Vue Router catch-all 顯示 404 view。這是靜態 SPA 的 soft 404（HTTP 200）；若未來 SEO 或外部整合要求真實 HTTP 404，再評估 prerender 或 server-side handler，不為此先導入 Functions。
 - **Vue Router history route 基準**：`src/app/router.ts` 使用 `createWebHistory(import.meta.env.BASE_URL)`；正式、staging 與本機預設 base 都是 `/`，並由 `VITE_BASE_PATH` 保留未來 host 調整能力。route 不再使用 `#/home` 之類 hash URL。
 - **Hosting 防護與快取**：`firebase.json` 對 Vite hashed assets 設定 immutable cache、對 `index.html` 禁止快取，並集中設定 CSP、frame、MIME sniffing、referrer 與敏感裝置權限標頭。未來接入 Firestore、Analytics 或其他外部連線時，必須同步以最小範圍更新 CSP `connect-src`，不得直接放寬成任意來源。
@@ -57,16 +57,20 @@
 - **版本不可覆寫**：若使用者更新或編輯已分享檔案，應以新建資料表示新版本，不直接覆寫舊資料；這點需與 `.agents/mission/project_mission.md` 的知情同意實作原則一致。
 - **核心測驗資料規格**：題庫、分類層問題、細項問題、回答狀態、本地秘密檔案 JSON、Firestore create/read-only 分享版本與 Google Sheet 匯入流程，正式規格放在 `.agents/specs/question_bank_and_secret_file_system.md`。修改資料模型或題庫 importer 前必須先讀取該文件。
 - **本地檔案可完整 CRUD**：使用者作答檔案在 localStorage 中可建立、讀取、更新與刪除；每題作答後必須即時保存，讓使用者關閉網頁後可從舊檔案繼續。
-- **雲端分享 create/read only**：Firestore 中的分享版本只能新建與讀取，不可編輯、不可刪除、不可撤回且永不過期；本地修改後重新分享必須建立新版本與新分享 ID。例外只限網站管理員因法律、服務規範、濫用或營運安全理由手動移除或批次處理資料。
+- **雲端分享 create/read only**：Firestore 中的分享版本只能新建與讀取，不可編輯、不可由一般使用者刪除或撤回且永不過期；本地修改後重新分享必須建立新版本與新分享 ID。唯一例外是網站管理員因法律要求手動移除或批次處理資料。
 - **題庫版本相容**：題庫未來會新增或修訂，回答資料必須保留 `bankVersion`、穩定 question ID、`unanswered` 與 `filteredOut` 狀態，不得用題目順序或中文文案作為唯一資料鍵。
-- **嚴格節流需後端能力**：同一匿名來源上傳限制基準仍是 60 分鐘 5 次、1 天 10 次。架構設計時優先嘗試不碰 Cloud Functions 的方案；若 Firestore security rules 無法可靠支撐嚴格計數與防刷，Agent 必須先回報安全取捨並詢問使用者是否導入 Cloud Functions、App Check 或其他 Firebase 防護機制，不得把前端節流描述為完整後端防護。
+- **雲端存取只經 callable Functions**：browser 不直接存取 Firestore，`firestore.rules` 對所有 mobile/web client read/write 一律拒絕。`createSharedSecretFile` 與 `getSharedSecretFile` 固定部署在 `asia-east1`，兩者強制 App Check；create 另啟用 limited-use token 與 replay protection。這層防護不等於登入，也不能被描述成百分之百阻擋所有濫用。
+- **上傳 server validation**：create function 必須在 server 重新執行 strict schema、scope／spotlight consistency、備註安全、最多 700 答案與 512 KiB payload 檢查。share ID 使用 `sf_` 加 144-bit cryptographic random value；不得提供列舉或查詢全部分享資料的 API。
+- **後端原子節流**：同一匿名來源上傳限制為 60 分鐘 5 次、24 小時 10 次；整個 Firebase project 另限制 60 分鐘 300 次、24 小時 2000 次成功建立。來源與全站計數都在同一個 Firestore transaction 內檢查並增加，避免併發超量；全站超量時前端顯示「網站目前請求過多，請稍後再試」。來源 IP 使用 Google Cloud Load Balancer 附加在 `X-Forwarded-For` 尾端的 `<client-ip>,<load-balancer-ip>`，只取倒數第二個位址，不信任可由呼叫端預填的前綴。IPv6 來源先正規化為 `/64`，避免同網段 privacy address 輕易輪替；原始 IP／user agent 不持久化，只保存依用途分離的 HMAC hash，HMAC key 只存在 Secret Manager，rate-limit document 以 TTL 清理。
+- **runtime 身分最小權限**：create/read Functions 分別使用 `boundary-notes-share-writer@` 與 `boundary-notes-share-reader@` service account。writer 只取得 Firestore get/create/update、上傳 HMAC secret access 與 App Check token verifier；reader 只取得 Firestore get。不得讓 Functions 沿用具 Editor 權限的 default Compute service account。
+- **成本與攻擊面上限**：create/read 必須保留 `maxInstances`、timeout、request/payload cap 與必要的 disabled Firestore indexes；App Check、reCAPTCHA Enterprise、budget alert、quota 與執行 metrics 必須一併監看。Budget alert 不是硬上限。
 
 ## 匿名識別與濫用防護
 
-- **匿名但可防護**：雖然不設登入，本專案仍需要足夠的匿名識別資料，讓後端可以顯示、追蹤與偵測疑似惡意使用者或異常上傳行為。
-- **最小必要資料**：匿名識別資料應以濫用防護、debug 與營運安全為目的，避免蒐集不必要的敏感個資。若需要儲存 IP、user agent、裝置指紋或衍生識別碼，必須先保守評估隱私風險與必要性。
-- **上傳節流**：同一使用者或同一匿名識別來源的 Firestore 上傳限制基準為 60 分鐘內最多 5 次、1 天內最多 10 次。
-- **前後端都要防護**：前端可以提供提示、冷卻時間與阻擋 UX，但真正的限制與記錄必須優先由 Firestore 資料結構與 security rules 支撐；不可只靠前端狀態防刷。若 Firestore 本身不足以支撐必要防護，需先向使用者確認是否擴大 Firebase 機制。
+- **匿名但可防護**：雖然不設登入，後端仍以 App Check 與 HMAC 衍生來源識別偵測疑似惡意使用或異常上傳；不得把它呈現為使用者帳號或真實身份。
+- **最小必要資料**：公開分享快照與私有防濫用 metadata 分集合保存。原始 IP／user agent 不寫入 Firestore，只保存不可直接還原且依用途分離的 HMAC hash、App ID、payload size 與 server timestamp；不得把私有 metadata 回傳給一般閱覽者。
+- **上傳節流**：同一使用者或同一匿名識別來源的 Firestore 上傳限制基準為 60 分鐘內最多 5 次、1 天內最多 10 次；整個 project 同時限制 60 分鐘內最多 300 次、1 天內最多 2000 次成功建立。
+- **前後端都要防護**：前端提示只是 UX；真正的 schema validation、App Check、replay protection 與上傳節流都在 callable function／Firestore transaction 執行，不可信任 localStorage、client clock、client summary 或 browser-side validation。
 - **防護不等於登入**：濫用偵測與上傳限制不得被包裝成登入、帳號、會員或身份驗證流程。
 
 ## GA 與研究資料
@@ -96,7 +100,7 @@
 - **本地保存與 fallback**：`storage/browserSecretFileRepository.ts` 集中管理 `bdsm-boundary-test-secret-files:index` 與 `...:file:{fileId}`。讀寫資料都先驗證；browser storage 不可用或寫入失敗時保留當前 session 的記憶體副本，並透過 store 的 `storageStatus` 暴露狀態。不得自動刪除舊檔案。
 - **localStorage 上限**：本機最多保存 20 份秘密檔案，由 `browserSecretFileRepository.ts` 的 `maxLocalSecretFiles` 集中管理；達到上限時阻擋新建，但仍允許更新既有檔案。
 - **測試基線**：Vitest 已設定為 `npm run test`，Firebase production、PR preview 與 staging workflows 都會先測試再建置。優先覆蓋回答狀態、scope、進度、題庫補齊、validation 與 storage failure；新 migration、persistence 或 domain rules 必須一起新增對應測試。
-- **目前功能邊界**：正式題庫、前導建立流程、分類與細項作答、本地 CRUD、JSON 匯入、編輯結果頁與獨立唯讀檢視頁均已接入。Firestore sharing 仍維持後續階段；唯讀 view 保留可替換的 cloud source boundary，但目前只載入本地檔案。
+- **目前功能邊界**：正式題庫、前導建立流程、分類與細項作答、本地 CRUD、JSON 匯入、編輯結果頁、獨立唯讀檢視頁與 Firestore create/read-only sharing 均已接入。舊檔案頁的雲端列表只讀 localStorage 顯示 metadata，不在列表階段請求雲端；只有使用者進入雲端唯讀檢視或主動匯入分享 URL／ID 時才呼叫 read function。
 
 1. 進行技術或資料相關工作前，先檢查本文件是否與現有程式碼、Firebase 設定、README 或其他 architecture 文件一致。
 2. 若新增正式資料 schema、Firestore rules、GA event taxonomy、題庫 importer 或 asset preload policy，優先更新本文件、`.agents/specs/question_bank_and_secret_file_system.md` 或未來正式 architecture/privacy 文件。
