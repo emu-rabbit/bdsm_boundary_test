@@ -9,9 +9,83 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Test and build
+  classify-changes:
+    name: Classify deployment changes
     if: vars.ENABLE_FIREBASE_STAGING == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      hosting: ${{ steps.changes.outputs.hosting }}
+      backend: ${{ steps.changes.outputs.backend }}
+
+    steps:
+      - name: Checkout changed revision
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Classify changed files
+        id: changes
+        shell: bash
+        env:
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+
+          base_sha="$PUSH_BEFORE_SHA"
+          head_sha="$GITHUB_SHA"
+
+          if [[ -z "$base_sha" || "$base_sha" =~ ^0+$ ]] || ! git cat-file -e "${base_sha}^{commit}" 2>/dev/null; then
+            base_sha="$(git hash-object -t tree /dev/null)"
+          fi
+
+          hosting=false
+          backend=false
+          changed_files=()
+
+          while IFS= read -r -d '' file; do
+            changed_files+=("$file")
+
+            case "$file" in
+              *.md|src/*.test.ts|src/*.spec.ts|functions/*.test.ts|functions/*.spec.ts)
+                ;;
+              firebase.json)
+                hosting=true
+                backend=true
+                ;;
+              src/*|public/*|index.html|package.json|package-lock.json|postcss.config.js|tailwind.config.js|tsconfig.json|tsconfig.app.json|tsconfig.node.json|vite.config.ts)
+                hosting=true
+                ;;
+              functions/*|firestore.rules|firestore.indexes.json)
+                backend=true
+                ;;
+            esac
+          done < <(git diff --name-only -z "$base_sha" "$head_sha")
+
+          echo "hosting=$hosting" >> "$GITHUB_OUTPUT"
+          echo "backend=$backend" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### Deployment classification"
+            echo ""
+            echo "- Hosting: \`$hosting\`"
+            echo "- Functions / Firestore: \`$backend\`"
+            echo ""
+            echo "Changed files:"
+            if ((${#changed_files[@]} == 0)); then
+              echo "- (none)"
+            else
+              printf -- '- `%s`\n' "${changed_files[@]}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  validate-hosting:
+    name: Test and build Hosting
+    if: needs.classify-changes.outputs.hosting == 'true'
+    needs: classify-changes
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -29,23 +103,11 @@ jobs:
           node-version: 24
           package-manager-cache: false
 
-      - name: Setup Java
-        uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a # v5
-        with:
-          distribution: temurin
-          java-version: '21'
-
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Install Functions dependencies
-        run: npm --prefix functions ci --ignore-scripts
-
-      - name: Test frontend and Functions
-        run: npm run test:all
-
-      - name: Build Functions
-        run: npm run build:functions
+      - name: Test frontend
+        run: npm test
 
       - name: Validate public staging web-app configuration
         env:
@@ -78,12 +140,56 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-  deploy-staging:
-    name: Deploy staging live channel
-    if: vars.ENABLE_FIREBASE_STAGING == 'true'
-    needs: build
+  validate-backend:
+    name: Test and build Functions / Firestore
+    if: needs.classify-changes.outputs.backend == 'true'
+    needs: classify-changes
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Setup Java
+        uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install rules-test dependencies
+        run: npm ci
+
+      - name: Install Functions dependencies
+        run: npm --prefix functions ci --ignore-scripts
+
+      - name: Test Firestore rules
+        run: npm run test:rules
+
+      - name: Test Functions
+        run: npm run test:functions
+
+      - name: Build Functions
+        run: npm run build:functions
+
+  deploy-staging-hosting:
+    name: Deploy staging Hosting
+    if: needs.classify-changes.outputs.hosting == 'true'
+    needs:
+      - classify-changes
+      - validate-hosting
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: staging
     concurrency:
@@ -104,9 +210,6 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-
-      - name: Install Functions dependencies
-        run: npm --prefix functions ci --ignore-scripts
 
       - name: Download tested Hosting artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -134,11 +237,72 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
-      - name: Deploy staging Hosting, Functions, Firestore rules, and indexes
+      - name: Deploy staging Hosting
         env:
           FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
         run: >-
           firebase deploy
-          --only hosting,functions,firestore:rules,firestore:indexes
+          --only hosting
+          --project "$FIREBASE_PROJECT_ID"
+          --non-interactive
+
+  deploy-staging-backend:
+    name: Deploy staging Functions / Firestore
+    if: needs.classify-changes.outputs.backend == 'true'
+    needs:
+      - classify-changes
+      - validate-backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: staging
+    concurrency:
+      group: firebase-backend-staging
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout trusted backend configuration
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install Functions dependencies
+        run: npm --prefix functions ci --ignore-scripts
+
+      - name: Install pinned Firebase CLI
+        run: npm install --global firebase-tools@15.23.0 --ignore-scripts --no-audit --no-fund
+
+      - name: Validate staging deployment variables
+        env:
+          FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+          GCP_SERVICE_ACCOUNT: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+        run: |
+          test -n "$FIREBASE_PROJECT_ID"
+          test -n "$GCP_SERVICE_ACCOUNT"
+          test -n "$GCP_WORKLOAD_IDENTITY_PROVIDER"
+
+      - name: Authenticate to Google Cloud with short-lived credentials
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
+        with:
+          project_id: ${{ vars.FIREBASE_PROJECT_ID }}
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
+      - name: Deploy staging Functions and Firestore configuration
+        env:
+          FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+        run: >-
+          firebase deploy
+          --only functions,firestore:rules,firestore:indexes
           --project "$FIREBASE_PROJECT_ID"
           --non-interactive
