@@ -370,6 +370,19 @@ const overallProgress = computed(() => {
       </aside>
 
       <main class="results-content">
+        <div v-if="availableRoles.length > 1" class="result-role-switch result-role-switch--mobile" role="group" :aria-label="messages.results.roleSwitchLabel">
+          <button
+            v-for="role in availableRoles"
+            :key="role"
+            :class="{ 'is-selected': selectedRole === role }"
+            :aria-pressed="selectedRole === role"
+            type="button"
+            @click="selectedRole = role"
+          >
+            {{ messages.roleLabels[role] }}
+          </button>
+        </div>
+
         <section
           v-if="spotlightCandidates.length > 0"
           class="results-spotlight results-spotlight--editor"
@@ -416,19 +429,6 @@ const overallProgress = computed(() => {
             <span aria-hidden="true">✦</span>
             {{ messages.results.editHint }}
           </p>
-        </div>
-
-        <div v-if="availableRoles.length > 1" class="result-role-switch result-role-switch--mobile" role="group" :aria-label="messages.results.roleSwitchLabel">
-          <button
-            v-for="role in availableRoles"
-            :key="role"
-            :class="{ 'is-selected': selectedRole === role }"
-            :aria-pressed="selectedRole === role"
-            type="button"
-            @click="selectedRole = role"
-          >
-            {{ messages.roleLabels[role] }}
-          </button>
         </div>
 
         <div class="result-category-grid">

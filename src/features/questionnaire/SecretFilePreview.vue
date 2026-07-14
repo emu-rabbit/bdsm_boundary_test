@@ -254,6 +254,24 @@ function changeLocale(event: Event): void {
           </label>
         </div>
 
+        <div
+          v-if="availableRoles.length > 1"
+          class="result-role-switch preview-role-switch preview-role-switch--content"
+          role="group"
+          :aria-label="messages.roleSwitchLabel"
+        >
+          <button
+            v-for="role in availableRoles"
+            :key="role"
+            type="button"
+            :class="{ 'is-selected': selectedRole === role }"
+            :aria-pressed="selectedRole === role"
+            @click="selectedRole = role"
+          >
+            {{ questionnaireMessages.roleLabels[role] }}
+          </button>
+        </div>
+
         <section v-if="spotlightItems.length" class="preview-ranking">
           <header class="preview-ranking__heading">
             <div>
@@ -301,24 +319,6 @@ function changeLocale(event: Event): void {
             >
               <span aria-hidden="true">⊘</span>
               {{ messages.hardNoButton(hardNoItems.length) }}
-            </button>
-          </div>
-
-          <div
-            v-if="availableRoles.length > 1"
-            class="result-role-switch preview-role-switch preview-role-switch--content"
-            role="group"
-            :aria-label="messages.roleSwitchLabel"
-          >
-            <button
-              v-for="role in availableRoles"
-              :key="role"
-              type="button"
-              :class="{ 'is-selected': selectedRole === role }"
-              :aria-pressed="selectedRole === role"
-              @click="selectedRole = role"
-            >
-              {{ questionnaireMessages.roleLabels[role] }}
             </button>
           </div>
 
