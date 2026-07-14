@@ -42,7 +42,6 @@ const {
   autoAdvanceDelay,
   locale,
   messages: appMessages,
-  navigate,
   profileName,
   recordAutoAdvance,
   resetAutoAdvance,
@@ -332,9 +331,9 @@ function goToFileStatus(): void {
   }
 }
 
-function goHome(): void {
+async function goHome(): Promise<void> {
+  await router.push({ name: 'home' });
   store.close();
-  navigate('home');
 }
 
 function openCloudUploadDialog(): void {
