@@ -29,6 +29,12 @@ jobs:
           node-version: 24
           package-manager-cache: false
 
+      - name: Setup Java
+        uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
       - name: Install frontend dependencies
         run: npm ci
 
