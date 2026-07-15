@@ -228,6 +228,7 @@
 
 - 使用集中 storage service 或 composable，不得在各 view 零散直接操作 localStorage。
 - 每回答一題都必須立即寫入 localStorage。
+- `updatedAt` 只在使用者實際改變作答內容或 Spotlight 選擇時更新；僅開啟舊檔案進入編輯、重存相同答案，或因新版題庫補入未作答題目時，必須保留原本的最後編輯時間。
 - 逐一答題流程中，使用者直接關閉網頁也必須能從主頁的「打開舊筆記」繼續。
 - localStorage 不可用時，當前 session 仍應保留記憶體 fallback，並告知使用者離開後可能無法保存。
 - 本地檔案列表應保存檔案摘要，例如 `fileId`、`profileName`、`scope`、`createdAt`、`updatedAt`、完成度與目前階段。

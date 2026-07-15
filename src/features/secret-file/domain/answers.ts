@@ -34,6 +34,15 @@ export function answerSecretFileQuestion(
     throw new Error('Only category questions may use the seeDetails answer.');
   }
 
+  if (
+    currentAnswer.state === 'answered' &&
+    currentAnswer.experience === answer.experience &&
+    currentAnswer.preference === answer.preference &&
+    currentAnswer.note === answer.note
+  ) {
+    return secretFile;
+  }
+
   return {
     ...secretFile,
     answers: {

@@ -62,6 +62,26 @@ describe('secret-file domain', () => {
     ).toThrow('Only category questions');
   });
 
+  it('preserves the last-edited time when the saved answer is unchanged', () => {
+    const firstUpdatedAt = '2026-07-10T06:01:00.000Z';
+    const answer = { experience: 'some', note: '目前先記下這個感覺', preference: 'like' } as const;
+    const answered = answerSecretFileQuestion(
+      createActiveOnlyFile(),
+      questions[1],
+      answer,
+      firstUpdatedAt,
+    );
+    const unchanged = answerSecretFileQuestion(
+      answered,
+      questions[1],
+      answer,
+      '2026-07-10T06:02:00.000Z',
+    );
+
+    expect(unchanged).toBe(answered);
+    expect(unchanged.updatedAt).toBe(firstUpdatedAt);
+  });
+
   it('preserves old answers and only appends newly introduced questions', () => {
     const secretFile = answerSecretFileQuestion(
       createActiveOnlyFile(),
@@ -77,12 +97,20 @@ describe('secret-file domain', () => {
     const reconciled = reconcileSecretFileQuestions(
       secretFile,
       [...questions, newQuestion],
-      '2026-07-10T06:02:00.000Z',
     );
 
     expect(reconciled.answers['detail.impact.hand.active']).toEqual(
       secretFile.answers['detail.impact.hand.active'],
     );
     expect(reconciled.answers[newQuestion.id]).toEqual({ state: 'unanswered' });
+    expect(reconciled.updatedAt).toBe(secretFile.updatedAt);
+  });
+
+  it('does not change or rewrite a file when its question set is already current', () => {
+    const secretFile = createActiveOnlyFile();
+    const reconciled = reconcileSecretFileQuestions(secretFile, questions);
+
+    expect(reconciled).toBe(secretFile);
+    expect(reconciled.updatedAt).toBe(createdAt);
   });
 });

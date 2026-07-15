@@ -252,9 +252,13 @@ function saveQuestionAnswer(answer: AnswerQuestionInput): void {
   const overviewWasComplete = !detailSession.value && categoryQuestions.value.every(
     (question) => secretFile.value?.answers[question.id]?.state === 'answered',
   );
-  const saved = store.persist(
-    answerSecretFileQuestion(secretFile.value, currentQuestion.value, answer),
-  );
+  const updated = answerSecretFileQuestion(secretFile.value, currentQuestion.value, answer);
+
+  if (updated === secretFile.value) {
+    return;
+  }
+
+  const saved = store.persist(updated);
   trackSecretFileAnswerSaved(currentQuestion.value.level, currentQuestion.value.role);
 
   if (
@@ -268,6 +272,14 @@ function saveQuestionAnswer(answer: AnswerQuestionInput): void {
 
 function updateSpotlight(role: QuestionRole, questionIds: string[]): void {
   if (!secretFile.value) return;
+
+  const currentQuestionIds = secretFile.value.spotlight[role].selectedQuestionIds;
+  if (
+    currentQuestionIds.length === questionIds.length &&
+    currentQuestionIds.every((questionId, index) => questionId === questionIds[index])
+  ) {
+    return;
+  }
 
   store.persist({
     ...secretFile.value,
@@ -527,7 +539,9 @@ onMounted(() => {
   trackSecretFileEditOpened(opened.scope);
 
   const reconciled = reconcileSecretFileQuestions(opened, allQuestionDefinitions);
-  store.persist(reconciled);
+  if (reconciled !== opened) {
+    store.persist(reconciled);
+  }
 });
 </script>
 

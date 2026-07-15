@@ -90,20 +90,24 @@ export function createSecretFile(input: CreateSecretFileInput): SecretFile {
 export function reconcileSecretFileQuestions(
   secretFile: SecretFile,
   questions: readonly QuestionDefinition[],
-  updatedAt = new Date().toISOString(),
 ): SecretFile {
   assertUniqueQuestionIds(questions);
   const answers = { ...secretFile.answers };
+  let hasNewQuestions = false;
 
   for (const question of questions) {
     if (answers[question.id] === undefined) {
       answers[question.id] = initialAnswerForQuestion(question, secretFile.scope);
+      hasNewQuestions = true;
     }
+  }
+
+  if (!hasNewQuestions) {
+    return secretFile;
   }
 
   return {
     ...secretFile,
     answers,
-    updatedAt,
   };
 }
