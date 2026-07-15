@@ -18,6 +18,7 @@ import { getResultsAnswerSummary, type QuestionnaireMessages } from './messages'
 
 const props = defineProps<{
   backHome: string;
+  initialRole: QuestionRole | null;
   messages: QuestionnaireMessages;
   previewHref: string;
   questionBank: QuestionBank;
@@ -32,9 +33,8 @@ const emit = defineEmits<{
   updateSpotlight: [role: QuestionRole, questionIds: string[]];
 }>();
 
-const selectedRole = ref<QuestionRole>(
-  props.secretFile.scope === 'passiveOnly' ? 'passive' : 'active',
-);
+const selectedRole = ref<QuestionRole>(props.initialRole
+  ?? (props.secretFile.scope === 'passiveOnly' ? 'passive' : 'active'));
 const detailStartDialog = ref<HTMLDialogElement | null>(null);
 const pendingCategory = ref<QuestionBankCategory | null>(null);
 const spotlightDialog = ref<HTMLDialogElement | null>(null);
@@ -435,6 +435,7 @@ const overallProgress = computed(() => {
           <button
             v-for="(category, index) in props.questionBank.categories"
             :key="`${category.categoryId}.${selectedRole}`"
+            :id="`result-category-${category.categoryId}`"
             class="result-category-card"
             :class="{ 'is-other': !category.includeInCategoryRound }"
             type="button"

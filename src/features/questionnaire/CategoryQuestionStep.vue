@@ -224,8 +224,7 @@ onBeforeUnmount(() => {
           @click="emit('fileStatus')"
         >
           <svg class="questionnaire-header-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M8 5.5h11l5 5V26.5H8z" stroke="currentColor" stroke-linejoin="round" stroke-width="2.2" />
-            <path d="M19 5.5v5h5M12 16h8M12 20.5h8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" />
+            <path d="M14 7 5 16l9 9M6 16h21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" />
           </svg>
           <span class="sr-only">{{ messages.fileStatus }}</span>
         </button>

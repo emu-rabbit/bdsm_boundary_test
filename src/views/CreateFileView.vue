@@ -72,6 +72,10 @@ const detailSession = ref<{
   questionIds: readonly string[];
   role: QuestionRole;
 } | null>(null);
+const resultsReturnContext = ref<{
+  categoryId: string;
+  role: QuestionRole;
+} | null>(null);
 const questionTransition = ref<'question-slide-next' | 'question-slide-back'>('question-slide-next');
 const messages = computed(() => getQuestionnaireMessages(locale.value));
 const localizedQuestionBank = computed(() => localizeQuestionBank(questionBank, locale.value));
@@ -332,6 +336,7 @@ function startDetailSession(
     questionIds: questions.map((question) => question.id),
     role,
   };
+  resultsReturnContext.value = { categoryId, role };
   detailCursor.value = 0;
   trackDetailSessionStarted(role, mode, questions.length);
 
@@ -352,18 +357,42 @@ function finishDetailSession(): void {
     );
   }
 
-  if (secretFile.value) {
-    void router.replace({ name: 'create', query: { file: secretFile.value.fileId, view: 'results' } });
-  }
+  void returnToResults();
 }
 
 function goToFileStatus(): void {
   detailSession.value = null;
   detailCursor.value = null;
 
-  if (secretFile.value) {
-    void router.replace({ name: 'create', query: { file: secretFile.value.fileId, view: 'results' } });
+  void returnToResults();
+}
+
+async function returnToResults(): Promise<void> {
+  const file = secretFile.value;
+  const returnContext = resultsReturnContext.value;
+
+  if (!file) return;
+
+  const isAlreadyOnResultsRoute =
+    route.name === 'create' &&
+    route.query.file === file.fileId &&
+    route.query.view === 'results';
+
+  if (!isAlreadyOnResultsRoute) {
+    await router.replace({ name: 'create', query: { file: file.fileId, view: 'results' } });
   }
+
+  await nextTick();
+
+  if (!returnContext) return;
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      document
+        .getElementById(`result-category-${returnContext.categoryId}`)
+        ?.scrollIntoView({ block: 'center', inline: 'nearest' });
+    });
+  });
 }
 
 async function goHome(): Promise<void> {
@@ -538,6 +567,7 @@ onMounted(() => {
   <QuestionnaireResults
     v-if="shouldShowResults && secretFile"
     :back-home="appMessages.common.backHome"
+    :initial-role="resultsReturnContext?.role ?? null"
     :question-bank="localizedQuestionBank"
     :messages="messages"
     :preview-href="previewHref"
