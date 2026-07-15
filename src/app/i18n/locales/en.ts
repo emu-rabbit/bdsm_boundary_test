@@ -1,4 +1,5 @@
 import type { LocaleMessages } from '../types';
+import { enLegal } from '../legalDocuments';
 
 export const enMessages: LocaleMessages = {
   analyticsConsent: {
@@ -15,11 +16,21 @@ export const enMessages: LocaleMessages = {
     title: 'May the Secret-Keeping Bunny record anonymous usage?',
   },
   about: {
-    body: 'This bunny helps you gather what you feel now, where your boundaries are, and what you want to say clearly. It is only a starting point for conversation, not a decision made for anyone.',
+    body: 'This is a place to gently gather your likes, desires, and the boundaries that matter to you.',
+    contentWarning: 'This website may include content about sexuality, bodies, power exchange, and higher-risk interactions. You can decide whether to use it based on how you feel, and you can stop at any time.',
+    doesItems: ['Organize experience, interest, and boundaries', 'Notice how you change over time', 'Make a conversation easier to begin'],
+    doesNotItems: ['Consent on anyone’s behalf', 'Match people or recommend activities', 'Assign you a fixed role'],
+    doesNotTitle: 'What the rabbit does not do', doesTitle: 'What the rabbit helps with', emailSupport: 'Email the rabbit', githubSupport: 'Report an issue on GitHub', legalTitle: 'This website’s terms and the traces left along the way',
+    missionBody: 'The confidentiality rabbit will stay with you as you sort through your experiences, interests, and boundaries, so the path to understanding yourself can feel a little less lonely. If you want, this can also be an invitation you send to someone to let them get to know you. Please remember that a secret file is only the beginning of a conversation and cannot replace checking in and giving consent in the moment, every time.', missionTitle: 'Let your boundaries and likes show more clearly',
+    principles: [{ title: 'You decide', body: 'There are no right answers and no fixed labels.' }, { title: 'Consent is in the moment', body: 'A file supports conversation; it never replaces a check-in.' }, { title: 'Share with care', body: 'A link may be sensitive. Give it only to someone you trust.' }],
+    privacyPolicy: 'Privacy Policy', rabbitRoleBody: 'The confidentiality rabbit will not rush you or decide for anyone. Its job is to stay nearby and help turn feelings and boundaries into words another person can understand.', rabbitRoleTitle: 'The rabbit’s role',
     replayStory: 'Replay intro',
+    supportTitle: 'Need help? You can reach me here.', termsOfUse: 'Terms of Use',
     title: 'About This Bunny',
+    versionHistory: 'Version history',
   },
   assets: {
+    aboutRabbitAlt: 'A white confidentiality rabbit sits beside an open secret file, quietly helping someone organize their boundaries.',
     homeRabbitAlt: 'A white bunny waving while holding a secret file notebook.',
     settingsRabbitAlt: 'A white bunny holding a settings board with gear symbols on the board.',
   },
@@ -75,7 +86,10 @@ export const enMessages: LocaleMessages = {
       label: 'Settings',
       summary: 'Adjust language, preferences, and local data options.',
     },
+    terms: { label: 'Terms of Use', summary: 'Read the purpose, usage rules, and limits of responsibility.' },
+    privacy: { label: 'Privacy Policy', summary: 'Learn what stays on your device, when data reaches the cloud, and your choices.' },
   },
+  legal: enLegal,
   settings: {
     body: 'These settings stay on this device.',
     languageLabel: 'Language for the Bunny',

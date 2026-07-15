@@ -254,3 +254,477 @@
   box-shadow: none;
   backdrop-filter: none;
 }
+
+/* About page */
+.about-route {
+  align-content: start;
+  padding: 0;
+}
+
+.about-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-content: center;
+  align-items: center;
+  width: min(1160px, calc(100% - 3rem));
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: clamp(1.4rem, 4dvh, 2.4rem) 0;
+  gap: clamp(0.8rem, 2dvh, 1.25rem);
+}
+
+.about-back-action {
+  position: absolute;
+  z-index: 4;
+  top: clamp(1.1rem, 3dvh, 1.8rem);
+  left: 0;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.45rem;
+  border: 0;
+  background: transparent;
+  color: rgba(246, 232, 223, 0.52);
+  padding: 0.45rem 0.1rem;
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.about-back-action:hover,
+.about-back-action:focus-visible {
+  color: rgba(255, 241, 233, 0.9);
+}
+
+.about-hero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 0;
+}
+
+.about-hero__copy {
+  display: grid;
+  align-content: center;
+  gap: 0.85rem;
+  max-width: 39rem;
+}
+
+.about-hero__copy h1,
+.about-hero__copy p,
+.about-section-heading h2,
+.about-section-heading p,
+.about-role-card h2,
+.about-role-card p,
+.about-utility-card h2,
+.about-utility-card p {
+  margin: 0;
+}
+
+.about-hero__copy h1 {
+  max-width: 9em;
+  color: #f8e7dd;
+  font-size: clamp(2.65rem, 5vw, 4.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+}
+
+.about-intro {
+  max-width: 34rem;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.6vw, 1.14rem);
+  line-height: 1.75;
+}
+
+.about-character {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(24rem, 55dvh, 32rem);
+}
+
+.about-character__glow {
+  position: absolute;
+  width: min(31rem, 96%);
+  aspect-ratio: 1;
+  border: 1px solid rgba(229, 182, 165, 0.1);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(172, 83, 104, 0.2), rgba(76, 38, 54, 0.08) 58%, transparent 70%);
+  box-shadow: 0 0 7rem rgba(147, 62, 84, 0.12);
+}
+
+.about-rabbit {
+  position: relative;
+  z-index: 1;
+  width: min(112%, 31rem);
+  max-height: 34rem;
+  object-fit: contain;
+  filter: drop-shadow(0 1.5rem 1.6rem rgba(8, 4, 7, 0.38));
+}
+
+.about-replay-action {
+  position: absolute;
+  z-index: 2;
+  bottom: clamp(1.8rem, 4dvh, 3rem);
+  left: 50%;
+  display: inline-flex;
+  min-height: 2.65rem;
+  align-items: center;
+  gap: 0.48rem;
+  transform: translateX(-50%);
+  border: 1px solid rgba(236, 198, 187, 0.14);
+  border-radius: 999px;
+  background: rgba(25, 12, 19, 0.7);
+  box-shadow: 0 0.8rem 2rem rgba(8, 4, 7, 0.18);
+  color: rgba(246, 232, 223, 0.66);
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.about-replay-action:hover,
+.about-replay-action:focus-visible {
+  border-color: rgba(236, 198, 187, 0.28);
+  background: rgba(43, 21, 31, 0.84);
+  color: #fff1e9;
+}
+
+.about-mission {
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  border-block: 1px solid rgba(236, 198, 187, 0.12);
+  padding: 0.9rem 0;
+}
+
+.about-mission > span {
+  color: rgba(219, 164, 153, 0.78);
+  padding-top: 0.14rem;
+}
+
+.about-mission > div {
+  display: grid;
+  gap: 0.38rem;
+}
+
+.about-mission h2,
+.about-mission p {
+  margin: 0;
+}
+
+.about-mission h2 {
+  color: #f4dcd2;
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.about-mission p {
+  color: rgba(246, 232, 223, 0.68);
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+
+.about-section-heading {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 42rem;
+}
+
+.about-section-mark {
+  color: rgba(219, 164, 153, 0.78);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+}
+
+.about-section-heading h2,
+.about-role-card h2,
+.about-utility-card h2 {
+  color: #f7e2d8;
+  font-size: clamp(1.55rem, 3.4vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.about-section-heading > p:last-child,
+.about-role-card > div:first-child > p:last-child {
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+
+.about-principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.about-principles article {
+  min-height: 12rem;
+  border: 1px solid rgba(234, 192, 178, 0.13);
+  border-radius: 1rem;
+  background: linear-gradient(145deg, rgba(57, 29, 42, 0.76), rgba(27, 14, 21, 0.64));
+  padding: 1.35rem;
+}
+
+.about-principles article > span {
+  display: block;
+  margin-bottom: 2.7rem;
+  color: rgba(229, 185, 167, 0.48);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+}
+
+.about-principles h3,
+.about-principles p,
+.about-role-lists h3,
+.about-role-lists ul {
+  margin: 0;
+}
+
+.about-principles h3 {
+  margin-bottom: 0.55rem;
+  color: #f5ddd3;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+
+.about-principles p {
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.about-role-card {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  border-block: 1px solid rgba(236, 198, 187, 0.14);
+  padding: clamp(2.25rem, 5vw, 3.75rem) 0;
+}
+
+.about-role-card > div:first-child {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+}
+
+.about-role-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.about-role-lists > div {
+  border: 1px solid rgba(236, 198, 187, 0.11);
+  border-radius: 0.9rem;
+  background: rgba(35, 18, 27, 0.62);
+  padding: 1.2rem;
+}
+
+.about-role-lists h3 {
+  margin-bottom: 1rem;
+  color: #f3d9d0;
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.about-role-lists ul {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.about-role-lists li {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.about-role-lists li span {
+  color: rgba(218, 162, 151, 0.82);
+}
+
+.about-content-warning {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr;
+  align-items: start;
+  gap: 0.8rem;
+  border-left: 2px solid rgba(202, 150, 112, 0.62);
+  background: rgba(92, 57, 40, 0.14);
+  padding: 0.68rem 0.85rem;
+}
+
+.about-content-warning span {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  border: 1px solid rgba(226, 180, 145, 0.5);
+  border-radius: 50%;
+  color: #e4b99b;
+  font-size: 0.8rem;
+}
+
+.about-content-warning p {
+  margin: 0;
+  color: rgba(246, 232, 223, 0.68);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.about-utility-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.about-utility-card {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  border: 1px solid rgba(236, 198, 187, 0.14);
+  border-radius: 1rem;
+  background: rgba(30, 15, 23, 0.7);
+  padding: 0.9rem 1.1rem;
+}
+
+.about-utility-card h2 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.about-link-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.1rem;
+}
+
+.about-link-stack > a,
+.about-link-disabled {
+  display: inline-flex;
+  min-height: 2.35rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border: 1px solid rgba(236, 198, 187, 0.16);
+  border-radius: 999px;
+  color: #f1d8ce;
+  padding: 0.2rem 0.85rem;
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+.about-link-stack > a:hover,
+.about-support-actions a:hover {
+  color: #fff1e9;
+}
+
+.about-link-disabled {
+  border-color: rgba(236, 198, 187, 0.08);
+  color: rgba(246, 232, 223, 0.34);
+}
+
+.about-support-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.1rem;
+}
+
+.about-support-actions a {
+  display: inline-flex;
+  min-height: 2.35rem;
+  align-items: center;
+  border: 1px solid rgba(236, 198, 187, 0.16);
+  border-radius: 999px;
+  color: #edd2c8;
+  padding: 0.2rem 0.85rem;
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+.about-support-card small {
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.about-route a:focus-visible,
+.about-route button:focus-visible,
+.legal-route a:focus-visible,
+.legal-route button:focus-visible {
+  outline: 3px solid rgba(197, 138, 124, 0.72);
+  outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .about-stage {
+    width: min(100% - 2rem, 42rem);
+    grid-template-rows: auto;
+    min-height: auto;
+    padding: 1.25rem 0;
+    gap: 1rem;
+  }
+
+  .about-back-action {
+    top: 0.95rem;
+  }
+
+  .about-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .about-character {
+    grid-row: 1;
+    min-height: 16rem;
+  }
+
+  .about-rabbit {
+    width: min(92%, 22rem);
+    max-height: 24rem;
+  }
+
+  .about-replay-action {
+    bottom: 0.6rem;
+  }
+
+  .about-principles,
+  .about-role-card,
+  .about-utility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-hero__copy {
+    max-width: none;
+  }
+
+  .about-principles article {
+    min-height: 0;
+  }
+
+  .about-principles article > span {
+    margin-bottom: 1.4rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .about-role-lists {
+    grid-template-columns: 1fr;
+  }
+
+  .about-hero__copy h1 {
+    font-size: clamp(2.5rem, 13vw, 3.7rem);
+  }
+
+}

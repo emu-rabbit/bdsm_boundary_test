@@ -90,6 +90,8 @@ const resultsReturnContext = ref<{
 } | null>(null);
 const questionTransition = ref<'question-slide-next' | 'question-slide-back'>('question-slide-next');
 const messages = computed(() => getQuestionnaireMessages(locale.value));
+const termsHref = computed(() => router.resolve({ name: 'terms' }).href);
+const privacyHref = computed(() => router.resolve({ name: 'privacy' }).href);
 const appliedProfileName = computed(
   () => profileName.value.trim() || appMessages.value.title.defaultProfileName,
 );
@@ -714,6 +716,13 @@ onMounted(() => {
       <h2>{{ messages.results.uploadConfirmTitle }}</h2>
       <p>{{ messages.results.uploadConfirmBody }}</p>
       <p>{{ messages.results.uploadPreviewHint }}</p>
+      <p class="cloud-upload-dialog__legal">
+        {{ messages.results.uploadLegalBefore }}
+        <a :href="termsHref" target="_blank" rel="noopener noreferrer">{{ appMessages.legal.termsLink }}</a>
+        {{ messages.results.uploadLegalBetween }}
+        <a :href="privacyHref" target="_blank" rel="noopener noreferrer">{{ appMessages.legal.privacyLink }}</a>
+        {{ messages.results.uploadLegalAfter }}
+      </p>
       <p v-if="cloudUploadError" class="cloud-upload-dialog__feedback" role="alert">
         {{ cloudUploadError }}
       </p>

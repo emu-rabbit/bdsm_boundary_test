@@ -582,7 +582,6 @@
   }
 
   .planned-stage,
-  .about-stage,
   .settings-stage {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -639,10 +638,6 @@
     width: min(100%, 34rem);
     font-size: 0.96rem;
     line-height: 1.7;
-  }
-
-  .about-actions {
-    justify-content: center;
   }
 
   .settings-panel {

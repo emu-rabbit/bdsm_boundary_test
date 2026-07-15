@@ -1,4 +1,5 @@
 import type { LocaleMessages } from '../types';
+import { zhHansLegal } from '../legalDocuments';
 
 export const zhHansMessages: LocaleMessages = {
   analyticsConsent: {
@@ -15,11 +16,21 @@ export const zhHansMessages: LocaleMessages = {
     title: '可以让守密兔记下匿名使用情况吗？',
   },
   about: {
-    body: '这只兔子会陪你把现在的感觉、界线和想说清楚的事整理成一份档案。它只是沟通起点，不会替任何人做决定。',
+    body: '这里把你的喜好、欲望还有重要的界限，温柔地整理起来。',
+    contentWarning: '本网页内容可能提及性、身体、权力交换与高风险互动项目。你可以依自己的状态决定要不要使用，也可以随时停下来。',
+    doesItems: ['陪你整理经验、兴趣与界限', '帮助你看见自己的变化', '提供一个较容易开始的对话入口'],
+    doesNotItems: ['不替任何人作出同意', '不为你配对或推荐项目', '不把你分类成固定的角色'],
+    doesNotTitle: '守密兔不会做的事', doesTitle: '守密兔陪你做的事', emailSupport: '写信给守密兔', githubSupport: '前往 GitHub 报告问题', legalTitle: '本网站的条款与一路上的痕迹',
+    missionBody: '守密兔会陪你整理经验、兴趣与界限，在理解自己的路上可以不那么孤单。只要你想要，这也是一张可以传给某人、让他认识你的邀请函。也请注意，秘密档案只是沟通起点，不能代替每一次当下的确认与同意。', missionTitle: '让界限和喜好更清楚地展现',
+    principles: [{ title: '由你决定', body: '没有正确答案，也不会替你贴上标签。' }, { title: '同意在当下', body: '档案只能支持沟通，不能代替每一次确认。' }, { title: '分享要谨慎', body: '链接可能含有敏感内容，只交给你信任的人。' }],
+    privacyPolicy: '隐私权政策', rabbitRoleBody: '守密兔不会催促，也不替任何人作决定。它的任务，是守在一旁，陪你把感受与界限整理成能被理解的话。', rabbitRoleTitle: '守密兔的任务',
     replayStory: '重播前导剧情',
+    supportTitle: '需要帮助吗？可以在这里联系我。', termsOfUse: '使用条款',
     title: '关于这只兔子',
+    versionHistory: '版本历史',
   },
   assets: {
+    aboutRabbitAlt: '白色守密兔坐在打开的秘密档案旁，安静陪伴使用者整理界限。',
     homeRabbitAlt: '白色兔子挥手，怀里抱着秘密档案笔记本。',
     settingsRabbitAlt: '白色兔子抱着设置板，齿轮图案在设置板上。',
   },
@@ -75,7 +86,10 @@ export const zhHansMessages: LocaleMessages = {
       label: '设置',
       summary: '调整语言、偏好与本机资料选项。',
     },
+    terms: { label: '使用条款', summary: '了解本站的用途、使用规范与责任界限。' },
+    privacy: { label: '隐私权政策', summary: '了解哪些数据留在本机、何时送上云端，以及你的选择。' },
   },
+  legal: zhHansLegal,
   settings: {
     body: '这些设置只放在这台装置里。',
     languageLabel: '守密兔要用的语言',

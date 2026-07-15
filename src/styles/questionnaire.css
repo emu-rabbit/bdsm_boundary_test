@@ -2115,6 +2115,19 @@
   line-height: 1.75;
 }
 
+.cloud-upload-dialog > .cloud-upload-dialog__legal {
+  border-left: 2px solid rgba(216, 160, 152, 0.42);
+  color: rgba(246, 232, 223, 0.62);
+  padding-left: 0.85rem;
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.cloud-upload-dialog__legal a {
+  color: #efd1c7;
+  text-underline-offset: 0.25rem;
+}
+
 .cloud-upload-dialog__feedback {
   padding: 0.72rem 0.78rem;
   border: 1px solid rgba(225, 133, 143, 0.24);

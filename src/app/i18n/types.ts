@@ -13,6 +13,27 @@ export type RouteMessage = {
   summary: string;
 };
 
+export type AboutPrincipleMessage = {
+  body: string;
+  title: string;
+};
+
+export type LegalSectionMessage = {
+  items?: string[];
+  paragraphs: string[];
+  title: string;
+};
+
+export type LegalDocumentMessage = {
+  controllingLanguage: string;
+  eyebrow: string;
+  intro: string;
+  lastUpdated: string;
+  lastUpdatedLabel: string;
+  sections: LegalSectionMessage[];
+  title: string;
+};
+
 export type StoryChoiceMessage = {
   label: string;
   next: StepId;
@@ -63,10 +84,28 @@ export type LocaleMessages = {
   };
   about: {
     body: string;
+    contentWarning: string;
+    doesItems: string[];
+    doesNotItems: string[];
+    doesNotTitle: string;
+    doesTitle: string;
+    emailSupport: string;
+    githubSupport: string;
+    legalTitle: string;
+    missionBody: string;
+    missionTitle: string;
+    principles: AboutPrincipleMessage[];
+    privacyPolicy: string;
+    rabbitRoleBody: string;
+    rabbitRoleTitle: string;
     replayStory: string;
+    supportTitle: string;
+    termsOfUse: string;
     title: string;
+    versionHistory: string;
   };
   assets: {
+    aboutRabbitAlt: string;
     homeRabbitAlt: string;
     settingsRabbitAlt: string;
   };
@@ -82,6 +121,17 @@ export type LocaleMessages = {
     copy: string;
     kicker: string;
     navAria: string;
+  };
+  legal: {
+    contactLabel: string;
+    documentsLabel: string;
+    languageLabel: string;
+    operatorLabel: string;
+    operatorName: string;
+    privacy: LegalDocumentMessage;
+    privacyLink: string;
+    terms: LegalDocumentMessage;
+    termsLink: string;
   };
   notFound: {
     action: string;

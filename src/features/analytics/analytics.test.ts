@@ -36,6 +36,18 @@ describe('analytics consent', () => {
       source: 'cloud',
       uiEnabled: true,
     })).toBe(false);
+    expect(shouldShowAnalyticsConsent({
+      consent: 'unknown',
+      routeName: 'terms',
+      source: undefined,
+      uiEnabled: true,
+    })).toBe(false);
+    expect(shouldShowAnalyticsConsent({
+      consent: 'unknown',
+      routeName: 'privacy',
+      source: undefined,
+      uiEnabled: true,
+    })).toBe(false);
   });
 
   it('shows only while a choice is still needed', () => {

@@ -11,6 +11,8 @@ export const appRouteIds = [
   'timeMachine',
   'about',
   'settings',
+  'terms',
+  'privacy',
 ] as const;
 
 export type AppRouteId = (typeof appRouteIds)[number];
@@ -78,6 +80,18 @@ export const appRoutes = [
     path: '/settings',
     state: 'ready',
     component: () => import('../views/SettingsView.vue'),
+  },
+  {
+    id: 'terms',
+    path: '/terms',
+    state: 'ready',
+    component: () => import('../views/TermsView.vue'),
+  },
+  {
+    id: 'privacy',
+    path: '/privacy',
+    state: 'ready',
+    component: () => import('../views/PrivacyView.vue'),
   },
 ] as const satisfies readonly AppRouteDefinition[];
 

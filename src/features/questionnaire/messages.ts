@@ -87,6 +87,9 @@ export interface QuestionnaireMessages {
     uploadConfirm: string;
     uploadConfirmBody: string;
     uploadConfirmTitle: string;
+    uploadLegalAfter: string;
+    uploadLegalBetween: string;
+    uploadLegalBefore: string;
     uploadFailed: string;
     uploadOpenFile: string;
     uploadPopupBlocked: string;
@@ -228,9 +231,12 @@ const zhHant: QuestionnaireMessages = {
     uploadCancel: '取消',
     uploadClose: '關閉',
     uploadConfigurationError: '雲端分享尚未完成設定，請稍後再試。',
-    uploadConfirm: '確定',
-    uploadConfirmBody: '上傳後網路上所有人都可以看的到這份檔案，且除了違反法律的內容以外，檔案不得被修改、刪除。',
+    uploadConfirm: '了解並建立分享連結',
+    uploadConfirmBody: '建立後，任何取得完整連結的人都能查看這份敏感檔案。雲端快照會長期保存，且目前無法由一般使用者自行修改或刪除。',
     uploadConfirmTitle: '確定要上傳嗎？',
+    uploadLegalBefore: '按下「了解並建立分享連結」，表示你已閱讀',
+    uploadLegalBetween: '與',
+    uploadLegalAfter: '，並明確同意將這份可能含有敏感內容的檔案上傳為雲端分享版本。',
     uploadFailed: '這次無法完成上傳，請確認網路連線後再試一次。',
     uploadOpenFile: '檢視雲端檔案',
     uploadPopupBlocked: '瀏覽器沒有開啟新分頁，你仍可使用下方連結檢視雲端檔案。',
@@ -369,9 +375,12 @@ const zhHans: QuestionnaireMessages = {
     uploadCancel: '取消',
     uploadClose: '关闭',
     uploadConfigurationError: '云端分享尚未完成设置，请稍后再试。',
-    uploadConfirm: '确定',
-    uploadConfirmBody: '上传后，网络上的任何人都能看到此文件；除违法内容外，文件不得修改或删除。',
+    uploadConfirm: '了解并建立分享链接',
+    uploadConfirmBody: '建立后，任何取得完整链接的人都能查看这份敏感档案。云端快照会长期保存，且目前无法由一般使用者自行修改或删除。',
     uploadConfirmTitle: '确定要上传吗？',
+    uploadLegalBefore: '按下“了解并建立分享链接”，表示你已阅读',
+    uploadLegalBetween: '与',
+    uploadLegalAfter: '，并明确同意将这份可能含有敏感内容的档案上传为云端分享版本。',
     uploadFailed: '本次无法完成上传，请确认网络连接后再试。',
     uploadOpenFile: '查看云端文件',
     uploadPopupBlocked: '浏览器未打开新标签页，你仍可使用下方链接查看云端文件。',
@@ -505,9 +514,12 @@ const ja: QuestionnaireMessages = {
     uploadCancel: 'キャンセル',
     uploadClose: '閉じる',
     uploadConfigurationError: 'クラウド共有の設定がまだ完了していません。しばらくしてからお試しください。',
-    uploadConfirm: 'アップロードする',
-    uploadConfirmBody: 'アップロード後はインターネット上の誰でもこのファイルを閲覧できます。違法な内容を除き、ファイルの変更や削除はできません。',
+    uploadConfirm: '確認して共有リンクを作成',
+    uploadConfirmBody: '作成後は、完全なリンクを持つ人なら誰でもこの機微なファイルを閲覧できます。クラウドスナップショットは長期保存され、現在は一般利用者が変更・削除できません。',
     uploadConfirmTitle: 'アップロードしますか？',
+    uploadLegalBefore: '「確認して共有リンクを作成」を押すと、',
+    uploadLegalBetween: 'と',
+    uploadLegalAfter: 'を読み、機微な内容を含む可能性のあるファイルをクラウド共有版としてアップロードすることに明示的に同意したものとします。',
     uploadFailed: 'アップロードできませんでした。通信状態を確認して、もう一度お試しください。',
     uploadOpenFile: 'クラウドファイルを見る',
     uploadPopupBlocked: '新しいタブを開けませんでした。下のリンクからクラウドファイルを表示できます。',
@@ -643,9 +655,12 @@ const en: QuestionnaireMessages = {
     uploadCancel: 'Cancel',
     uploadClose: 'Close',
     uploadConfigurationError: 'Cloud sharing has not been configured yet. Please try again later.',
-    uploadConfirm: 'Upload',
-    uploadConfirmBody: 'After upload, anyone on the internet can view this file. Except for unlawful content, it cannot be edited or deleted.',
+    uploadConfirm: 'Understand and create sharing link',
+    uploadConfirmBody: 'After creation, anyone with the complete link can view this sensitive file. The cloud snapshot is retained long-term and cannot currently be changed or deleted by an ordinary user.',
     uploadConfirmTitle: 'Upload this file?',
+    uploadLegalBefore: 'By selecting “Understand and create sharing link,” you confirm that you have read the',
+    uploadLegalBetween: 'and',
+    uploadLegalAfter: ', and expressly consent to uploading this file—which may contain sensitive content—as a cloud sharing copy.',
     uploadFailed: 'The upload could not be completed. Check your connection and try again.',
     uploadOpenFile: 'View cloud file',
     uploadPopupBlocked: 'The browser did not open a new tab. You can still use the link below to view the cloud file.',

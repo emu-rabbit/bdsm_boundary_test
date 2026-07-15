@@ -1,3 +1,4 @@
+import rabbitAboutUrl from '../../assets/story/rabbit-about.webp';
 import rabbitFolderUrl from '../../assets/story/rabbit-folder.webp';
 import rabbitGreetingUrl from '../../assets/story/rabbit-greeting.webp';
 import rabbitNamingUrl from '../../assets/story/rabbit-naming.webp';
@@ -20,11 +21,13 @@ export const rabbitPoseUrls: Record<RabbitPose, string> = {
 };
 
 export const homeRabbitUrl = rabbitGreetingUrl;
+export const aboutRabbitUrl = rabbitAboutUrl;
 export const settingsRabbitUrl = rabbitSettingsUrl;
 export const filesRabbitUrl = rabbitFolderUrl;
 
 const rabbitAssetUrls = [...new Set([
   ...Object.values(rabbitPoseUrls),
+  aboutRabbitUrl,
   settingsRabbitUrl,
 ])];
 const warmedRabbitUrls = new Set<string>();
