@@ -90,6 +90,7 @@ export interface QuestionnaireMessages {
     uploadFailed: string;
     uploadOpenFile: string;
     uploadPopupBlocked: string;
+    uploadPreviewHint: string;
     uploadRateLimited: string;
     uploadSiteBusy: string;
     uploadSuccessBody: string;
@@ -226,9 +227,10 @@ const zhHant: QuestionnaireMessages = {
     uploadFailed: '這次無法完成上傳，請確認網路連線後再試一次。',
     uploadOpenFile: '檢視雲端檔案',
     uploadPopupBlocked: '瀏覽器沒有開啟新分頁，你仍可使用下方連結檢視雲端檔案。',
+    uploadPreviewHint: '你也可以先透過檢視預覽的按鈕，先查看檔案發布後會有的呈現。',
     uploadRateLimited: '這個匿名來源的上傳次數已達限制，請稍後再試。',
     uploadSiteBusy: '網站目前請求過多，請稍後再試。',
-    uploadSuccessBody: '這份不可修改的雲端快照已建立，並已連結到這台裝置的舊檔案。',
+    uploadSuccessBody: '這份不可修改的雲端快照已建立，並已連結到這台裝置的檔案庫。',
     uploadSuccessBodyUnlinked: '雲端快照已建立，但無法把連結保存到這台裝置。請先保留或開啟下方連結。',
     uploadSuccessTitle: '上傳完成',
     uploading: '正在安全地建立雲端快照…',
@@ -359,9 +361,10 @@ const zhHans: QuestionnaireMessages = {
     uploadFailed: '本次无法完成上传，请确认网络连接后再试。',
     uploadOpenFile: '查看云端文件',
     uploadPopupBlocked: '浏览器未打开新标签页，你仍可使用下方链接查看云端文件。',
+    uploadPreviewHint: '你也可以先使用查看预览按钮，确认文件发布后的呈现方式。',
     uploadRateLimited: '此匿名来源的上传次数已达限制，请稍后再试。',
     uploadSiteBusy: '网站目前请求过多，请稍后再试。',
-    uploadSuccessBody: '不可修改的云端快照已建立，并已连接到此设备的旧文件。',
+    uploadSuccessBody: '不可修改的云端快照已建立，并已连接到此设备的文件库。',
     uploadSuccessBodyUnlinked: '云端快照已建立，但无法将链接保存到此设备。请先保留或打开下方链接。',
     uploadSuccessTitle: '上传完成',
     uploading: '正在安全地建立云端快照…',
@@ -485,9 +488,10 @@ const ja: QuestionnaireMessages = {
     uploadFailed: 'アップロードできませんでした。通信状態を確認して、もう一度お試しください。',
     uploadOpenFile: 'クラウドファイルを見る',
     uploadPopupBlocked: '新しいタブを開けませんでした。下のリンクからクラウドファイルを表示できます。',
+    uploadPreviewHint: '先に「プレビューを見る」ボタンから、公開後の表示を確認することもできます。',
     uploadRateLimited: 'この匿名の接続元はアップロード回数の上限に達しました。しばらくしてからお試しください。',
     uploadSiteBusy: '現在サイトへのリクエストが集中しています。しばらくしてからお試しください。',
-    uploadSuccessBody: '変更できないクラウドスナップショットを作成し、この端末の以前のファイルにリンクしました。',
+    uploadSuccessBody: '変更できないクラウドスナップショットを作成し、この端末のファイルライブラリにリンクしました。',
     uploadSuccessBodyUnlinked: 'クラウドスナップショットは作成されましたが、この端末にリンクを保存できませんでした。下のリンクを控えるか、先に開いてください。',
     uploadSuccessTitle: 'アップロード完了',
     uploading: '安全なクラウドスナップショットを作成しています…',
@@ -615,9 +619,10 @@ const en: QuestionnaireMessages = {
     uploadFailed: 'The upload could not be completed. Check your connection and try again.',
     uploadOpenFile: 'View cloud file',
     uploadPopupBlocked: 'The browser did not open a new tab. You can still use the link below to view the cloud file.',
+    uploadPreviewHint: 'You can also use View Preview first to check how the file will look after it is published.',
     uploadRateLimited: 'This anonymous source has reached the upload limit. Please try again later.',
     uploadSiteBusy: 'The site is receiving too many requests right now. Please try again later.',
-    uploadSuccessBody: 'An immutable cloud snapshot was created and linked in Old Files on this device.',
+    uploadSuccessBody: 'An immutable cloud snapshot was created and linked in the file library on this device.',
     uploadSuccessBodyUnlinked: 'The cloud snapshot was created, but its link could not be saved on this device. Please keep or open the link below first.',
     uploadSuccessTitle: 'Upload complete',
     uploading: 'Securely creating the cloud snapshot…',

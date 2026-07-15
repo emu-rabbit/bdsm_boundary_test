@@ -498,11 +498,11 @@ onMounted(() => {
       </div>
 
       <form v-if="activeViewer === 'local'" class="file-import-form" @submit.prevent="submitLocalImport">
-        <label for="secret-file-json">{{ messages.importJsonLabel }}</label>
         <p>{{ messages.importJsonDescription }}</p>
         <textarea
           id="secret-file-json"
           v-model="importJson"
+          :aria-label="messages.importJsonLabel"
           :placeholder="messages.importJsonPlaceholder"
           rows="10"
           spellcheck="false"

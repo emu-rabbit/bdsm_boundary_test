@@ -587,6 +587,7 @@ onMounted(() => {
     <template v-if="cloudUploadState === 'confirm' || cloudUploadState === 'error'">
       <h2>{{ messages.results.uploadConfirmTitle }}</h2>
       <p>{{ messages.results.uploadConfirmBody }}</p>
+      <p>{{ messages.results.uploadPreviewHint }}</p>
       <p v-if="cloudUploadError" class="cloud-upload-dialog__feedback" role="alert">
         {{ cloudUploadError }}
       </p>
