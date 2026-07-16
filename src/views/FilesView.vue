@@ -517,8 +517,8 @@ onMounted(() => {
                 @click="copyCloudShareLink(file.shareId)"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9.5 14.5 14.5 9.5" />
-                  <path d="M7.5 16.5h-1a4 4 0 0 1 0-8h3M16.5 7.5h1a4 4 0 0 1 0 8h-3" />
+                  <rect x="8" y="8" width="11" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
                 </svg>
               </button>
               <button
@@ -533,7 +533,9 @@ onMounted(() => {
                 )"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8 12h8M5.5 8.5l-2 2a2.1 2.1 0 0 0 0 3l3 3a2.1 2.1 0 0 0 3 0l2-2m1-5 2-2a2.1 2.1 0 0 1 3 0l3 3a2.1 2.1 0 0 1 0 3l-2 2" />
+                  <path d="m14.8 7.2 1.4-1.4a3.4 3.4 0 1 1 4.8 4.8L19.6 12" />
+                  <path d="m9.2 16.8-1.4 1.4A3.4 3.4 0 1 1 3 13.4L4.4 12" />
+                  <path d="M8 3v3M3 8h3M16 18v3M18 16h3" />
                 </svg>
               </button>
             </div>

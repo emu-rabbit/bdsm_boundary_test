@@ -736,19 +736,6 @@
     white-space: nowrap;
   }
 
-  .file-list-item__actions--cloud .file-card-action--view {
-    width: 100%;
-    flex-direction: row;
-    gap: 0.55rem;
-    font-size: 0.92rem;
-    line-height: 1.2;
-  }
-
-  .file-list-item__actions--cloud .file-card-action--view svg {
-    width: 1.35rem;
-    height: 1.35rem;
-  }
-
   .file-card-action--delete {
     position: absolute;
     top: 1rem;
