@@ -86,19 +86,19 @@ export const createSharedSecretFile = onCall(
     const callableDataBytes = Buffer.byteLength(JSON.stringify(request.data ?? null), 'utf8');
 
     if (callableDataBytes > maxCallableDataBytes) {
-      throw new HttpsError('invalid-argument', '秘密檔案內容超過雲端大小限制。');
+      throw new HttpsError('invalid-argument', '秘密檔案內容超過雲端大小限制');
     }
 
     const parsed = createShareRequestSchema.safeParse(request.data);
 
     if (!parsed.success) {
-      throw new HttpsError('invalid-argument', '秘密檔案內容未通過安全檢查。');
+      throw new HttpsError('invalid-argument', '秘密檔案內容未通過安全檢查');
     }
 
     const payloadBytes = getPayloadBytes(parsed.data.secretFile);
 
     if (payloadBytes > maxCloudPayloadBytes) {
-      throw new HttpsError('invalid-argument', '秘密檔案內容超過雲端大小限制。');
+      throw new HttpsError('invalid-argument', '秘密檔案內容超過雲端大小限制');
     }
 
     const clientIp = getClientIp(request);
