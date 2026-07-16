@@ -14,6 +14,7 @@ export interface FileManagerMessages {
   cloudLinkStorageFailed: string;
   cloudLoadFailed: string;
   cloudLoading: string;
+  cloudReadOnlyNotice: string;
   cloudTab: string;
   cloudUploadedAt: (date: string) => string;
   cloudUnlink: string;
@@ -69,6 +70,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudLinkStorageFailed: '無法把雲端檔案連結保存到這台裝置，請檢查瀏覽器儲存空間後再試。',
     cloudLoadFailed: '目前無法讀取這份雲端檔案。',
     cloudLoading: '正在讀取這份雲端檔案…',
+    cloudReadOnlyNotice: '雲端的檔案不可被修改，若要更改請改用本地編輯功能並再次上傳。',
     cloudTab: '雲端檔案',
     cloudUploadedAt: (date) => `上傳於 ${date}`,
     cloudUnlink: '從這台裝置移除連結',
@@ -116,6 +118,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudLinkStorageFailed: '无法将云端文件链接保存到此设备，请检查浏览器存储空间后重试。',
     cloudLoadFailed: '目前无法读取此云端文件。',
     cloudLoading: '正在读取此云端文件…',
+    cloudReadOnlyNotice: '云端文件无法修改，如需更改，请使用本地编辑功能并重新上传。',
     cloudTab: '云端文件',
     cloudUploadedAt: (date) => `上传于 ${date}`,
     cloudUnlink: '从此设备移除链接',
@@ -163,6 +166,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudLinkStorageFailed: 'クラウドファイルのリンクをこの端末に保存できません。ブラウザの保存領域を確認して、もう一度お試しください。',
     cloudLoadFailed: 'このクラウドファイルは現在読み込めません。',
     cloudLoading: 'このクラウドファイルを読み込んでいます…',
+    cloudReadOnlyNotice: 'クラウド上のファイルは変更できません。変更する場合はローカル編集機能を使い、もう一度アップロードしてください。',
     cloudTab: 'クラウド',
     cloudUploadedAt: (date) => `アップロード ${date}`,
     cloudUnlink: 'この端末からリンクを削除',
@@ -210,6 +214,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudLinkStorageFailed: 'The cloud file link could not be saved on this device. Check browser storage and try again.',
     cloudLoadFailed: 'This cloud file cannot be loaded right now.',
     cloudLoading: 'Loading this cloud file…',
+    cloudReadOnlyNotice: 'Cloud files cannot be changed. To make changes, edit the local file and upload it again.',
     cloudTab: 'Cloud files',
     cloudUploadedAt: (date) => `Uploaded ${date}`,
     cloudUnlink: 'Remove link from this device',

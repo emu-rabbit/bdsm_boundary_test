@@ -415,6 +415,10 @@ onMounted(() => {
         role="tabpanel"
         aria-labelledby="cloud-files-tab"
       >
+        <p class="cloud-files-note">
+          {{ messages.cloudReadOnlyNotice }}
+        </p>
+
         <p
           v-if="cloudListFeedback"
           class="file-manager-feedback file-manager-feedback--error"
