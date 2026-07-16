@@ -1,7 +1,8 @@
-import { createApp } from 'vue';
+import { createApp, createSSRApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import { createAppRouter } from './app/router';
+import { loadStoredLocale } from './app/i18n';
 import { loadStoredProfileName } from './app/useProfileNameStorage';
 import { installAnalyticsRouterTracking } from './features/analytics/analytics';
 import { useSecretFileStore } from './features/secret-file/application/useSecretFileStore';
@@ -20,11 +21,16 @@ import './styles/analytics-consent.css';
 import './styles/responsive.css';
 
 const initialProfileName = loadStoredProfileName();
+const initialLocale = loadStoredLocale();
 const router = createAppRouter(
   import.meta.env.BASE_URL,
   initialProfileName ? 'home' : 'story',
+  initialLocale,
 );
-const app = createApp(App, { initialProfileName });
+const shouldHydrate = document.querySelector('#app')?.hasAttribute('data-prerendered') ?? false;
+const app = shouldHydrate
+  ? createSSRApp(App, { initialProfileName })
+  : createApp(App, { initialProfileName });
 const pinia = createPinia();
 
 app.use(pinia);

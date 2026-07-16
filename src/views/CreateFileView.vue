@@ -2,6 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
+import { getLocalizedRouteLocation } from '../app/routes';
 import {
   trackCloudShareCreated,
   trackDetailSessionCompleted,
@@ -92,8 +93,8 @@ const resultsReturnContext = ref<{
 } | null>(null);
 const questionTransition = ref<'question-slide-next' | 'question-slide-back'>('question-slide-next');
 const messages = computed(() => getQuestionnaireMessages(locale.value));
-const termsHref = computed(() => router.resolve({ name: 'terms' }).href);
-const privacyHref = computed(() => router.resolve({ name: 'privacy' }).href);
+const termsHref = computed(() => router.resolve(getLocalizedRouteLocation('terms', locale.value)).href);
+const privacyHref = computed(() => router.resolve(getLocalizedRouteLocation('privacy', locale.value)).href);
 const appliedProfileName = computed(
   () => profileName.value.trim() || appMessages.value.title.defaultProfileName,
 );
@@ -226,10 +227,9 @@ const canGoBack = computed(() =>
 const storageWarning = computed(() => store.storageStatus.mode === 'memory');
 const previewHref = computed(() =>
   secretFile.value
-    ? router.resolve({
-        name: 'preview',
+    ? router.resolve(getLocalizedRouteLocation('preview', locale.value, {
         query: { file: secretFile.value.fileId, source: 'local' },
-      }).href
+      })).href
     : '#',
 );
 
@@ -261,10 +261,9 @@ async function startQuestionnaire(scope: SecretFileScope): Promise<void> {
     });
     const saved = store.persist(created);
 
-    await router.replace({
-      name: 'create',
+    await router.replace(getLocalizedRouteLocation('create', locale.value, {
       query: { file: saved.fileId },
-    });
+    }));
     trackSecretFileCreated(saved.scope);
   } catch (error) {
     creationError.value =
@@ -425,7 +424,9 @@ async function returnToResults(): Promise<void> {
     route.query.view === 'results';
 
   if (!isAlreadyOnResultsRoute) {
-    await router.replace({ name: 'create', query: { file: file.fileId, view: 'results' } });
+    await router.replace(getLocalizedRouteLocation('create', locale.value, {
+      query: { file: file.fileId, view: 'results' },
+    }));
   }
 
   await nextTick();
@@ -442,7 +443,7 @@ async function returnToResults(): Promise<void> {
 }
 
 async function goHome(): Promise<void> {
-  await router.push({ name: 'home' });
+  await router.push(getLocalizedRouteLocation('home', locale.value));
   store.close();
 }
 
@@ -533,10 +534,9 @@ async function showExistingCloudUpload(fileToUpload: SecretFile): Promise<boolea
 
     if (!linkedShare) return false;
 
-    const href = router.resolve({
-      name: 'preview',
+    const href = router.resolve(getLocalizedRouteLocation('preview', locale.value, {
       query: { file: linkedShare.shareId, source: 'cloud' },
-    }).href;
+    })).href;
     lastSuccessfulCloudUpload.value = { contentKey, href };
   }
 
@@ -571,10 +571,9 @@ async function confirmCloudUpload(): Promise<void> {
     const createdShare = await createCloudSecretFile(fileToUpload);
     cloudUploadGuard.recordSuccessfulUpload(createdShare.createdAt);
     trackCloudShareCreated(fileToUpload.scope);
-    const href = router.resolve({
-      name: 'preview',
+    const href = router.resolve(getLocalizedRouteLocation('preview', locale.value, {
       query: { file: createdShare.shareId, source: 'cloud' },
-    }).href;
+    })).href;
     const absoluteHref = new URL(href, window.location.href).href;
 
     cloudUploadHref.value = href;
@@ -659,7 +658,7 @@ onMounted(() => {
   const opened = store.open(fileId);
 
   if (!opened) {
-    void router.replace({ name: 'create' });
+    void router.replace(getLocalizedRouteLocation('create', locale.value));
     return;
   }
 

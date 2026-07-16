@@ -17,7 +17,7 @@
 - **純網頁專案**：本專案是純 web app，不預設 native app、Electron、後端 server 或 CMS。
 - **前端技術棧**：使用 Vite、Vue、TypeScript、Tailwind 與 Vue Router 建構。
 - **部署可攜性**：正式站部署到 Firebase project `boundary-notes-prod` 的 Hosting live channel 並使用 `https://boundarynotes.com`，`www.boundarynotes.com` redirect 到 apex domain；staging 使用另一個 Firebase project `boundary-notes-staging` 的 Hosting live channel 與 Firebase 自產 URL。架構不得綁死在特定 host 或專案子路徑；base path、routing fallback 與靜態資源路徑都應可透過設定調整。
-- **路由可擴充**：目前已有前導劇情、主頁、建立檔案、檔案列表、編輯結果、獨立唯讀檢視、設定、關於、使用條款與隱私權政策等 route。前端 routing、view 結構與入口 registry 應持續支援逐步新增頁面，不應把 mode、route、故事步驟與主頁內容混在單一元件中。
+- **路由可擴充**：目前已有四語前導入口、顯式前導劇情、主頁、建立檔案、檔案列表、編輯結果、獨立唯讀檢視、設定、關於、使用條款與隱私權政策等 route。前端 routing、view 結構與入口 registry 應持續支援逐步新增頁面，不應把 mode、route、故事步驟與主頁內容混在單一元件中。
 - **自刻 UI**：UI 應以本專案自己的 component、layout、style token 與互動語言實作，不使用現成 Vue UI/UX library，避免模板感與產品語氣偏移。
 - **輕量優先**：網頁應保持足夠輕量；新增 dependency、圖片格式、動畫、字體或大型資源前，必須評估 bundle size、載入時機與使用者感知流暢度。
 - **資源預熱**：圖片與較大型資源應有明確預熱策略，讓核心流程中的下一步素材能提前準備，但不得一次預載所有資源造成初始載入變慢。
@@ -28,10 +28,13 @@
 - **分階段啟用部署**：production live channel 已完成第一次實際部署驗證；staging 與 preview 尚未建立完成時，repository variables `ENABLE_FIREBASE_STAGING` 與 `ENABLE_FIREBASE_PREVIEW` 維持未設定或非 `true`，對應 jobs 必須安全略過且不得要求尚未建立的 environments。只有在 staging project、獨立 deployers、WIF 與 GitHub environments 全部完成後，才可分別設為 `true`。
 - **短效部署身分**：GitHub Actions 透過 Workload Identity Federation 取得短效 Google Cloud credentials，不保存 service-account JSON key。GitHub 的 `production` environment 使用 production project deployer，`staging` environment 使用 staging live deployer，`preview` environment 使用 staging project 的 PR preview deployer；三者分開 provider/event 條件與最小權限，避免 PR 身分取得 production 或 staging live 部署路徑。第三方 Actions 固定完整 commit SHA。
 - **production 刻意不設 required reviewer**：GitHub `production` Environment 目前依使用者確認刻意不設 required reviewer；`main` push 通過 workflow 的 test／build 與既有部署條件後可直接部署。Agent 不得自行補上人工 gate，也不得因沒有人工 gate 就擴張未被要求的 push／deploy 權限。若未來 run 出現與本設定不一致的等待 review 狀態，應停止 progression 並請使用者確認 environment protection 是否已改變，不得自行 approve、reject 或 bypass。
-- **依變更範圍拆分部署 target**：production 與 staging workflows 必須先比較該次 push／PR 的 changed files，再獨立決定 Hosting 與 backend jobs。`src/**`、`public/**`、前端入口與 Vite／TypeScript／Tailwind／PostCSS 設定、root `package.json`／`package-lock.json` 只觸發 Hosting 測試、建置與部署；`functions/**`、`firestore.rules`、`firestore.indexes.json` 只觸發 Functions／Firestore 測試、建置與部署。`firebase.json` 同時承載兩邊設定，因此修改它時兩個 target 都必須執行。兩邊各自使用獨立 artifact、validation、deploy job 與 concurrency group，不得因其中一邊變更就順帶部署另一邊。
+- **依變更範圍拆分部署 target**：production 與 staging workflows 必須先比較該次 push／PR 的 changed files，再獨立決定 Hosting 與 backend jobs。`src/**`、`public/**`、`scripts/**`、前端入口與 Vite／TypeScript／Tailwind／PostCSS 設定、root `package.json`／`package-lock.json` 只觸發 Hosting 測試、建置與部署；`functions/**`、`firestore.rules`、`firestore.indexes.json` 只觸發 Functions／Firestore 測試、建置與部署。`firebase.json` 同時承載兩邊設定，因此修改它時兩個 target 都必須執行。兩邊各自使用獨立 artifact、validation、deploy job 與 concurrency group，不得因其中一邊變更就順帶部署另一邊。
 - **純文件與非 runtime 變更不部署**：`.agents/**`、`AGENTS.md`、README／NOTICE 等純 Markdown、`.github/**`、tests、examples 與其他未列入部署 allowlist 的檔案，可以執行輕量 changed-file classification，但不得取得部署 credentials、建立 Hosting artifact、部署 Hosting 或部署 Functions／Firestore。若未來新增會進入 production runtime 的 source/config root，必須同步加入對應 workflow allowlist 與本段規範。
-- **Firebase Hosting SPA fallback**：`firebase.json` 將不存在的實體檔案 rewrite 到 `/index.html`，讓 history route 可直接開啟與重新整理；未知 app route 由 Vue Router catch-all 顯示 404 view。這是靜態 SPA 的 soft 404（HTTP 200）；若未來 SEO 或外部整合要求真實 HTTP 404，再評估 prerender 或 server-side handler，不為此先導入 Functions。
-- **Vue Router history route 基準**：`src/app/router.ts` 使用 `createWebHistory(import.meta.env.BASE_URL)`；正式、staging 與本機預設 base 都是 `/`，並由 `VITE_BASE_PATH` 保留未來 host 調整能力。route 不再使用 `#/home` 之類 hash URL。
+- **Firebase Hosting static-first fallback**：`npm run build` 先為可索引公開 route 產生實體 clean-URL HTML，並為各語系功能 route 產生本地化 `noindex` shell；`firebase.json` 再將其餘不存在的實體檔案 rewrite 到 `/index.html`，讓 history route 可直接開啟與重新整理。根目錄由 client 在畫面顯示前依保存語系與既有 profile 狀態導向語系入口或 Home；`404.html` 為 crawler 提供 noindex fallback，未知 app route 仍由 Vue Router catch-all 顯示 404 view。
+- **Vue Router history 與語系 URL 基準**：`src/app/router.ts` 使用 `createWebHistory(import.meta.env.BASE_URL)`；正式、staging 與本機預設 base 都是 `/`，並由 `VITE_BASE_PATH` 保留未來 host 調整能力。正式 route 以 `/en`、`/zh-hant`、`/zh-hans`、`/ja` 作為語系前綴，前導劇情固定為 `/{locale}/intro`。URL 語系優先於 localStorage；舊無語系 path 會保留 query/hash 並導向已保存語系，無法辨識時使用英文。
+- **搜尋入口與回訪入口**：`/{locale}` 的可索引原始 HTML 直接渲染既有前導第一幕，不得新增或插入 SEO 專用 landing。首次使用者從 root、語系入口或 Google 結果進站時都開始相同前導；已存在 profile name 的使用者只在初始進入 root 或語系入口時於畫面顯示前前往同語系 Home。顯式開啟 `/{locale}/intro` 不套用回訪攔截，確保 About 的重播前導與既有使用者預期流程可用。
+- **build-time SEO prerender**：`npm run build` 在 Vite client build 後建立短暫 SSR bundle，再由 `scripts/prerender-seo.mjs` 輸出四語既有前導入口、About、Terms、Privacy 的完整原始 HTML、canonical、hreflang、Open Graph、Twitter card 與 JSON-LD。production workflow 只有正式 `main` push 設定 `VITE_PUBLIC_INDEXING=true`；staging、PR preview 與未明確設定的 build 全站 `noindex`。
+- **索引與分享隱私邊界**：只有四語前導入口 `/{locale}`、About、Terms、Privacy 可索引；顯式 Intro、Home、Create、Files、Preview、Settings、規劃中頁面與 404 一律 `noindex`。雲端秘密檔案分享連結保留 `/{locale}/preview?...` 語系前綴；收件者已有 localStorage 語系時，介面沿用既有設定且不得因開啟不同語系連結而靜默覆寫，沒有紀錄時才採用連結語系並保存。只有使用者親自使用唯讀頁的語言選擇時，才同步更新介面、URL 與 localStorage。秘密檔案 URL 的 Open Graph/Twitter metadata 只能使用通用 Boundary Notes 文案與對應語系 1200×630 品牌卡，不得包含暱稱、作答、檔案 ID 或 query；crawler 無法讀取 localStorage，因此依 URL 語系提供卡片，無法辨識時使用英文。
 - **Hosting 防護與快取**：`firebase.json` 對 Vite hashed assets 設定 immutable cache、對 `index.html` 禁止快取，並集中設定 CSP、frame、MIME sniffing、referrer 與敏感裝置權限標頭。未來接入 Firestore、Analytics 或其他外部連線時，必須同步以最小範圍更新 CSP `connect-src`，不得直接放寬成任意來源。
 - **集中 route registry**：`src/app/routes.ts` 是 route id、path、狀態與 lazy route component 的單一 registry。新增頁面入口時應先更新這份 registry，讓主頁入口、route 解析、placeholder 或正式 view 共用同一份定義；不得重新在 `App.vue` 建立 route `v-if` switch。
 - **route view lazy loading**：正式 route view 由 Vue Router 透過 dynamic import 載入。`App.vue` 只保留 app-shell 層級的稱呼、多語系、標題與 navigation context，再由 `<RouterView>` 渲染頁面；不得把所有 view 改回 eager import。
@@ -45,10 +48,10 @@
 
 - **自製輕量 i18n**：`src/app/i18n.ts` 只保留相容 barrel；runtime、types 與四語 dictionary 分別位於 `src/app/i18n/index.ts`、`types.ts` 與 `locales/*`，不導入大型 i18n dependency。新增一般使用者可見文案時，放入 typed locale dictionary，再由元件透過 `messages` 或衍生資料使用。
 - **題庫語系資料分離**：題庫翻譯不得併入 app-shell locale dictionary。正式題庫與 `localizeQuestionBank` 位於 question-bank feature boundary，由建立檔案、編輯結果與唯讀檢視頁依目前語系取得本地化題庫；後續若資料量需要拆成 locale chunk，也必須維持相同邊界。
-- **支援語系**：目前支援繁體中文、簡體中文、日文與英文；語系代碼為 `zh-Hant`、`zh-Hans`、`ja`、`en`。
+- **支援語系**：目前支援繁體中文、簡體中文、日文與英文；app 語系代碼為 `zh-Hant`、`zh-Hans`、`ja`、`en`，URL segment 分別為 `zh-hant`、`zh-hans`、`ja`、`en`。來源語系無法辨識時，公開標題、描述、圖片與入口一律使用英文。
 - **語系持久化**：使用者選擇語系後寫入 localStorage key `bdsm-boundary-test-locale`；若 localStorage 不可用，當前 session 仍應正常切換。
 - **唯讀檢視頁語系入口**：唯讀總覽必須直接提供繁中、簡中、日文與英文切換，並呼叫 app-shell 的 `setLocale`，不得另外建立只在該頁生效或不寫入 localStorage 的語系狀態。分類詳情不重複提供語系入口；使用者返回總覽後切換即可。
-- **路由與標題語系化**：route registry 只保存穩定 id、hash path 與狀態；label、summary 與「秘密檔案」標題片段由 locale dictionary 產生，不應在元件內硬編多語系文案。
+- **路由與標題語系化**：route registry 只保存穩定 id、locale-relative path 與狀態；label、summary 與「秘密檔案」標題片段由 locale dictionary 產生。SEO 文案由集中、完整型別化的四語 source 管理，不應散落在元件內。
 
 ## Firebase 與資料邊界
 

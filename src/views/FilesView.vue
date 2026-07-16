@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
+import { getLocalizedRouteLocation } from '../app/routes';
 import {
   trackCloudShareUnlinked,
   trackSecretFileDeleted,
@@ -58,17 +59,15 @@ function formatDateTime(value: string): string {
 }
 
 function previewHref(fileId: string): string {
-  return router.resolve({
-    name: 'preview',
+  return router.resolve(getLocalizedRouteLocation('preview', locale.value, {
     query: { file: fileId, source: 'local' },
-  }).href;
+  })).href;
 }
 
 function cloudPreviewHref(shareId: string): string {
-  return router.resolve({
-    name: 'preview',
+  return router.resolve(getLocalizedRouteLocation('preview', locale.value, {
     query: { file: shareId, source: 'cloud' },
-  }).href;
+  })).href;
 }
 
 function selectViewer(source: FileViewerSource): void {
@@ -78,7 +77,9 @@ function selectViewer(source: FileViewerSource): void {
 }
 
 function editFile(file: SecretFileSummary): void {
-  void router.push({ name: 'create', query: { file: file.fileId, view: 'results' } });
+  void router.push(getLocalizedRouteLocation('create', locale.value, {
+    query: { file: file.fileId, view: 'results' },
+  }));
 }
 
 function openImportDialog(): void {

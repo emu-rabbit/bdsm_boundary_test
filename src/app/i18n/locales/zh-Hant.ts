@@ -19,7 +19,7 @@ export const zhHantMessages: LocaleMessages = {
     title: `可以讓${secretKeeperName}記下匿名使用情況嗎？`,
   },
   about: {
-    body: '這裡把你的喜好、慾望還有重要的界線，溫柔地整理起來。',
+    body: '這裡是一個溫柔、私密的教育工具，陪你整理 BDSM 界線、喜好、慾望與重要前提。',
     contentWarning: '本網頁內容可能提及性、身體、權力交換與高風險互動項目。你可以依自己的狀態決定要不要使用，也可以隨時停下來。',
     doesItems: ['陪你整理經驗、興趣與界線', '幫助你看見自己的變化', '提供一個較容易開始的對話入口'],
     doesNotItems: ['不替任何人作出同意', '不為你配對或推薦項目', '不把你分類成固定的角色'],
@@ -28,7 +28,7 @@ export const zhHantMessages: LocaleMessages = {
     emailSupport: `寄信給${secretKeeperName}`,
     githubSupport: '前往 GitHub 回報問題',
     legalTitle: '本網站的條款與一路上的痕跡',
-    missionBody: `${secretKeeperName}會陪你整理經驗、興趣與界線，在理解自己的路上可以不那麼孤單。只要你想要，這也是一張可以傳給某人、讓他認識你的一張邀請函。也請注意祕密檔案只是溝通起點，不能代替每一次當下的確認與同意。`,
+    missionBody: `${secretKeeperName}會陪你整理經驗、興趣與界線，在理解自己的路上可以不那麼孤單。只要你想要，這也是一張可以傳給某人、讓他認識你的一張邀請函。也請注意祕密檔案只能協助界線溝通，不能代替每一次當下、知情且自願的同意。`,
     missionTitle: '讓界線和喜好更清楚的展現',
     principles: [
       { title: '由你決定', body: '沒有正確答案，也不會替你貼上標籤。' },

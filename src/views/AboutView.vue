@@ -2,13 +2,14 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
+import { getLocalizedRouteLocation } from '../app/routes';
 import { aboutRabbitUrl } from '../features/story/rabbitAssets';
 
-const { appTitle, messages, navigate } = useAppShell();
+const { appTitle, locale, messages, navigate } = useAppShell();
 const router = useRouter();
 
-const termsHref = computed(() => router.resolve({ name: 'terms' }).href);
-const privacyHref = computed(() => router.resolve({ name: 'privacy' }).href);
+const termsHref = computed(() => router.resolve(getLocalizedRouteLocation('terms', locale.value)).href);
+const privacyHref = computed(() => router.resolve(getLocalizedRouteLocation('privacy', locale.value)).href);
 </script>
 
 <template>
@@ -21,7 +22,7 @@ const privacyHref = computed(() => router.resolve({ name: 'privacy' }).href);
 
       <header class="about-hero">
         <div class="about-hero__copy">
-          <p class="home-kicker">{{ appTitle }}</p>
+          <p class="home-kicker" data-allow-mismatch="text">{{ appTitle }}</p>
           <h1>{{ messages.about.title }}</h1>
           <p class="about-intro">{{ messages.about.body }}</p>
 

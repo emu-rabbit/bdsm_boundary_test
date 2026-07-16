@@ -2,14 +2,15 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
+import { getLocalizedRouteLocation } from '../app/routes';
 import type { LegalDocumentMessage } from '../app/i18n/types';
 
 defineProps<{ document: LegalDocumentMessage }>();
 
 const { locale, localeOptions, messages, setLocale } = useAppShell();
 const router = useRouter();
-const termsHref = computed(() => router.resolve({ name: 'terms' }).href);
-const privacyHref = computed(() => router.resolve({ name: 'privacy' }).href);
+const termsHref = computed(() => router.resolve(getLocalizedRouteLocation('terms', locale.value)).href);
+const privacyHref = computed(() => router.resolve(getLocalizedRouteLocation('privacy', locale.value)).href);
 </script>
 
 <template>

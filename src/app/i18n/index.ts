@@ -15,7 +15,7 @@ export type {
 } from './types';
 
 export const localeStorageKey = 'bdsm-boundary-test-locale';
-export const defaultLocale: AppLocale = 'zh-Hant';
+export const defaultLocale: AppLocale = 'en';
 
 export const localeOptions: LocaleOption[] = [
   { id: 'zh-Hant', label: '繁體中文' },
@@ -46,12 +46,25 @@ function storageAvailable(): Storage | null {
 }
 
 export function loadStoredLocale(): AppLocale {
+  return loadStoredLocaleOrNull() ?? defaultLocale;
+}
+
+export function loadStoredLocaleOrNull(): AppLocale | null {
   try {
     const storedLocale = storageAvailable()?.getItem(localeStorageKey) ?? null;
-    return isAppLocale(storedLocale) ? storedLocale : defaultLocale;
+    return isAppLocale(storedLocale) ? storedLocale : null;
   } catch {
-    return defaultLocale;
+    return null;
   }
+}
+
+export function resolveInitialLocale(
+  routeLocale: AppLocale | null,
+  storedLocale: AppLocale | null,
+  preferStoredLocale: boolean,
+): AppLocale {
+  if (preferStoredLocale && storedLocale) return storedLocale;
+  return routeLocale ?? storedLocale ?? defaultLocale;
 }
 
 export function saveStoredLocale(locale: AppLocale): void {
@@ -62,8 +75,8 @@ export function saveStoredLocale(locale: AppLocale): void {
   }
 }
 
-export function useI18n() {
-  const locale = ref<AppLocale>(loadStoredLocale());
+export function useI18n(initialLocale: AppLocale = loadStoredLocale()) {
+  const locale = ref<AppLocale>(initialLocale);
   const messages = computed(() => messagesByLocale[locale.value]);
 
   function setLocale(nextLocale: AppLocale): void {

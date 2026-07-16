@@ -1,28 +1,39 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type RouterHistory } from 'vue-router';
+import type { AppLocale } from './i18n';
+import { fromLocalePathSegment, toLocalePathSegment } from './localeRouting';
 import {
   createRouteRecords,
-  defaultRouteId,
   type AppRouteId,
 } from './routes';
 
-export function createAppRouter(basePath: string, landingRouteId: AppRouteId) {
+export function createAppRouter(
+  basePath: string,
+  entryRouteId: AppRouteId,
+  preferredLocale: AppLocale,
+  history: RouterHistory = createWebHistory(basePath),
+) {
   const router = createRouter({
-    history: createWebHistory(basePath),
-    routes: createRouteRecords(),
+    history,
+    routes: createRouteRecords(preferredLocale),
     scrollBehavior: () => ({ left: 0, top: 0 }),
   });
   let isInitialNavigation = true;
 
   router.beforeEach((to) => {
-    const shouldUseLandingRoute =
+    const routeLocale = fromLocalePathSegment(to.params.locale) ?? preferredLocale;
+    const shouldRedirectReturningEntry =
       isInitialNavigation &&
-      to.name === defaultRouteId &&
-      landingRouteId !== defaultRouteId;
+      to.name === 'entry' &&
+      entryRouteId === 'home';
 
     isInitialNavigation = false;
 
-    if (shouldUseLandingRoute) {
-      return { name: landingRouteId, replace: true };
+    if (shouldRedirectReturningEntry) {
+      return {
+        name: entryRouteId,
+        params: { locale: toLocalePathSegment(routeLocale) },
+        replace: true,
+      };
     }
 
     return true;

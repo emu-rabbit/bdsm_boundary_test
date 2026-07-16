@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAppShell } from '../app/useAppShell';
+import { getLocalizedRouteLocation } from '../app/routes';
 import { getProfileEntryRoute, loadStoredProfileName } from '../app/useProfileNameStorage';
 import { formatDocumentTitle } from '../app/useSecretFileTitle';
 import { trackSecretFileViewed } from '../features/analytics/analytics';
@@ -52,10 +53,9 @@ function getRequest(): { fileId: string; source: PreviewSource } | null {
 }
 
 function getCloudPreviewUrl(shareId: string): string {
-  const href = router.resolve({
-    name: 'preview',
+  const href = router.resolve(getLocalizedRouteLocation('preview', locale.value, {
     query: { file: shareId, source: 'cloud' },
-  }).href;
+  })).href;
   return new URL(href, window.location.href).href;
 }
 
@@ -119,7 +119,10 @@ async function loadPreview(): Promise<void> {
 }
 
 function createMyFile(): void {
-  void router.push({ name: getProfileEntryRoute(loadStoredProfileName()) });
+  void router.push(getLocalizedRouteLocation(
+    getProfileEntryRoute(loadStoredProfileName()),
+    locale.value,
+  ));
 }
 
 watch(() => route.fullPath, () => void loadPreview());

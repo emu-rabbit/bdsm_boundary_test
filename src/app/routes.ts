@@ -1,6 +1,7 @@
 import type { Component } from 'vue';
-import type { RouteRecordRaw } from 'vue-router';
-import type { LocaleMessages } from './i18n';
+import type { LocationQueryRaw, RouteParamsRawGeneric, RouteRecordRaw } from 'vue-router';
+import type { AppLocale, LocaleMessages } from './i18n';
+import { localeParamPattern, toLocalePathSegment } from './localeRouting';
 
 export const appRouteIds = [
   'story',
@@ -35,7 +36,7 @@ export const fallbackRouteId: AppRouteId = 'home';
 export const appRoutes = [
   {
     id: 'story',
-    path: '/',
+    path: '/intro',
     state: 'ready',
     component: () => import('../views/StoryView.vue'),
   },
@@ -110,16 +111,81 @@ export function localizeRoutes(messages: LocaleMessages): LocalizedAppRouteDefin
   }));
 }
 
-export function createRouteRecords(): RouteRecordRaw[] {
-  return [
-    ...appRoutes.map((route) => ({
-      path: route.path,
+export function getLocalizedRouteLocation(
+  name: AppRouteId,
+  locale: AppLocale,
+  options: {
+    hash?: string;
+    params?: RouteParamsRawGeneric;
+    query?: LocationQueryRaw;
+  } = {},
+) {
+  return {
+    ...options,
+    name,
+    params: {
+      ...options.params,
+      locale: toLocalePathSegment(locale),
+    },
+  };
+}
+
+export function getLocalizedRoutePath(routeId: AppRouteId, locale: AppLocale): string {
+  const route = appRoutes.find(({ id }) => id === routeId);
+
+  if (!route) {
+    return `/${toLocalePathSegment(locale)}`;
+  }
+
+  return `/${toLocalePathSegment(locale)}${route.path}`;
+}
+
+export function createRouteRecords(preferredLocale: AppLocale): RouteRecordRaw[] {
+  const preferredLocaleSegment = toLocalePathSegment(preferredLocale);
+  const localizedRoutes = appRoutes.map((route) => ({
+    path: `/:locale(${localeParamPattern})${route.path}`,
+    name: route.id,
+    component: route.component,
+    meta: {
+      state: route.state,
+    },
+  }));
+  const legacyRoutes = appRoutes.map((route) => ({
+    path: route.path || '/',
+    redirect: (to: { hash: string; query: LocationQueryRaw }) => ({
       name: route.id,
-      component: route.component,
-      meta: {
-        state: route.state,
-      },
-    })),
+      params: { locale: preferredLocaleSegment },
+      query: to.query,
+      hash: to.hash,
+      replace: true,
+    }),
+  }));
+
+  return [
+    {
+      path: `/:locale(${localeParamPattern})`,
+      name: 'entry',
+      component: () => import('../views/StoryView.vue'),
+      meta: { state: 'ready' },
+    },
+    ...localizedRoutes,
+    ...legacyRoutes,
+    {
+      path: '/',
+      name: 'rootEntry',
+      redirect: (to) => ({
+        name: 'entry',
+        params: { locale: preferredLocaleSegment },
+        query: to.query,
+        hash: to.hash,
+        replace: true,
+      }),
+    },
+    {
+      path: `/:locale(${localeParamPattern})/:pathMatch(.*)*`,
+      name: 'localizedNotFound',
+      component: () => import('../views/NotFoundView.vue'),
+    },
     {
       path: '/:pathMatch(.*)*',
       name: 'notFound',
