@@ -17,7 +17,7 @@
 - **純網頁專案**：本專案是純 web app，不預設 native app、Electron、後端 server 或 CMS。
 - **前端技術棧**：使用 Vite、Vue、TypeScript、Tailwind 與 Vue Router 建構。
 - **部署可攜性**：正式站部署到 Firebase project `boundary-notes-prod` 的 Hosting live channel 並使用 `https://boundarynotes.com`，`www.boundarynotes.com` redirect 到 apex domain；staging 使用另一個 Firebase project `boundary-notes-staging` 的 Hosting live channel 與 Firebase 自產 URL。架構不得綁死在特定 host 或專案子路徑；base path、routing fallback 與靜態資源路徑都應可透過設定調整。
-- **路由可擴充**：目前已有四語前導入口、顯式前導劇情、主頁、建立檔案、檔案列表、編輯結果、獨立唯讀檢視、設定、關於、使用條款與隱私權政策等 route。前端 routing、view 結構與入口 registry 應持續支援逐步新增頁面，不應把 mode、route、故事步驟與主頁內容混在單一元件中。
+- **路由可擴充**：目前已有四語前導入口、顯式前導劇情、主頁、建立檔案、檔案列表、編輯結果、獨立唯讀檢視、設定、關於、版本歷史、使用條款與隱私權政策等 route。前端 routing、view 結構與入口 registry 應持續支援逐步新增頁面，不應把 mode、route、故事步驟與主頁內容混在單一元件中。
 - **自刻 UI**：UI 應以本專案自己的 component、layout、style token 與互動語言實作，不使用現成 Vue UI/UX library，避免模板感與產品語氣偏移。
 - **輕量優先**：網頁應保持足夠輕量；新增 dependency、圖片格式、動畫、字體或大型資源前，必須評估 bundle size、載入時機與使用者感知流暢度。
 - **資源預熱**：圖片與較大型資源應有明確預熱策略，讓核心流程中的下一步素材能提前準備，但不得一次預載所有資源造成初始載入變慢。

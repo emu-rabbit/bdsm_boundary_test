@@ -56,6 +56,15 @@ export const enMessages: LocaleMessages = {
     kicker: '404 | Page Not Found',
     title: `The ${secretKeeperName} Looked Everywhere`,
   },
+  versionHistory: {
+    backToAbout: 'Back to About This Bunny',
+    entries: [{
+      version: '1.0.0',
+      items: ['Official release', 'Create notes', 'Manage existing files', 'Upload and share'],
+    }],
+    eyebrow: 'Boundary Notes',
+    title: 'Version History',
+  },
   routes: {
     story: {
       label: 'Intro',
@@ -84,6 +93,10 @@ export const enMessages: LocaleMessages = {
     about: {
       label: 'About This Bunny',
       summary: 'See how this project helps gather boundaries and conversation starters.',
+    },
+    versionHistory: {
+      label: 'Version History',
+      summary: 'See what changed in each Boundary Notes release.',
     },
     settings: {
       label: 'Settings',

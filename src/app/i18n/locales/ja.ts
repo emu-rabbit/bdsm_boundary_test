@@ -56,6 +56,15 @@ export const jaMessages: LocaleMessages = {
     kicker: '404｜ページが見つかりません',
     title: `${secretKeeperName}も探してみました`,
   },
+  versionHistory: {
+    backToAbout: 'このうさぎについてへ戻る',
+    entries: [{
+      version: '1.0.0',
+      items: ['正式版をリリース', 'ノート作成機能', '過去のファイル管理機能', 'アップロード・共有機能'],
+    }],
+    eyebrow: 'Boundary Notes',
+    title: '更新履歴',
+  },
   routes: {
     story: {
       label: '導入',
@@ -84,6 +93,10 @@ export const jaMessages: LocaleMessages = {
     about: {
       label: 'このうさぎについて',
       summary: '境界線と対話の出発点をどう整えるかを知る。',
+    },
+    versionHistory: {
+      label: '更新履歴',
+      summary: 'Boundary Notes の各バージョンの更新内容を確認します。',
     },
     settings: {
       label: '設定',

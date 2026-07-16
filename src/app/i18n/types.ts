@@ -139,6 +139,15 @@ export type LocaleMessages = {
     kicker: string;
     title: string;
   };
+  versionHistory: {
+    backToAbout: string;
+    entries: Array<{
+      items: string[];
+      version: string;
+    }>;
+    eyebrow: string;
+    title: string;
+  };
   routes: Record<AppRouteId, RouteMessage>;
   settings: {
     body: string;

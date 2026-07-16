@@ -56,6 +56,15 @@ export const zhHansMessages: LocaleMessages = {
     kicker: '404｜找不到页面',
     title: `${secretKeeperName}在这里找了一圈`,
   },
+  versionHistory: {
+    backToAbout: '回到关于这只兔子',
+    entries: [{
+      version: '1.0.0',
+      items: ['正式版本发布', '创建笔记功能', '管理旧档案功能', '上传分享功能'],
+    }],
+    eyebrow: 'Boundary Notes',
+    title: '版本历史',
+  },
   routes: {
     story: {
       label: '前导剧情',
@@ -84,6 +93,10 @@ export const zhHansMessages: LocaleMessages = {
     about: {
       label: '关于这只兔子',
       summary: '了解这个项目如何陪你整理界线与沟通起点。',
+    },
+    versionHistory: {
+      label: '版本历史',
+      summary: '查看 Boundary Notes 的版本更新内容。',
     },
     settings: {
       label: '设置',

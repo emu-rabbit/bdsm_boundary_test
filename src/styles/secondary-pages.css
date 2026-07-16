@@ -609,8 +609,7 @@
   margin-top: 0.1rem;
 }
 
-.about-link-stack > a,
-.about-link-disabled {
+.about-link-stack > a {
   display: inline-flex;
   min-height: 2.35rem;
   align-items: center;
@@ -629,9 +628,102 @@
   color: #fff1e9;
 }
 
-.about-link-disabled {
-  border-color: rgba(236, 198, 187, 0.08);
-  color: rgba(246, 232, 223, 0.34);
+/* Version history */
+.version-history-route {
+  align-content: start;
+  padding: 0;
+}
+
+.version-history-stage {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  align-content: start;
+  width: min(760px, calc(100% - 3rem));
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: clamp(4.75rem, 7dvh, 6rem) 0 clamp(3rem, 8dvh, 5rem);
+  gap: clamp(1.75rem, 4dvh, 2.75rem);
+}
+
+.version-history-heading {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.version-history-heading p,
+.version-history-heading h1,
+.version-history-entry h2 {
+  margin: 0;
+}
+
+.version-history-eyebrow {
+  color: rgba(255, 224, 214, 0.82);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.version-history-heading h1 {
+  color: #fff7f2;
+  font-size: clamp(2.6rem, 7vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.version-history-entry {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 3.5rem);
+  border-top: 1px solid rgba(236, 198, 187, 0.1);
+  padding-top: clamp(1.4rem, 3dvh, 2rem);
+}
+
+.version-history-entry h2 {
+  color: rgba(243, 217, 206, 0.38);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.version-history-entry ul {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.version-history-entry li {
+  position: relative;
+  color: rgba(235, 218, 211, 0.48);
+  line-height: 1.65;
+  padding-left: 1.2rem;
+}
+
+.version-history-entry li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: rgba(236, 198, 187, 0.34);
+  content: '—';
+}
+
+.version-history-entry--current {
+  border-top-color: rgba(242, 183, 166, 0.44);
+}
+
+.version-history-entry--current h2 {
+  color: #ffc2b0;
+}
+
+.version-history-entry--current li {
+  color: #f8e7df;
+}
+
+.version-history-entry--current li::before {
+  color: #e6a190;
 }
 
 .about-support-actions {

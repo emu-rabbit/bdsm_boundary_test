@@ -11,6 +11,7 @@ export const appRouteIds = [
   'files',
   'timeMachine',
   'about',
+  'versionHistory',
   'settings',
   'terms',
   'privacy',
@@ -75,6 +76,12 @@ export const appRoutes = [
     path: '/about',
     state: 'ready',
     component: () => import('../views/AboutView.vue'),
+  },
+  {
+    id: 'versionHistory',
+    path: '/version-history',
+    state: 'ready',
+    component: () => import('../views/VersionHistoryView.vue'),
   },
   {
     id: 'settings',

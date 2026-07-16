@@ -793,6 +793,18 @@
   }
 }
 
+@media (max-width: 600px) {
+  .version-history-stage {
+    width: min(100% - 2rem, 760px);
+    padding-top: 4.5rem;
+  }
+
+  .version-history-entry {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

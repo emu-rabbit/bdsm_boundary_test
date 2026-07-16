@@ -10,6 +10,7 @@ const router = useRouter();
 
 const termsHref = computed(() => router.resolve(getLocalizedRouteLocation('terms', locale.value)).href);
 const privacyHref = computed(() => router.resolve(getLocalizedRouteLocation('privacy', locale.value)).href);
+const versionHistoryHref = computed(() => router.resolve(getLocalizedRouteLocation('versionHistory', locale.value)).href);
 </script>
 
 <template>
@@ -65,9 +66,9 @@ const privacyHref = computed(() => router.resolve(getLocalizedRouteLocation('pri
             <a :href="privacyHref" target="_blank" rel="noopener noreferrer">
               <span>{{ messages.about.privacyPolicy }}</span><span aria-hidden="true">↗</span>
             </a>
-            <span class="about-link-disabled" aria-disabled="true">
-              <span>{{ messages.about.versionHistory }}</span><span aria-hidden="true">—</span>
-            </span>
+            <a :href="versionHistoryHref">
+              <span>{{ messages.about.versionHistory }}</span><span aria-hidden="true">→</span>
+            </a>
           </div>
         </section>
 
