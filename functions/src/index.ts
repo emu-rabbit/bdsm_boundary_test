@@ -6,11 +6,10 @@ import { HttpsError, onCall, type CallableRequest } from 'firebase-functions/v2/
 import {
   createShareRequestSchema,
   getGlobalRateLimitDecision,
-  getGoogleLoadBalancerClientIp,
   getPayloadBytes,
   getRateLimitDecision,
   maxCloudPayloadBytes,
-  normalizeClientIp,
+  resolveCloudFunctionsClientIp,
   uploadDailyWindowMs,
 } from './contract.js';
 
@@ -37,8 +36,10 @@ function getHeaderValue(value: string | string[] | undefined): string {
 
 function getClientIp(request: CallableRequest<unknown>): string {
   const forwardedFor = getHeaderValue(request.rawRequest.headers['x-forwarded-for']);
-  const normalized = getGoogleLoadBalancerClientIp(forwardedFor)
-    || normalizeClientIp(request.rawRequest.socket.remoteAddress || '');
+  const normalized = resolveCloudFunctionsClientIp(
+    forwardedFor,
+    request.rawRequest.socket.remoteAddress || '',
+  );
 
   if (!normalized || normalized.length > 120) {
     throw new HttpsError('failed-precondition', '無法確認匿名上傳來源。');

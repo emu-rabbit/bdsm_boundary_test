@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest';
 import {
   cloudSecretFileSchema,
   getGlobalRateLimitDecision,
-  getGoogleLoadBalancerClientIp,
+  getCloudFunctionsClientIp,
   getRateLimitDecision,
   normalizeClientIp,
+  resolveCloudFunctionsClientIp,
   uploadDailyWindowMs,
   uploadHourlyWindowMs,
 } from './contract.js';
@@ -99,10 +100,11 @@ describe('client IP normalization', () => {
     expect(normalizeClientIp('::ffff:203.0.113.4')).toBe('203.0.113.4');
   });
 
-  it('uses the client address appended by the Google load balancer', () => {
-    expect(getGoogleLoadBalancerClientIp('203.0.113.4, 10.0.0.1')).toBe('203.0.113.4');
+  it('uses the first client address from the Cloud Functions forwarded chain', () => {
+    expect(getCloudFunctionsClientIp('203.0.113.4')).toBe('203.0.113.4');
+    expect(getCloudFunctionsClientIp('203.0.113.4, 10.0.0.1')).toBe('203.0.113.4');
     expect(
-      getGoogleLoadBalancerClientIp('198.51.100.99, 203.0.113.4, 10.0.0.1'),
+      getCloudFunctionsClientIp('203.0.113.4, 198.51.100.99, 10.0.0.1'),
     ).toBe('203.0.113.4');
   });
 
@@ -117,6 +119,13 @@ describe('client IP normalization', () => {
     expect(normalizeClientIp('[2001:db8::1]:443')).toBe('2001:db8:0:0::/64');
     expect(normalizeClientIp('attacker-controlled-value')).toBe('');
     expect(normalizeClientIp('198.51.100.99, 203.0.113.4')).toBe('');
-    expect(getGoogleLoadBalancerClientIp('203.0.113.4')).toBe('');
+    expect(getCloudFunctionsClientIp('attacker-controlled-value, 203.0.113.4')).toBe('');
+  });
+
+  it('uses the socket address only when the managed forwarded header is absent', () => {
+    expect(resolveCloudFunctionsClientIp('', '::ffff:203.0.113.4')).toBe('203.0.113.4');
+    expect(
+      resolveCloudFunctionsClientIp('attacker-controlled-value', '::ffff:203.0.113.4'),
+    ).toBe('');
   });
 });

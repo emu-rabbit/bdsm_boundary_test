@@ -267,10 +267,17 @@ export function normalizeClientIp(value: string): string {
   return '';
 }
 
-export function getGoogleLoadBalancerClientIp(forwardedFor: string): string {
-  const addresses = forwardedFor.split(',').map((address) => address.trim());
+export function getCloudFunctionsClientIp(forwardedFor: string): string {
+  const clientAddress = forwardedFor.split(',')[0] ?? '';
 
-  if (addresses.length < 2) return '';
+  return normalizeClientIp(clientAddress);
+}
 
-  return normalizeClientIp(addresses[addresses.length - 2] ?? '');
+export function resolveCloudFunctionsClientIp(
+  forwardedFor: string,
+  socketAddress: string,
+): string {
+  return forwardedFor
+    ? getCloudFunctionsClientIp(forwardedFor)
+    : normalizeClientIp(socketAddress);
 }
