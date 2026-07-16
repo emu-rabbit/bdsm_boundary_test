@@ -9,6 +9,7 @@ const cloudFunctionsRegion = 'asia-east1';
 const firebaseAppName = 'boundary-notes-cloud-sharing';
 
 export type CloudSharingErrorCode =
+  | 'appCheck'
   | 'configuration'
   | 'invalid'
   | 'notFound'
@@ -169,7 +170,7 @@ function parseCreatedShare(value: unknown): CreatedCloudShare {
   return { createdAt: value.createdAt, shareId: value.shareId };
 }
 
-function normalizeCloudSharingError(error: unknown): CloudSharingError {
+export function normalizeCloudSharingError(error: unknown): CloudSharingError {
   if (error instanceof CloudSharingError) return error;
 
   const code = isRecord(error) && typeof error.code === 'string' ? error.code : '';
@@ -181,6 +182,10 @@ function normalizeCloudSharingError(error: unknown): CloudSharingError {
   const retryWindow = details && (details.retryWindow === 'day' || details.retryWindow === 'hour')
     ? details.retryWindow
     : null;
+
+  if (code.startsWith('appCheck/') || code === 'firestore/permission-denied') {
+    return new CloudSharingError('appCheck', 'Firebase App Check could not verify this browser.');
+  }
 
   if (code.endsWith('/resource-exhausted')) {
     if (reason === 'global-rate-limit') {

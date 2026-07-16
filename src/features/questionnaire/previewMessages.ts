@@ -13,7 +13,11 @@ export interface PreviewMessages {
   hardNoDialogTitle: string;
   languageLabel: string;
   lastEdited: (date: string) => string;
+  cloudAppCheckUnavailable: string;
   cloudLoadError: string;
+  cloudLinkCopied: string;
+  cloudLinkCopyFailed: string;
+  copyCloudLink: string;
   cloudUnavailable: string;
   localLoadError: string;
   loading: string;
@@ -56,8 +60,12 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: '絕對禁止項目',
     languageLabel: '閱覽語言',
     lastEdited: (date) => `最後編輯於 ${formatDate('zh-Hant', date)}`,
+    cloudAppCheckUnavailable: '網站的安全驗證未能完成，因此目前無法讀取這份雲端檔案。有些網路或瀏覽器可能會阻擋驗證，請換個網路或瀏覽器再開啟連結。',
     cloudLoadError: '找不到這份雲端檔案。若它曾經存在，只會因法律要求由網站管理員移除。',
-    cloudUnavailable: '目前無法連線讀取這份雲端檔案，請稍後再試。',
+    cloudLinkCopied: '目前的分享連結已複製。',
+    cloudLinkCopyFailed: '無法自動複製連結，請從瀏覽器網址列複製。',
+    cloudUnavailable: '目前無法連線讀取這份雲端檔案，請稍後再試；若持續失敗，也可以換個網路或瀏覽器再開啟連結。',
+    copyCloudLink: '複製目前的分享連結',
     localLoadError: '找不到要檢視的本地檔案。它可能已從這台裝置刪除，或不在這個瀏覽器的儲存空間中。',
     loading: '正在安全地讀取檔案…',
     note: '備註',
@@ -89,8 +97,12 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: '绝对禁止项目',
     languageLabel: '查看语言',
     lastEdited: (date) => `最后编辑于 ${formatDate('zh-Hans', date)}`,
+    cloudAppCheckUnavailable: '网站的安全验证未能完成，因此目前无法读取此云端文件。有些网络或浏览器可能会阻止验证，请更换网络或浏览器后重新打开链接。',
     cloudLoadError: '找不到此云端文件。如果它曾经存在，只会因法律要求由网站管理员移除。',
-    cloudUnavailable: '目前无法连接并读取此云端文件，请稍后再试。',
+    cloudLinkCopied: '当前分享链接已复制。',
+    cloudLinkCopyFailed: '无法自动复制链接，请从浏览器地址栏复制。',
+    cloudUnavailable: '目前无法连接并读取此云端文件，请稍后再试；如果持续失败，也可以更换网络或浏览器后重新打开链接。',
+    copyCloudLink: '复制当前分享链接',
     localLoadError: '找不到要查看的本地文件。它可能已从此设备删除，或不在此浏览器的存储空间中。',
     loading: '正在安全地读取文件…',
     note: '备注',
@@ -122,8 +134,12 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: '絶対に不可の項目',
     languageLabel: '表示言語',
     lastEdited: (date) => `最終編集 ${formatDate('ja', date)}`,
+    cloudAppCheckUnavailable: 'サイトの安全確認を完了できなかったため、このクラウドファイルを読み込めません。一部のネットワークやブラウザでは確認が妨げられることがあります。別のネットワークまたはブラウザでリンクを開き直してください。',
     cloudLoadError: 'このクラウドファイルは見つかりません。以前存在していた場合、法的要請によりサイト管理者が削除した場合に限られます。',
-    cloudUnavailable: '現在このクラウドファイルに接続して読み込めません。しばらくしてからお試しください。',
+    cloudLinkCopied: '現在の共有リンクをコピーしました。',
+    cloudLinkCopyFailed: 'リンクを自動でコピーできませんでした。ブラウザのアドレスバーからコピーしてください。',
+    cloudUnavailable: '現在このクラウドファイルに接続して読み込めません。しばらくしてからお試しください。解決しない場合は、別のネットワークまたはブラウザでリンクを開き直してください。',
+    copyCloudLink: '現在の共有リンクをコピー',
     localLoadError: '表示するローカルファイルが見つかりません。この端末から削除されたか、このブラウザの保存領域にない可能性があります。',
     loading: 'ファイルを安全に読み込んでいます…',
     note: 'メモ',
@@ -155,8 +171,12 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     hardNoDialogTitle: 'Absolutely prohibited items',
     languageLabel: 'Viewing language',
     lastEdited: (date) => `Last edited ${formatDate('en', date)}`,
+    cloudAppCheckUnavailable: 'The site could not complete its security check, so this cloud file cannot be loaded. Some networks or browsers may block the check. Please open the link with another network or browser.',
     cloudLoadError: 'This cloud file could not be found. If it previously existed, it can only have been removed by the site administrator for legal reasons.',
-    cloudUnavailable: 'This cloud file cannot be reached right now. Please try again later.',
+    cloudLinkCopied: 'The current share link has been copied.',
+    cloudLinkCopyFailed: 'The link could not be copied automatically. Please copy it from the browser address bar.',
+    cloudUnavailable: 'This cloud file cannot be reached right now. Please try again later. If it keeps failing, open the link with another network or browser.',
+    copyCloudLink: 'Copy current share link',
     localLoadError: 'The local file could not be found. It may have been deleted from this device or may not exist in this browser storage.',
     loading: 'Securely loading the file…',
     note: 'Note',

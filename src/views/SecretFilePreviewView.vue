@@ -33,8 +33,9 @@ const secretFile = ref<SecretFile | null>(null);
 const shareUrl = ref<string | null>(null);
 const shareLinkState = ref<'available' | 'checking' | 'missing'>('checking');
 const loadState = ref<
-  'cloudMissing' | 'cloudUnavailable' | 'loading' | 'localMissing' | 'ready'
+  'cloudAppCheckUnavailable' | 'cloudMissing' | 'cloudUnavailable' | 'loading' | 'localMissing' | 'ready'
 >('loading');
+const copyFeedback = ref('');
 let loadRequestId = 0;
 const messages = computed(() => getPreviewMessages(locale.value));
 const questionnaireMessages = computed(() => getQuestionnaireMessages(locale.value));
@@ -42,6 +43,7 @@ const localizedQuestionBank = computed(() => localizeQuestionBank(questionBank, 
 const previewSource = computed<PreviewSource>(() => route.query.source === 'cloud' ? 'cloud' : 'local');
 const loadMessage = computed(() => {
   if (loadState.value === 'loading') return messages.value.loading;
+  if (loadState.value === 'cloudAppCheckUnavailable') return messages.value.cloudAppCheckUnavailable;
   if (loadState.value === 'cloudMissing') return messages.value.cloudLoadError;
   if (loadState.value === 'cloudUnavailable') return messages.value.cloudUnavailable;
   return messages.value.localLoadError;
@@ -81,6 +83,7 @@ async function loadPreview(): Promise<void> {
   secretFile.value = null;
   shareUrl.value = null;
   shareLinkState.value = 'checking';
+  copyFeedback.value = '';
 
   if (!request) {
     loadState.value = 'localMissing';
@@ -112,9 +115,40 @@ async function loadPreview(): Promise<void> {
     trackSecretFileViewed('cloud', snapshot.secretFile.scope);
   } catch (error) {
     if (requestId !== loadRequestId) return;
-    loadState.value = error instanceof CloudSharingError && error.code === 'notFound'
-      ? 'cloudMissing'
-      : 'cloudUnavailable';
+    if (error instanceof CloudSharingError && error.code === 'notFound') {
+      loadState.value = 'cloudMissing';
+    } else if (error instanceof CloudSharingError && error.code === 'appCheck') {
+      loadState.value = 'cloudAppCheckUnavailable';
+    } else {
+      loadState.value = 'cloudUnavailable';
+    }
+  }
+}
+
+async function copyCurrentShareLink(): Promise<void> {
+  copyFeedback.value = '';
+
+  try {
+    const currentUrl = window.location.href;
+
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(currentUrl);
+    } else {
+      const textarea = document.createElement('textarea');
+      textarea.value = currentUrl;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const copied = document.execCommand('copy');
+      textarea.remove();
+      if (!copied) throw new Error('Clipboard copy failed.');
+    }
+
+    copyFeedback.value = messages.value.cloudLinkCopied;
+  } catch {
+    copyFeedback.value = messages.value.cloudLinkCopyFailed;
   }
 }
 
@@ -161,9 +195,22 @@ onUnmounted(() => {
   <section
     v-else
     class="secret-file-preview-route preview-load-state"
-    role="status"
     :aria-busy="loadState === 'loading'"
   >
-    <p>{{ loadMessage }}</p>
+    <div class="preview-load-state__card">
+      <p role="status">{{ loadMessage }}</p>
+      <template v-if="previewSource === 'cloud' && loadState !== 'loading'">
+        <button type="button" @click="copyCurrentShareLink">
+          {{ messages.copyCloudLink }}
+        </button>
+        <p
+          v-if="copyFeedback"
+          class="preview-load-state__feedback"
+          aria-live="polite"
+        >
+          {{ copyFeedback }}
+        </p>
+      </template>
+    </div>
   </section>
 </template>
