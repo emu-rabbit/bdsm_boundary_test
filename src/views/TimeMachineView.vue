@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useAppShell } from '../app/useAppShell';
+import { useSecretFileTitle } from '../app/useSecretFileTitle';
 import BrandMark from '../components/BrandMark.vue';
 import RabbitScene from '../components/RabbitScene.vue';
 import {
@@ -19,6 +20,8 @@ import {
   formatTimeMachineDate,
   getTimeMachineMessages,
 } from '../features/time-machine/timeMachineMessages';
+import { getTimeMachineComparisonMessages } from '../features/time-machine/timeMachineComparisonMessages';
+import TimeMachineDashboard from '../features/time-machine/TimeMachineDashboard.vue';
 import {
   getCalendarDayGap,
   getProfileBranch,
@@ -52,8 +55,7 @@ type TimeMachineStep =
   | 'allToSingle'
   | 'allToSingleStop'
   | 'allToSingleFocus'
-  | 'conclusion'
-  | 'departed';
+  | 'conclusion';
 
 type TimeMachineAction =
   | 'confirmSelection'
@@ -74,8 +76,7 @@ type TimeMachineAction =
   | 'storyNo'
   | 'allToSingleStop'
   | 'allToSingleFocus'
-  | 'depart'
-  | 'home';
+  | 'depart';
 
 interface DialogueChoice {
   action: TimeMachineAction;
@@ -100,17 +101,35 @@ interface TimeMachineFileOption {
 }
 
 const store = useSecretFileStore();
-const { appTitle, locale, messages: appMessages, navigate } = useAppShell();
+const {
+  appTitle,
+  documentTitle,
+  locale,
+  messages: appMessages,
+  navigate,
+} = useAppShell();
 const messages = computed(() => getTimeMachineMessages(locale.value));
+const comparisonMessages = computed(() => getTimeMachineComparisonMessages(locale.value));
+const phase = ref<'story' | 'dashboard'>('story');
 const step = ref<TimeMachineStep>('select');
 const firstFileId = ref<string | null>(null);
 const secondFileId = ref<string | null>(null);
 const comparison = ref<OrderedTimeMachineFiles | null>(null);
 const linkedCloudFiles = ref<LinkedCloudShare[]>([]);
 const pickerDialog = ref<HTMLDialogElement | null>(null);
+const pickerList = ref<HTMLElement | null>(null);
+const storyPanel = ref<HTMLElement | null>(null);
 const pickerPosition = ref<SelectionPosition>('first');
 const selectionError = ref('');
 const selectionLoading = ref(false);
+const comparisonProfileName = computed(() => comparison.value?.newer.profileName ?? '');
+const {
+  documentTitle: comparisonDocumentTitle,
+  titleParts: comparisonTitleParts,
+} = useSecretFileTitle(
+  comparisonProfileName,
+  appMessages,
+);
 
 const selectableFiles = computed<TimeMachineFileOption[]>(() => [
   ...store.files.map((file) => ({
@@ -130,6 +149,9 @@ const selectableFiles = computed<TimeMachineFileOption[]>(() => [
     timestamp: file.createdAt,
   })),
 ].sort((left, right) => Date.parse(right.timestamp ?? '') - Date.parse(left.timestamp ?? '')));
+const showFileSources = computed(() => new Set(
+  selectableFiles.value.map((file) => file.source),
+).size > 1);
 const firstFile = computed(() => findOption(firstFileId.value));
 const secondFile = computed(() => findOption(secondFileId.value));
 const selectionSlots = computed(() => [
@@ -314,10 +336,6 @@ const activeDialogue = computed<DialogueContent>(() => {
         [choice(copy.choices.okayAnswer, 'conclusion', true)],
         'folder',
       );
-    case 'departed':
-      return content(copy.story.conclusion(gap.value), [
-        choice(appMessages.value.common.backHome, 'home', true),
-      ], 'greeting');
     case 'conclusion':
       return content(copy.story.conclusion(gap.value), [
         choice(copy.choices.departReady, 'depart', true),
@@ -337,6 +355,21 @@ function openPicker(position: SelectionPosition): void {
   pickerPosition.value = position;
   selectionError.value = '';
   pickerDialog.value?.showModal();
+
+  void nextTick(() => {
+    const list = pickerList.value;
+    if (!list) return;
+
+    const selectedKey = position === 'first' ? firstFileId.value : secondFileId.value;
+    const selectedOption = [...list.querySelectorAll<HTMLButtonElement>('[data-file-key]')]
+      .find((option) => option.dataset.fileKey === selectedKey);
+
+    if (selectedOption) {
+      selectedOption.scrollIntoView({ block: 'nearest' });
+    } else {
+      list.scrollTop = 0;
+    }
+  });
 }
 
 function selectFile(fileKey: string): void {
@@ -408,6 +441,7 @@ function goToScopeBranch(): void {
 }
 
 function returnToSelection(clearSelection = false): void {
+  phase.value = 'story';
   step.value = 'select';
   comparison.value = null;
   selectionError.value = '';
@@ -416,6 +450,18 @@ function returnToSelection(clearSelection = false): void {
     firstFileId.value = null;
     secondFileId.value = null;
   }
+
+  void nextTick(() => {
+    window.scrollTo({ left: 0, top: 0 });
+    storyPanel.value?.focus({ preventScroll: true });
+  });
+}
+
+function showDashboard(): void {
+  if (!comparison.value) return;
+
+  phase.value = 'dashboard';
+  void nextTick(() => window.scrollTo({ left: 0, top: 0 }));
 }
 
 function handleAction(action: TimeMachineAction): void {
@@ -433,7 +479,6 @@ function handleAction(action: TimeMachineAction): void {
     storyNo: 'storyNo',
     allToSingleStop: 'allToSingleStop',
     allToSingleFocus: 'allToSingleFocus',
-    depart: 'departed',
   };
 
   if (directSteps[action]) {
@@ -446,7 +491,7 @@ function handleAction(action: TimeMachineAction): void {
   if (action === 'scopeBranch') goToScopeBranch();
   if (action === 'returnSelection') returnToSelection();
   if (action === 'returnSelectionClear') returnToSelection(true);
-  if (action === 'home') navigate('home');
+  if (action === 'depart') showDashboard();
 }
 
 function scopeOf(scope: SecretFileScope | null): string {
@@ -469,12 +514,22 @@ onMounted(() => {
   warmTimeMachineRabbitAssets();
   window.scrollTo({ left: 0, top: 0 });
 });
+
+watch([phase, comparisonDocumentTitle], ([currentPhase, currentComparisonTitle]) => {
+  document.title = currentPhase === 'dashboard'
+    ? currentComparisonTitle
+    : documentTitle.value;
+}, { immediate: true });
+
+onUnmounted(() => {
+  document.title = documentTitle.value;
+});
 </script>
 
 <template>
   <section
     class="story-route time-machine-route"
-    :class="{ 'time-machine-route--departed': step === 'departed' }"
+    :class="{ 'time-machine-route--dashboard': phase === 'dashboard' }"
     data-tone="archive"
   >
     <div class="ambient-grid" aria-hidden="true" />
@@ -483,21 +538,44 @@ onMounted(() => {
       <BrandMark
         :action-label="appMessages.common.backHome"
         :messages="appMessages"
-        :title="appTitle"
+        :title="phase === 'dashboard' ? appMessages.common.backHome : appTitle"
         @restart="navigate('home')"
       />
+
+      <button
+        v-if="phase === 'dashboard'"
+        class="time-machine-dashboard__reset"
+        type="button"
+        @click="returnToSelection()"
+      >
+        <span aria-hidden="true">↺</span>
+        {{ comparisonMessages.compareAgain }}
+      </button>
     </header>
 
-    <div class="story-layout time-machine-layout">
+    <TimeMachineDashboard
+      v-if="phase === 'dashboard' && comparison"
+      :locale="locale"
+      :newer="comparison.newer"
+      :older="comparison.older"
+      :title-parts="comparisonTitleParts"
+    />
+
+    <div v-else class="story-layout time-machine-layout">
       <RabbitScene
         :animation-key="step"
         :image-url="activeRabbitUrl"
-        :lamp-lit="step === 'confirm' || step === 'conclusion' || step === 'departed'"
+        :lamp-lit="step === 'confirm' || step === 'conclusion'"
         :pose="activeDialogue.pose"
       />
 
       <Transition name="dialogue" mode="out-in">
-        <article :key="step" class="dialogue-panel time-machine-panel">
+        <article
+          :key="step"
+          ref="storyPanel"
+          class="dialogue-panel time-machine-panel"
+          tabindex="-1"
+        >
           <div class="speaker-name">{{ speakerName }}</div>
 
           <div v-if="step === 'select'" class="dialogue-copy time-machine-selection-copy">
@@ -555,7 +633,7 @@ onMounted(() => {
           <div v-else class="dialogue-copy time-machine-dialogue-copy">
             <div
               class="time-machine-lines"
-              :class="{ 'time-machine-lines--long': step === 'conclusion' || step === 'departed' }"
+              :class="{ 'time-machine-lines--long': step === 'conclusion' }"
             >
               <p v-for="line in activeDialogue.lines" :key="line" class="rabbit-speech">
                 {{ line }}
@@ -578,11 +656,15 @@ onMounted(() => {
       </Transition>
     </div>
 
-    <dialog ref="pickerDialog" class="time-machine-picker" @click="closePickerOnBackdrop">
+    <dialog
+      v-if="phase === 'story'"
+      ref="pickerDialog"
+      class="time-machine-picker"
+      @click="closePickerOnBackdrop"
+    >
       <article>
         <header>
           <div>
-            <p class="home-kicker">{{ appTitle }}</p>
             <h2>{{ messages.picker.selectFileTitle(pickerPositionLabel) }}</h2>
           </div>
           <form method="dialog">
@@ -590,11 +672,12 @@ onMounted(() => {
           </form>
         </header>
 
-        <div class="time-machine-picker-list">
+        <div ref="pickerList" class="time-machine-picker-list">
           <button
             v-for="file in selectableFiles"
             :key="file.key"
             class="time-machine-picker-option"
+            :data-file-key="file.key"
             :class="{
               'time-machine-picker-option--selected': file.key === (pickerPosition === 'first' ? firstFileId : secondFileId),
             }"
@@ -602,18 +685,28 @@ onMounted(() => {
             :disabled="file.key === unavailableFileId"
             @click="selectFile(file.key)"
           >
-            <span>
-              <span class="time-machine-picker-option__source">{{ sourceLabel(file) }}</span>
+            <span class="time-machine-picker-option__heading">
               <strong>{{ optionName(file) }}</strong>
-              <small v-if="file.scope">{{ scopeOf(file.scope) }}</small>
+              <span
+                v-if="showFileSources"
+                class="time-machine-picker-option__source"
+              >
+                {{ sourceLabel(file) }}
+              </span>
             </span>
-            <time v-if="file.timestamp" :datetime="file.timestamp">
-              {{
-                file.source === 'local'
+
+            <span v-if="file.scope || file.timestamp" class="time-machine-picker-option__meta">
+              <small v-if="file.scope">{{ scopeOf(file.scope) }}</small>
+              <time
+                v-if="file.timestamp"
+                :datetime="file.timestamp"
+                :aria-label="file.source === 'local'
                   ? messages.picker.updatedAt(formatDate(file.timestamp))
-                  : messages.picker.cloudUploadedAt(formatDate(file.timestamp))
-              }}
-            </time>
+                  : messages.picker.cloudUploadedAt(formatDate(file.timestamp))"
+              >
+                {{ formatDate(file.timestamp) }}
+              </time>
+            </span>
           </button>
         </div>
       </article>
