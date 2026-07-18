@@ -22,6 +22,7 @@ import { getPreviewMessages } from '../features/questionnaire/previewMessages';
 import SecretFilePreview from '../features/questionnaire/SecretFilePreview.vue';
 import type { SecretFile } from '../features/secret-file';
 import { useSecretFileStore } from '../features/secret-file/application/useSecretFileStore';
+import { warmStoryIntroFirstRabbitAsset } from '../features/story/rabbitAssets';
 
 type PreviewSource = 'local' | 'cloud';
 
@@ -101,7 +102,7 @@ async function loadPreview(): Promise<void> {
     return;
   }
 
-  warmAllCategoryVisuals();
+  const categoryVisualWarmup = warmAllCategoryVisuals();
   loadState.value = 'loading';
 
   try {
@@ -113,6 +114,16 @@ async function loadPreview(): Promise<void> {
     shareLinkState.value = 'available';
     loadState.value = 'ready';
     trackSecretFileViewed('cloud', snapshot.secretFile.scope);
+    void categoryVisualWarmup.then((allCategoryVisualsLoaded) => {
+      if (
+        allCategoryVisualsLoaded
+        && requestId === loadRequestId
+        && previewSource.value === 'cloud'
+        && loadState.value === 'ready'
+      ) {
+        warmStoryIntroFirstRabbitAsset();
+      }
+    });
   } catch (error) {
     if (requestId !== loadRequestId) return;
     if (error instanceof CloudSharingError && error.code === 'notFound') {

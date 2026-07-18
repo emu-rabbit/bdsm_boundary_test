@@ -32,15 +32,19 @@ const rabbitAssetUrls = [...new Set([
 ])];
 const warmedRabbitUrls = new Set<string>();
 
+function warmRabbitAsset(src: string): void {
+  if (typeof Image === 'undefined' || warmedRabbitUrls.has(src)) return;
+
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = src;
+  warmedRabbitUrls.add(src);
+}
+
 export function warmRabbitAssets(): void {
-  if (typeof Image === 'undefined') return;
+  rabbitAssetUrls.forEach(warmRabbitAsset);
+}
 
-  rabbitAssetUrls.forEach((src) => {
-    if (warmedRabbitUrls.has(src)) return;
-
-    const image = new Image();
-    image.decoding = 'async';
-    image.src = src;
-    warmedRabbitUrls.add(src);
-  });
+export function warmStoryIntroFirstRabbitAsset(): void {
+  warmRabbitAsset(rabbitPoseUrls.questioning);
 }
