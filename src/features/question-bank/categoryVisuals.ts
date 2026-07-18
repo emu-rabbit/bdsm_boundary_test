@@ -44,7 +44,7 @@ const categoryVisualUrls: Record<string, string> = {
   other: otherUrl,
 };
 
-const warmedCategoryIds = new Set<string>();
+const categoryVisualWarmups = new Map<string, Promise<boolean>>();
 
 export function getCategoryVisualUrl(categoryId: string): string {
   const visualUrl = categoryVisualUrls[categoryId];
@@ -56,16 +56,24 @@ export function getCategoryVisualUrl(categoryId: string): string {
   return visualUrl;
 }
 
-export function warmCategoryVisual(categoryId: string): void {
-  if (typeof Image === 'undefined' || warmedCategoryIds.has(categoryId)) {
-    return;
-  }
+export function warmCategoryVisual(categoryId: string): Promise<boolean> {
+  if (typeof Image === 'undefined') return Promise.resolve(false);
 
-  const image = new Image();
-  image.src = getCategoryVisualUrl(categoryId);
-  warmedCategoryIds.add(categoryId);
+  const existingWarmup = categoryVisualWarmups.get(categoryId);
+  if (existingWarmup) return existingWarmup;
+
+  const warmup = new Promise<boolean>((resolve) => {
+    const image = new Image();
+    image.decoding = 'async';
+    image.onload = () => resolve(true);
+    image.onerror = () => resolve(false);
+    image.src = getCategoryVisualUrl(categoryId);
+  });
+  categoryVisualWarmups.set(categoryId, warmup);
+  return warmup;
 }
 
-export function warmAllCategoryVisuals(): void {
-  Object.keys(categoryVisualUrls).forEach(warmCategoryVisual);
+export async function warmAllCategoryVisuals(): Promise<boolean> {
+  const results = await Promise.all(Object.keys(categoryVisualUrls).map(warmCategoryVisual));
+  return results.every(Boolean);
 }
