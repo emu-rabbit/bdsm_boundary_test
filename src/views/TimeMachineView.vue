@@ -16,6 +16,7 @@ import {
   warmTimeMachineRabbitAssets,
   type RabbitPose,
 } from '../features/story/rabbitAssets';
+import { hasPlayedStory, markStoryPlayed } from '../features/story/storyProgress';
 import {
   formatTimeMachineDate,
   getTimeMachineMessages,
@@ -100,6 +101,12 @@ interface TimeMachineFileOption {
   timestamp: string | null;
 }
 
+interface TimeMachinePickerSection {
+  files: TimeMachineFileOption[];
+  label: string;
+  source: TimeMachineFileOption['source'];
+}
+
 const store = useSecretFileStore();
 const {
   appTitle,
@@ -149,9 +156,18 @@ const selectableFiles = computed<TimeMachineFileOption[]>(() => [
     timestamp: file.createdAt,
   })),
 ].sort((left, right) => Date.parse(right.timestamp ?? '') - Date.parse(left.timestamp ?? '')));
-const showFileSources = computed(() => new Set(
-  selectableFiles.value.map((file) => file.source),
-).size > 1);
+const pickerSections = computed<TimeMachinePickerSection[]>(() => ([
+  {
+    files: selectableFiles.value.filter((file) => file.source === 'local'),
+    label: messages.value.picker.localFiles,
+    source: 'local' as const,
+  },
+  {
+    files: selectableFiles.value.filter((file) => file.source === 'cloud'),
+    label: messages.value.picker.cloudFiles,
+    source: 'cloud' as const,
+  },
+]).filter((section) => section.files.length > 0));
 const firstFile = computed(() => findOption(firstFileId.value));
 const secondFile = computed(() => findOption(secondFileId.value));
 const selectionSlots = computed(() => [
@@ -180,6 +196,9 @@ const excludedScope = computed(() => {
   if (scope === 'passiveOnly') return messages.value.scopeLabel('activeOnly');
   return '';
 });
+const canSkipStory = computed(() => hasPlayedStory('timeMachine')
+  && Boolean(firstFile.value && secondFile.value)
+  && !selectionLoading.value);
 
 function findOption(fileKey: string | null): TimeMachineFileOption | null {
   return selectableFiles.value.find((file) => file.key === fileKey) ?? null;
@@ -432,6 +451,11 @@ async function confirmSelection(): Promise<void> {
   }
 }
 
+async function skipStory(): Promise<void> {
+  await confirmSelection();
+  if (comparison.value) showDashboard();
+}
+
 function goToProfileBranch(): void {
   if (comparison.value) step.value = getProfileBranch(comparison.value);
 }
@@ -460,6 +484,7 @@ function returnToSelection(clearSelection = false): void {
 function showDashboard(): void {
   if (!comparison.value) return;
 
+  markStoryPlayed('timeMachine');
   phase.value = 'dashboard';
   void nextTick(() => window.scrollTo({ left: 0, top: 0 }));
 }
@@ -535,12 +560,30 @@ onUnmounted(() => {
     <div class="ambient-grid" aria-hidden="true" />
 
     <header class="story-header">
+      <button
+        v-if="phase === 'dashboard'"
+        class="time-machine-home-action"
+        type="button"
+        @click="navigate('home')"
+      >
+        {{ appMessages.common.backHome }}
+      </button>
       <BrandMark
+        v-else
         :action-label="appMessages.common.backHome"
         :messages="appMessages"
-        :title="phase === 'dashboard' ? appMessages.common.backHome : appTitle"
+        :title="appTitle"
         @restart="navigate('home')"
       />
+
+      <button
+        v-if="phase === 'story' && canSkipStory"
+        class="story-skip-action"
+        type="button"
+        @click="skipStory"
+      >
+        {{ appMessages.common.skipStory }}
+      </button>
 
       <button
         v-if="phase === 'dashboard'"
@@ -673,41 +716,46 @@ onUnmounted(() => {
         </header>
 
         <div ref="pickerList" class="time-machine-picker-list">
-          <button
-            v-for="file in selectableFiles"
-            :key="file.key"
-            class="time-machine-picker-option"
-            :data-file-key="file.key"
-            :class="{
-              'time-machine-picker-option--selected': file.key === (pickerPosition === 'first' ? firstFileId : secondFileId),
-            }"
-            type="button"
-            :disabled="file.key === unavailableFileId"
-            @click="selectFile(file.key)"
+          <section
+            v-for="section in pickerSections"
+            :key="section.source"
+            class="time-machine-picker-section"
+            :aria-labelledby="`time-machine-picker-section-${section.source}`"
           >
-            <span class="time-machine-picker-option__heading">
-              <strong>{{ optionName(file) }}</strong>
-              <span
-                v-if="showFileSources"
-                class="time-machine-picker-option__source"
-              >
-                {{ sourceLabel(file) }}
-              </span>
-            </span>
+            <h3 :id="`time-machine-picker-section-${section.source}`">
+              {{ section.label }}
+            </h3>
 
-            <span v-if="file.scope || file.timestamp" class="time-machine-picker-option__meta">
-              <small v-if="file.scope">{{ scopeOf(file.scope) }}</small>
-              <time
-                v-if="file.timestamp"
-                :datetime="file.timestamp"
-                :aria-label="file.source === 'local'
-                  ? messages.picker.updatedAt(formatDate(file.timestamp))
-                  : messages.picker.cloudUploadedAt(formatDate(file.timestamp))"
+            <div class="time-machine-picker-section__options">
+              <button
+                v-for="file in section.files"
+                :key="file.key"
+                class="time-machine-picker-option"
+                :data-file-key="file.key"
+                :class="{
+                  'time-machine-picker-option--selected': file.key === (pickerPosition === 'first' ? firstFileId : secondFileId),
+                }"
+                type="button"
+                :disabled="file.key === unavailableFileId"
+                @click="selectFile(file.key)"
               >
-                {{ formatDate(file.timestamp) }}
-              </time>
-            </span>
-          </button>
+                <strong>{{ optionName(file) }}</strong>
+
+                <span v-if="file.scope || file.timestamp" class="time-machine-picker-option__meta">
+                  <small v-if="file.scope">{{ scopeOf(file.scope) }}</small>
+                  <time
+                    v-if="file.timestamp"
+                    :datetime="file.timestamp"
+                    :aria-label="file.source === 'local'
+                      ? messages.picker.updatedAt(formatDate(file.timestamp))
+                      : messages.picker.cloudUploadedAt(formatDate(file.timestamp))"
+                  >
+                    {{ formatDate(file.timestamp) }}
+                  </time>
+                </span>
+              </button>
+            </div>
+          </section>
         </div>
       </article>
     </dialog>
