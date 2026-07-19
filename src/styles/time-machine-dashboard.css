@@ -447,7 +447,7 @@
 .time-machine-difference-section--spotlight .time-machine-category-groups > li:first-child .time-machine-category-group__changes > li:first-child .time-machine-change-row__spotlight {
   color: #f5cf91;
   font-size: clamp(1.18rem, 2vw, 1.38rem);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .time-machine-difference-section--spotlight .time-machine-change-row__spotlight {
