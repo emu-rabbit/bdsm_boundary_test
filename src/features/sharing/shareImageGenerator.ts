@@ -24,6 +24,13 @@ import {
   type TextLayout,
   type TextMeasurer,
 } from './shareImageLayout';
+import { createEmbeddedShareImageFontStyle } from './shareImageFontEmbedding';
+import {
+  hasVisibleShareImageTextProbe,
+  requireRenderedShareImageText,
+  shareImageRenderHeight,
+  shareImageTextProbeArea,
+} from './shareImageRenderGuard';
 
 const colors = {
   danger: '#eca2a2',
@@ -94,6 +101,13 @@ const shareImageFontWeight = {
   emphasis: 500,
   sectionTitle: 600,
 } as const;
+
+const shareImageTextProbe: Record<AppLocale, string> = {
+  'zh-Hant': '檔檔檔檔',
+  'zh-Hans': '档档档档',
+  ja: '秘秘秘秘',
+  en: 'AAAA',
+};
 
 const exportMessages: Record<AppLocale, ExportMessages> = {
   'zh-Hant': {
@@ -425,7 +439,10 @@ async function renderSvg(
   questionBank: QuestionBank,
   measurer: TextMeasurer,
 ): Promise<string> {
-  const rasterAssets = await loadRasterAssets(questionBank);
+  const [rasterAssets, embeddedFontStyle] = await Promise.all([
+    loadRasterAssets(questionBank),
+    createEmbeddedShareImageFontStyle(model.locale, getShareImageFontSample(model)),
+  ]);
   const qrCode = model.shareUrl ? await QRCode.toDataURL(model.shareUrl, {
     color: { dark: colors.qrInk, light: colors.qrBackground },
     errorCorrectionLevel: 'M',
@@ -658,8 +675,8 @@ async function renderSvg(
     weight: 500,
   }, model.locale, measurer) : null;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${shareImageOutputSize.width}" height="${shareImageOutputSize.height}" viewBox="0 0 ${shareImageOutputSize.width} ${shareImageOutputSize.height}" font-family="${escapeXml(getShareImageFontFamily(model.locale))}">
-    <defs><linearGradient id="bgOverlay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#170a10" stop-opacity=".42"/><stop offset="1" stop-color="#10070c" stop-opacity=".92"/></linearGradient><radialGradient id="glowA"><stop offset="0" stop-color="#9a4a5b" stop-opacity=".32"/><stop offset="1" stop-color="#9a4a5b" stop-opacity="0"/></radialGradient><radialGradient id="glowB"><stop offset="0" stop-color="#b3744e" stop-opacity=".2"/><stop offset="1" stop-color="#b3744e" stop-opacity="0"/></radialGradient><linearGradient id="panelGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#321d27"/><stop offset="1" stop-color="#211219"/></linearGradient><linearGradient id="spotlightGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8f7040" stop-opacity=".3"/><stop offset=".48" stop-color="#6f522e" stop-opacity=".22"/><stop offset="1" stop-color="#4e3527" stop-opacity=".18"/></linearGradient></defs>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${shareImageOutputSize.width}" height="${shareImageRenderHeight}" viewBox="0 0 ${shareImageOutputSize.width} ${shareImageRenderHeight}" font-family="${escapeXml(getShareImageFontFamily(model.locale))}">
+    <defs>${embeddedFontStyle}<linearGradient id="bgOverlay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#170a10" stop-opacity=".42"/><stop offset="1" stop-color="#10070c" stop-opacity=".92"/></linearGradient><radialGradient id="glowA"><stop offset="0" stop-color="#9a4a5b" stop-opacity=".32"/><stop offset="1" stop-color="#9a4a5b" stop-opacity="0"/></radialGradient><radialGradient id="glowB"><stop offset="0" stop-color="#b3744e" stop-opacity=".2"/><stop offset="1" stop-color="#b3744e" stop-opacity="0"/></radialGradient><linearGradient id="panelGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#321d27"/><stop offset="1" stop-color="#211219"/></linearGradient><linearGradient id="spotlightGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8f7040" stop-opacity=".3"/><stop offset=".48" stop-color="#6f522e" stop-opacity=".22"/><stop offset="1" stop-color="#4e3527" stop-opacity=".18"/></linearGradient></defs>
     <rect width="1200" height="1600" fill="${colors.paper}"/><image href="${rasterAssets.background}" width="1200" height="1600" preserveAspectRatio="xMidYMid slice" opacity=".28"/><rect width="1200" height="1600" fill="url(#bgOverlay)"/><ellipse cx="130" cy="120" rx="450" ry="410" fill="url(#glowA)"/><ellipse cx="1100" cy="1510" rx="430" ry="340" fill="url(#glowB)"/><rect x="22" y="22" width="1156" height="1556" rx="38" fill="none" stroke="#efc998" stroke-opacity=".25"/>
     ${textLines(['SECRET FILE · SHARE SUMMARY'], 66, 80, 18, 22, { fill: colors.gold, letterSpacing: 3.1 })}${textBlock(titleLayout, 66, titleTop, { weight: 500 })}${textBlock(dateLayout, 66, metadataRowTop + (metadataRowHeight - dateLayout.height) / 2, { fill: colors.muted })}
     <rect x="${roleBoxX}" y="${metadataRowTop}" width="${roleBoxWidth}" height="${metadataRowHeight}" rx="18.5" fill="#a15c45" fill-opacity=".2" stroke="#eebe91" stroke-opacity=".58"/><circle cx="${roleBoxX + 20}" cy="${metadataRowTop + metadataRowHeight / 2}" r="5" fill="${colors.gold}"/>${textBlock(roleLayout, roleBoxX + 34, metadataRowTop + (metadataRowHeight - roleLayout.height) / 2, { fill: '#ffe2b9' })}
@@ -669,35 +686,64 @@ async function renderSvg(
     <rect x="62" y="1250" width="1076" height="96" rx="20" fill="#802e3b" fill-opacity=".22" stroke="${colors.danger}" stroke-opacity=".4"/><circle cx="101" cy="1298" r="21" fill="none" stroke="${colors.danger}" stroke-opacity=".55"/><path d="M92 1307l18-18" stroke="${colors.danger}" stroke-width="2.7" stroke-linecap="round"/>${textLines([model.messages.hardNoKicker], 136, 1279, getShareImageFontRange(model.locale, 'metadataLabel').preferredFontSize, 20, { fill: colors.danger, letterSpacing: 1.8 })}${textBlock(hardNoLayout, 136, 1290, { weight: 500 })}
     <rect x="62" y="1356" width="${warningPanelWidth}" height="204" rx="23" fill="#1d1016" fill-opacity=".9" stroke="${colors.line}"/><circle cx="101" cy="1394" r="12" fill="none" stroke="${colors.gold}" stroke-opacity=".6"/>${textLines(['i'], 101, 1400, 14, 17, { anchor: 'middle', fill: colors.gold })}${textLines([model.messages.preface], 124, 1402, getShareImageFontRange(model.locale, 'metadataLabel').preferredFontSize, 24, { fill: colors.gold, letterSpacing: 1.6 })}${textBlock(warningLayout, 88, warningTop, { fill: '#e4d6cf' })}${textBlock(warningFooterLayout, 88, warningFooterTop, { fill: colors.muted })}
     ${qrCode && qrTitleLayout ? `<rect x="898" y="1356" width="240" height="204" rx="23" fill="${colors.qrBackground}" stroke="${colors.gold}" stroke-opacity=".55"/><image href="${qrCode}" x="947" y="1368" width="142" height="142" preserveAspectRatio="xMidYMid meet"/>${textBlock(qrTitleLayout, 1018, 1515, { anchor: 'middle', weight: 500, fill: colors.qrInk })}${textLines([model.messages.qrDomain], 1018, 1550, 14, 18, { anchor: 'middle', fill: colors.qrInk, letterSpacing: 0.5 })}` : ''}
+    <text x="12" y="1648" fill="#ffffff" font-size="40" font-weight="400" font-family="inherit">${shareImageTextProbe[model.locale]}</text>
   </svg>`;
 }
 
 async function renderSvgToPng(svg: string): Promise<Blob> {
   await document.fonts?.ready;
-  const svgUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+  const verifiedCanvas = await requireRenderedShareImageText(async () => {
+    const svgUrl = URL.createObjectURL(new Blob([svg], {
+      type: 'image/svg+xml;charset=utf-8',
+    }));
 
-  try {
-    const image = new Image();
-    image.decoding = 'async';
-    image.src = svgUrl;
-    await image.decode();
-    const canvas = document.createElement('canvas');
-    canvas.width = shareImageOutputSize.width;
-    canvas.height = shareImageOutputSize.height;
-    const context = canvas.getContext('2d');
-    if (!context) throw new Error('Canvas rendering is unavailable.');
-    context.imageSmoothingEnabled = true;
-    context.imageSmoothingQuality = 'high';
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
-    return await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob);
-        else reject(new Error('The share image could not be encoded.'));
-      }, 'image/png');
-    });
-  } finally {
-    URL.revokeObjectURL(svgUrl);
-  }
+    try {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = svgUrl;
+      await image.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = shareImageOutputSize.width;
+      canvas.height = shareImageRenderHeight;
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('Canvas rendering is unavailable.');
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const probePixels = context.getImageData(
+        shareImageTextProbeArea.x,
+        shareImageTextProbeArea.y,
+        shareImageTextProbeArea.width,
+        shareImageTextProbeArea.height,
+      ).data;
+      return hasVisibleShareImageTextProbe(probePixels) ? canvas : null;
+    } finally {
+      URL.revokeObjectURL(svgUrl);
+    }
+  });
+
+  const outputCanvas = document.createElement('canvas');
+  outputCanvas.width = shareImageOutputSize.width;
+  outputCanvas.height = shareImageOutputSize.height;
+  const outputContext = outputCanvas.getContext('2d');
+  if (!outputContext) throw new Error('Canvas rendering is unavailable.');
+  outputContext.drawImage(
+    verifiedCanvas,
+    0,
+    0,
+    shareImageOutputSize.width,
+    shareImageOutputSize.height,
+    0,
+    0,
+    shareImageOutputSize.width,
+    shareImageOutputSize.height,
+  );
+  return await new Promise<Blob>((resolve, reject) => {
+    outputCanvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error('The share image could not be encoded.'));
+    }, 'image/png');
+  });
 }
 
 export async function prewarmShareImageGenerator(questionBank: QuestionBank): Promise<void> {
