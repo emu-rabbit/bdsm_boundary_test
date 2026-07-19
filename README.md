@@ -44,7 +44,7 @@ Boundary Notes is available in:
 
 ---
 
-*Made with care for quieter, kinder conversations.*
+*Likes and boundaries have no right or wrong. You are still you, and desire is still desire.*
 
 ---
 
@@ -96,4 +96,4 @@ Boundary Notes 提供以下語言：
 
 ---
 
-*希望每一段關於界線的對話，都能被好好對待。*
+*喜好、界線沒有對錯，你依舊是你，慾望也依舊是慾望*
