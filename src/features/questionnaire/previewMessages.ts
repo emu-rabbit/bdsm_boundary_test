@@ -21,6 +21,9 @@ export interface PreviewMessages {
   cloudUnavailable: string;
   localLoadError: string;
   loading: string;
+  loveButton: (count: number) => string;
+  loveDialogDescription: string;
+  loveDialogTitle: string;
   note: string;
   otherSummary: string;
   preference: string;
@@ -68,6 +71,9 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     copyCloudLink: '複製目前的分享連結',
     localLoadError: '找不到要檢視的本地檔案。它可能已從這台裝置刪除，或不在這個瀏覽器的儲存空間中。',
     loading: '正在安全地讀取檔案…',
+    loveButton: (count) => `查看 ${count} 個很喜歡的項目`,
+    loveDialogDescription: '集中列出目前方向中標示為「很喜歡」的分類與細項。這份列表仍只是目前的自我描述，不能替代當下的確認與溝通。',
+    loveDialogTitle: '很喜歡的項目',
     note: '備註',
     preference: '喜好',
     previewActionsLabel: '檔案操作',
@@ -105,6 +111,9 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     copyCloudLink: '复制当前分享链接',
     localLoadError: '找不到要查看的本地文件。它可能已从此设备删除，或不在此浏览器的存储空间中。',
     loading: '正在安全地读取文件…',
+    loveButton: (count) => `查看 ${count} 个很喜欢的项目`,
+    loveDialogDescription: '集中列出目前方向中标示为“很喜欢”的分类与细项。这份列表仍只是目前的自我描述，不能替代当下的确认与沟通。',
+    loveDialogTitle: '很喜欢的项目',
     note: '备注',
     preference: '喜好',
     previewActionsLabel: '档案操作',
@@ -142,6 +151,9 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     copyCloudLink: '現在の共有リンクをコピー',
     localLoadError: '表示するローカルファイルが見つかりません。この端末から削除されたか、このブラウザの保存領域にない可能性があります。',
     loading: 'ファイルを安全に読み込んでいます…',
+    loveButton: (count) => `${count} 個の「とても好き」な項目を見る`,
+    loveDialogDescription: '現在表示している方向で「とても好き」とされたカテゴリーと項目をまとめています。この一覧も、今の確認や対話に代わるものではありません。',
+    loveDialogTitle: 'とても好きな項目',
     note: 'メモ',
     preference: '好み',
     previewActionsLabel: 'ファイル操作',
@@ -179,6 +191,9 @@ const messagesByLocale: Record<AppLocale, PreviewMessages> = {
     copyCloudLink: 'Copy current share link',
     localLoadError: 'The local file could not be found. It may have been deleted from this device or may not exist in this browser storage.',
     loading: 'Securely loading the file…',
+    loveButton: (count) => `View ${count} much-loved items`,
+    loveDialogDescription: 'This gathers every category and item marked “love” in the currently displayed direction. It is still only a current self-description and cannot replace a current check-in and conversation.',
+    loveDialogTitle: 'Much-loved items',
     note: 'Note',
     preference: 'Preference',
     previewActionsLabel: 'File actions',

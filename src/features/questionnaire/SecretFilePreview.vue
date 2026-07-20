@@ -55,6 +55,7 @@ const selectedRole = ref<QuestionRole>(
 const activeCategoryId = ref<string | null>(null);
 const overviewScrollPosition = ref(0);
 const hardNoDialog = ref<HTMLDialogElement | null>(null);
+const loveDialog = ref<HTMLDialogElement | null>(null);
 const shareDialog = ref<HTMLDialogElement | null>(null);
 const sponsorDialog = ref<InstanceType<typeof SponsorDialog> | null>(null);
 const generatingRole = ref<QuestionRole | null>(null);
@@ -166,6 +167,23 @@ const hardNoItems = computed(() => {
   return items;
 });
 
+const loveItems = computed(() => {
+  const items: DisplayItem[] = [];
+  const role = selectedRole.value;
+
+  for (const category of props.questionBank.categories) {
+    const categoryItem = createCategoryItem(category, role);
+    if (categoryItem?.answer?.preference === 'love') items.push(categoryItem);
+
+    for (const detail of category.detailItems) {
+      const detailItem = createDetailItem(category, detail, role);
+      if (detailItem.answer?.preference === 'love') items.push(detailItem);
+    }
+  }
+
+  return items;
+});
+
 const activeDetailItems = computed(() => {
   const category = activeCategory.value;
   if (!category) return [];
@@ -188,6 +206,10 @@ function closeCategory(): void {
 
 function openHardNoDialog(): void {
   hardNoDialog.value?.showModal();
+}
+
+function openLoveDialog(): void {
+  loveDialog.value?.showModal();
 }
 
 function openShareDialog(): void {
@@ -396,7 +418,17 @@ function changeLocale(event: Event): void {
           </button>
         </div>
 
-        <section v-if="spotlightItems.length" class="preview-ranking">
+        <section
+          v-if="spotlightItems.length"
+          class="preview-ranking"
+          :class="{ 'is-selectable': loveItems.length }"
+          :role="loveItems.length ? 'button' : undefined"
+          :tabindex="loveItems.length ? 0 : undefined"
+          :aria-label="loveItems.length ? messages.loveButton(loveItems.length) : undefined"
+          @click="loveItems.length && openLoveDialog()"
+          @keydown.enter="loveItems.length && openLoveDialog()"
+          @keydown.space.prevent="loveItems.length && openLoveDialog()"
+        >
           <header class="preview-ranking__heading">
             <div>
               <p>{{ messages.spotlightKicker }}</p>
@@ -426,6 +458,10 @@ function changeLocale(event: Event): void {
                 />
               </div>
             </article>
+          </div>
+
+          <div v-if="loveItems.length" class="preview-ranking__footer">
+            <span>{{ messages.loveButton(loveItems.length) }}&nbsp;<span aria-hidden="true">→</span></span>
           </div>
         </section>
 
@@ -612,6 +648,28 @@ function changeLocale(event: Event): void {
       <p class="preview-hard-no-dialog__description">{{ messages.hardNoDialogDescription }}</p>
       <ul class="preview-hard-no-list">
         <li v-for="item in hardNoItems" :key="item.questionId">
+          <img :src="getCategoryVisualUrl(item.categoryId)" alt="" width="72" height="72" />
+          <div>
+            <small>{{ item.categoryName }}</small>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.description }}</p>
+            <p v-if="item.answer?.note.trim()" class="preview-hard-no-list__note">{{ item.answer.note }}</p>
+          </div>
+        </li>
+      </ul>
+    </dialog>
+
+    <dialog v-if="loveItems.length" ref="loveDialog" class="preview-hard-no-dialog preview-love-dialog">
+      <div class="preview-hard-no-dialog__heading">
+        <div>
+          <p>{{ messages.spotlightKicker }}</p>
+          <h2>{{ messages.loveDialogTitle }}</h2>
+        </div>
+        <button type="button" :aria-label="questionnaireMessages.closeDetails" @click="loveDialog?.close()">×</button>
+      </div>
+      <p class="preview-hard-no-dialog__description">{{ messages.loveDialogDescription }}</p>
+      <ul class="preview-hard-no-list">
+        <li v-for="item in loveItems" :key="item.questionId">
           <img :src="getCategoryVisualUrl(item.categoryId)" alt="" width="72" height="72" />
           <div>
             <small>{{ item.categoryName }}</small>
