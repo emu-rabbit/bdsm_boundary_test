@@ -3,6 +3,9 @@ import { secretKeeperNames } from '../../app/i18n/terminology';
 import type { SecretFileScope } from './domain/types';
 
 export interface FileManagerMessages {
+  authorExampleBadge: string;
+  authorExampleDescription: string;
+  authorExampleTitle: string;
   backHome: string;
   cloudEmptyBody: string;
   cloudEmptyTitle: string;
@@ -20,6 +23,8 @@ export interface FileManagerMessages {
   cloudUploadedAt: (date: string) => string;
   cloudUnlink: string;
   cloudUnlinkConfirmation: (name: string) => string;
+  cloudExampleUnlink: string;
+  cloudExampleUnlinkConfirmation: string;
   cloudUnavailable: string;
   cloudConfigurationError: string;
   close: string;
@@ -63,6 +68,9 @@ const scopeLabels: Record<AppLocale, Record<SecretFileScope, string>> = {
 
 const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
   'zh-Hant': {
+    authorExampleBadge: '作者範例',
+    authorExampleDescription: '網站作者在這裡留下了一份自己的檔案 >.0',
+    authorExampleTitle: '絵夢羽さ沂',
     backHome: '回到主頁',
     cloudEmptyBody: '上傳檔案或匯入分享連結後，就能從這台裝置快速回到雲端檔案。',
     cloudEmptyTitle: '這台裝置還沒有連結雲端檔案',
@@ -80,6 +88,8 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudUploadedAt: (date) => `上傳於 ${date}`,
     cloudUnlink: '從這台裝置移除連結',
     cloudUnlinkConfirmation: (name) => `要從這台裝置移除「${name}」的雲端連結嗎？這不會刪除網路上的檔案。`,
+    cloudExampleUnlink: '不再顯示此範例',
+    cloudExampleUnlinkConfirmation: '不再顯示作者的範例檔案嗎？這只會記住這台裝置的偏好，不會影響任何雲端檔案。',
     cloudUnavailable: '已連結的雲端檔案',
     cloudConfigurationError: '雲端分享尚未完成設定，請稍後再試。',
     close: '關閉',
@@ -115,6 +125,9 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     view: '檢視檔案',
   },
   'zh-Hans': {
+    authorExampleBadge: '作者示例',
+    authorExampleDescription: '网站作者在这里留下了一份自己的文件 >.0',
+    authorExampleTitle: '絵夢羽さ沂',
     backHome: '返回主页',
     cloudEmptyBody: '上传文件或导入分享链接后，就能从此设备快速返回云端文件。',
     cloudEmptyTitle: '此设备尚未连接云端文件',
@@ -132,6 +145,8 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudUploadedAt: (date) => `上传于 ${date}`,
     cloudUnlink: '从此设备移除链接',
     cloudUnlinkConfirmation: (name) => `要从此设备移除“${name}”的云端链接吗？这不会删除网络上的文件。`,
+    cloudExampleUnlink: '不再显示此示例',
+    cloudExampleUnlinkConfirmation: '不再显示作者的示例文件吗？这只会记住此设备的偏好，不会影响任何云端文件。',
     cloudUnavailable: '已连接的云端文件',
     cloudConfigurationError: '云端分享尚未完成设置，请稍后再试。',
     close: '关闭',
@@ -167,6 +182,9 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     view: '查看文件',
   },
   ja: {
+    authorExampleBadge: '作者のサンプル',
+    authorExampleDescription: 'サイトの作者が、ここに自分のファイルをひとつ残しました >.0',
+    authorExampleTitle: '絵夢羽さ沂',
     backHome: 'ホームへ戻る',
     cloudEmptyBody: 'ファイルをアップロードするか共有リンクを取り込むと、この端末からクラウドファイルへ戻れます。',
     cloudEmptyTitle: 'この端末にリンクしたクラウドファイルはありません',
@@ -184,6 +202,8 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudUploadedAt: (date) => `アップロード ${date}`,
     cloudUnlink: 'この端末からリンクを削除',
     cloudUnlinkConfirmation: (name) => `「${name}」のクラウドリンクをこの端末から削除しますか？インターネット上のファイルは削除されません。`,
+    cloudExampleUnlink: 'このサンプルを表示しない',
+    cloudExampleUnlinkConfirmation: '作者のサンプルファイルを表示しないようにしますか？この端末の設定だけが変わり、クラウドファイルには影響しません。',
     cloudUnavailable: 'リンク済みのクラウドファイル',
     cloudConfigurationError: 'クラウド共有の設定がまだ完了していません。しばらくしてからお試しください。',
     close: '閉じる',
@@ -219,6 +239,9 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     view: '見る',
   },
   en: {
+    authorExampleBadge: 'Author sample',
+    authorExampleDescription: 'The site author left one of their own files here >.0',
+    authorExampleTitle: '絵夢羽さ沂',
     backHome: 'Home',
     cloudEmptyBody: 'Upload a file or import a share link to return to cloud files from this device.',
     cloudEmptyTitle: 'No cloud files are linked on this device',
@@ -236,6 +259,8 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     cloudUploadedAt: (date) => `Uploaded ${date}`,
     cloudUnlink: 'Remove link from this device',
     cloudUnlinkConfirmation: (name) => `Remove the cloud link for “${name}” from this device? This will not delete the file from the internet.`,
+    cloudExampleUnlink: 'Hide this sample',
+    cloudExampleUnlinkConfirmation: 'Hide the author’s sample file? This only saves a preference on this device and will not affect any cloud file.',
     cloudUnavailable: 'Linked cloud file',
     cloudConfigurationError: 'Cloud sharing has not been configured yet. Please try again later.',
     close: 'Close',

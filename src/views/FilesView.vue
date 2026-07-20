@@ -12,12 +12,14 @@ import {
 import {
   CloudShareLinkStorageError,
   CloudSharingError,
+  hideAuthorExampleCloudFile,
+  isAuthorExampleCloudFile,
   linkCloudShare,
-  listLinkedCloudShares,
+  listCloudFiles,
   loadCloudSecretFile,
   parseCloudShareId,
   unlinkCloudShare,
-  type LinkedCloudShare,
+  type CloudFileListItem,
 } from '../features/cloud-sharing';
 import { filesRabbitUrl } from '../features/story/rabbitAssets';
 import { useSecretFileStore } from '../features/secret-file/application/useSecretFileStore';
@@ -44,7 +46,7 @@ const cloudImportUrl = ref('');
 const importFeedback = ref('');
 const importFeedbackKind = ref<'error' | 'info' | 'success' | null>(null);
 const cloudImportBusy = ref(false);
-const cloudShares = ref<LinkedCloudShare[]>([]);
+const cloudShares = ref<CloudFileListItem[]>([]);
 const cloudListFeedback = ref('');
 const fileActionFeedbackId = ref<string | null>(null);
 const fileActionFeedbackKind = ref<'error' | 'success' | null>(null);
@@ -248,13 +250,14 @@ async function submitCloudImport(): Promise<void> {
 
   try {
     const snapshot = await loadCloudSecretFile(shareId);
-    cloudShares.value = linkCloudShare({
+    linkCloudShare({
       createdAt: snapshot.createdAt,
       profileName: snapshot.secretFile.profileName,
       scope: snapshot.secretFile.scope,
       shareId,
       sourceContentFingerprint: null,
     });
+    cloudShares.value = listCloudFiles();
     trackSecretFileImported('cloud_share', snapshot.secretFile.scope, false);
     cloudListFeedback.value = '';
     importFeedback.value = messages.value.cloudImportSuccess(snapshot.secretFile.profileName);
@@ -273,16 +276,23 @@ async function submitCloudImport(): Promise<void> {
   }
 }
 
-function unlinkCloudFile(
-  shareId: string,
-  name: string,
-  scope: LinkedCloudShare['scope'],
-): void {
-  if (!window.confirm(messages.value.cloudUnlinkConfirmation(name))) return;
+function unlinkCloudFile(file: CloudFileListItem): void {
+  const isAuthorExample = isAuthorExampleCloudFile(file.shareId);
+  const confirmation = isAuthorExample
+    ? messages.value.cloudExampleUnlinkConfirmation
+    : messages.value.cloudUnlinkConfirmation(file.profileName ?? file.shareId);
+
+  if (!window.confirm(confirmation)) return;
 
   try {
-    cloudShares.value = unlinkCloudShare(shareId);
-    trackCloudShareUnlinked(scope ?? null);
+    if (isAuthorExample) {
+      hideAuthorExampleCloudFile();
+    } else {
+      unlinkCloudShare(file.shareId);
+      trackCloudShareUnlinked(file.scope ?? null);
+    }
+
+    cloudShares.value = listCloudFiles();
     cloudListFeedback.value = '';
   } catch {
     cloudListFeedback.value = messages.value.cloudLinkStorageFailed;
@@ -291,7 +301,7 @@ function unlinkCloudFile(
 
 onMounted(() => {
   store.refresh();
-  cloudShares.value = listLinkedCloudShares();
+  cloudShares.value = listCloudFiles();
   activeViewer.value = resolveInitialFileViewer(store.files.length, cloudFileCount.value);
   window.scrollTo({ left: 0, top: 0 });
 });
@@ -489,9 +499,15 @@ onMounted(() => {
           >
             <div class="file-list-item__copy">
               <div class="file-list-item__identity">
-                <h2>{{ file.profileName ?? messages.cloudUnavailable }}</h2>
+                <h2>{{ file.isAuthorExample ? messages.authorExampleTitle : file.profileName ?? messages.cloudUnavailable }}</h2>
+                <span v-if="file.isAuthorExample">
+                  {{ messages.authorExampleBadge }}
+                </span>
                 <span v-if="file.scope">{{ messages.scope(file.scope) }}</span>
               </div>
+              <p v-if="file.isAuthorExample" class="file-list-item__example-description">
+                {{ messages.authorExampleDescription }}
+              </p>
               <time v-if="file.createdAt" :datetime="file.createdAt">
                 {{ messages.cloudUploadedAt(formatDateTime(file.createdAt)) }}
               </time>
@@ -524,13 +540,9 @@ onMounted(() => {
               <button
                 class="file-card-action file-card-action--delete"
                 type="button"
-                :aria-label="messages.cloudUnlink"
-                :title="messages.cloudUnlink"
-                @click="unlinkCloudFile(
-                  file.shareId,
-                  file.profileName ?? file.shareId,
-                  file.scope,
-                )"
+                :aria-label="file.isAuthorExample ? messages.cloudExampleUnlink : messages.cloudUnlink"
+                :title="file.isAuthorExample ? messages.cloudExampleUnlink : messages.cloudUnlink"
+                @click="unlinkCloudFile(file)"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="m14.8 7.2 1.4-1.4a3.4 3.4 0 1 1 4.8 4.8L19.6 12" />
