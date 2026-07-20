@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue';
 import type { AppLocale, LocaleOption } from '../../app/i18n';
+import { useTransientActionFeedback } from '../../app/useTransientActionFeedback';
+import ActionFeedbackIcon from '../../components/ActionFeedbackIcon.vue';
 import {
   getCategoryQuestionId,
   getCategoryVisualUrl,
@@ -59,7 +61,11 @@ const loveDialog = ref<HTMLDialogElement | null>(null);
 const shareDialog = ref<HTMLDialogElement | null>(null);
 const sponsorDialog = ref<InstanceType<typeof SponsorDialog> | null>(null);
 const generatingRole = ref<QuestionRole | null>(null);
-const shareFeedback = ref('');
+const {
+  clear: clearShareActionFeedback,
+  feedback: shareActionFeedback,
+  show: showShareActionFeedback,
+} = useTransientActionFeedback(3000);
 const shareMessages = computed(() => getShareMessages(props.locale));
 let shareImageModulePromise: ReturnType<typeof loadShareImageModule> | null = null;
 
@@ -213,7 +219,7 @@ function openLoveDialog(): void {
 }
 
 function openShareDialog(): void {
-  shareFeedback.value = '';
+  clearShareActionFeedback();
   shareDialog.value?.showModal();
   shareImageModulePromise ??= loadShareImageModule();
   void shareImageModulePromise
@@ -234,7 +240,7 @@ function createShareImageFileName(role: QuestionRole): string {
 async function downloadShareImage(role: QuestionRole): Promise<void> {
   if (generatingRole.value) return;
   generatingRole.value = role;
-  shareFeedback.value = '';
+  clearShareActionFeedback();
 
   try {
     shareImageModulePromise ??= loadShareImageModule();
@@ -255,8 +261,9 @@ async function downloadShareImage(role: QuestionRole): Promise<void> {
     link.click();
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showShareActionFeedback(`image:${role}`, 'success', shareMessages.value.downloaded);
   } catch {
-    shareFeedback.value = shareMessages.value.downloadFailed;
+    showShareActionFeedback(`image:${role}`, 'error', shareMessages.value.downloadFailed);
   } finally {
     generatingRole.value = null;
   }
@@ -264,7 +271,7 @@ async function downloadShareImage(role: QuestionRole): Promise<void> {
 
 async function copyShareLink(): Promise<void> {
   if (!props.shareUrl) return;
-  shareFeedback.value = '';
+  clearShareActionFeedback();
 
   try {
     if (navigator.clipboard?.writeText) {
@@ -279,9 +286,9 @@ async function copyShareLink(): Promise<void> {
       if (!document.execCommand('copy')) throw new Error('Copy was rejected.');
       input.remove();
     }
-    shareFeedback.value = shareMessages.value.copied;
+    showShareActionFeedback('copy-link', 'success', shareMessages.value.copied);
   } catch {
-    shareFeedback.value = shareMessages.value.copyFailed;
+    showShareActionFeedback('copy-link', 'error', shareMessages.value.copyFailed);
   }
 }
 
@@ -698,13 +705,38 @@ function changeLocale(event: Event): void {
               v-for="role in availableRoles"
               :key="role"
               class="preview-share-primary"
+              :class="shareActionFeedback?.id === `image:${role}`
+                ? `is-${shareActionFeedback.kind}`
+                : undefined"
               type="button"
               :disabled="generatingRole !== null"
+              :aria-label="shareActionFeedback?.id === `image:${role}`
+                ? shareActionFeedback.message
+                : generatingRole === role
+                  ? shareMessages.generating
+                  : shareMessages.downloadImage(role)"
+              :title="shareActionFeedback?.id === `image:${role}`
+                ? shareActionFeedback.message
+                : undefined"
               @click="downloadShareImage(role)"
             >
-              {{ generatingRole === role
-                ? shareMessages.generating
-                : shareMessages.downloadImage(role) }}
+              <ActionFeedbackIcon
+                v-if="shareActionFeedback?.id === `image:${role}`"
+                :kind="shareActionFeedback.kind"
+              />
+              <span class="action-feedback-label">
+                {{ shareActionFeedback?.id === `image:${role}`
+                  ? shareActionFeedback.message
+                  : generatingRole === role
+                    ? shareMessages.generating
+                    : shareMessages.downloadImage(role) }}
+              </span>
+              <span
+                v-if="shareActionFeedback?.id === `image:${role}`"
+                class="sr-only"
+                role="status"
+                aria-live="polite"
+              >{{ shareActionFeedback.message }}</span>
             </button>
           </div>
         </section>
@@ -722,17 +754,36 @@ function changeLocale(event: Event): void {
           </div>
           <button
             class="preview-share-secondary"
+            :class="shareActionFeedback?.id === 'copy-link'
+              ? `is-${shareActionFeedback.kind}`
+              : undefined"
             type="button"
             :disabled="!shareUrl || shareLinkState === 'checking'"
+            :aria-label="shareActionFeedback?.id === 'copy-link'
+              ? shareActionFeedback.message
+              : shareMessages.copyLink"
+            :title="shareActionFeedback?.id === 'copy-link'
+              ? shareActionFeedback.message
+              : undefined"
             @click="copyShareLink"
           >
-            {{ shareMessages.copyLink }}
+            <ActionFeedbackIcon
+              v-if="shareActionFeedback?.id === 'copy-link'"
+              :kind="shareActionFeedback.kind"
+            />
+            <span class="action-feedback-label">
+              {{ shareActionFeedback?.id === 'copy-link'
+                ? shareActionFeedback.message
+                : shareMessages.copyLink }}
+            </span>
+            <span
+              v-if="shareActionFeedback?.id === 'copy-link'"
+              class="sr-only"
+              role="status"
+              aria-live="polite"
+            >{{ shareActionFeedback.message }}</span>
           </button>
         </section>
-
-        <p v-if="shareFeedback" class="preview-share-dialog__feedback" role="status" aria-live="polite">
-          {{ shareFeedback }}
-        </p>
       </div>
     </dialog>
 

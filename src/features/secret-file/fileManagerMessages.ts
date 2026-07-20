@@ -30,6 +30,7 @@ export interface FileManagerMessages {
   close: string;
   download: string;
   downloadError: string;
+  downloadSuccess: string;
   downloadFileName: (name: string) => string;
   delete: string;
   deleteConfirmation: (name: string) => string;
@@ -95,6 +96,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     close: '關閉',
     download: '下載檔案',
     downloadError: '目前無法下載這份檔案，請稍後再試。',
+    downloadSuccess: '檔案已開始下載。',
     downloadFileName: (name) => `${name}的祕密檔案.json`,
     delete: '刪除本地檔案',
     deleteConfirmation: (name) => `要刪除「${name}」嗎？這只會刪除這台裝置上的本地檔案，且無法復原。`,
@@ -152,6 +154,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     close: '关闭',
     download: '下载文件',
     downloadError: '目前无法下载此文件，请稍后重试。',
+    downloadSuccess: '文件已开始下载。',
     downloadFileName: (name) => `${name}的秘密文件.json`,
     delete: '删除本地文件',
     deleteConfirmation: (name) => `要删除“${name}”吗？这只会删除此设备上的本地文件，且无法恢复。`,
@@ -209,6 +212,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     close: '閉じる',
     download: 'ファイルをダウンロード',
     downloadError: '現在このファイルをダウンロードできません。しばらくしてからお試しください。',
+    downloadSuccess: 'ファイルのダウンロードを開始しました。',
     downloadFileName: (name) => `${name}の秘密ファイル.json`,
     delete: '端末から削除',
     deleteConfirmation: (name) => `「${name}」を削除しますか？この端末のローカルファイルだけが削除され、元に戻せません。`,
@@ -266,6 +270,7 @@ const messagesByLocale: Record<AppLocale, FileManagerMessages> = {
     close: 'Close',
     download: 'Download file',
     downloadError: 'This file cannot be downloaded right now. Please try again.',
+    downloadSuccess: 'The file download has started.',
     downloadFileName: (name) => `${name}'s Secret File.json`,
     delete: 'Delete local file',
     deleteConfirmation: (name) => `Delete “${name}”? This only removes the local file on this device and cannot be undone.`,
